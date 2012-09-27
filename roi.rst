@@ -6,7 +6,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   initial.rst
+   initial
+   primitives
+   affine
+   terms
 
 Indices and tables
 ==================

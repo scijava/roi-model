@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'roi'
 
 # General information about the project.
-project = u'ROI Specification Draft'
-copyright = u'2012, Roger Leigh'
+project = u'ROI Specification [DRAFT]'
+copyright = u'2012, University of Dundee'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -183,7 +183,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('roi', 'ROISpecificationDraft.tex', u'ROI Specification Draft Documentation',
+  ('roi', 'roi.tex', u'ROI Specification [DRAFT]',
    u'Roger Leigh', 'manual'),
 ]
 
