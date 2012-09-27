@@ -1,0 +1,789 @@
+24/04/12
+
+I've been looking at the ROI types used by the Zeiss AvioVision ZVI
+and TIFF/XML formats, basically learning what types are available and
+how they work, so I can work out how to represent them in the current
+OME ROI model.  I've attached a summary of the different available
+shape types.  They are split into two major categories, "annotations"
+(which are just overlaid shapes) and "measurements" (which are exactly
+the same, but contain additional feature lists of measurements to
+overlay onto the images, and to store in results tables).  Some more
+specialised types such as LUT/gradient shapes are for annotation only,
+not making sense for measurement.
+
+I've not yet found out what every single shape type is--I've got the
+existing list mainly by generating the XML shape elements and
+observing the results, plus by creating a subset directly in
+AxioVision itself. But this is dependent upon AxioVision supporting
+all the shape types (some might be optional extensions), and the XML
+being valid.  This notwithstanding, we now support all the basic types
+supported by AxioVision, plus some more.  Types relating to 3D,
+timeseries and channels are not yet figured out.
+
+It would be great if these could be represented directly in the
+model. Some types such as the circle, caliper, distance and angle
+types are displayed as compound objects which can be represented as a
+union of existing types.  However, the semantic meaning of what the
+association of objects represents would be lost, so it would be great
+if we could perhaps implement a set of annotations to retain this.  I
+guess editors such as insight would then be able to edit and interact
+with them meaningfully.  Types such as the Profile annotation do need
+direct client support to display correctly, though we could
+potentially save the profile in the metadata it would be rather
+difficult to create during import.
+
+25/04/12
+
+To follow up on this, this details some "nice to have" features which
+would let the Zeiss types be represented in the model visually (but
+not as editable objects in their own right):
+
+The axiovision curve type is most likely a natural cubic spline, the
+curve passing smoothly through all points, but without local control.
+It is simply represented as a list of points through which the curve
+must pass; there are no additional control points.  Depending upon if
+they are doing any custom stuff, it might not be possible to represent
+with pixel-perfect accuracy.
+
+Curves might be more generally applicable to other formats, and useful
+in their own right.  It might be worth considering adding a spline
+type with local control where the curve passes straight through the
+control points such as Catmull-Rom splines.  This would make it very
+simple for non-experts to fit smooth lines while annotating their
+images.
+
+In order to annotate text next to measurements, it would be ideal if
+it were possible to control text placement and orientation.  Currently
+the coordinate of the first letter is required.  However, it would be
+nicer if the text could be also placed to the right of the point or
+centred on the point.  And additionally, to the top, middle or bottom
+for vertical placement.  Rotation would also be useful, though it's
+probably achievable indirectly via the transformation matrix, i.e. you
+would effectively have these anchors for placement, where 1 is the
+current behaviour.
+
+   7      8      9
+   4Text h5ere...6
+   1      2      3
+
+This is needed to e.g. align text along measurement lines.  Having a
+rotation angle specified directly would also save the need for complex
+calculations to work out the rotation origin and transform every time
+you want to just place a label along a line.  It also makes it
+possible to place text in the centre of a shape.
+
+LUT/gradient boxes are quite specialist.  However, they are also quite
+common in published figures, so it would make sense to have a general
+implementation.  These are particularly useful when you have false
+colour heat maps where you need a visual scale to interpret the
+figure.  We already support LUTs, so this is really just a view of the
+LUT for a given channel inside a rectangle.
+
+Line profiles are quite common.  But I guess supporting this would
+depend upon whether you classify the profile as the result of analysis
+of a ROI, or part of a ROI.  It might be handy to be able to overlay a
+line profile as a set of coloured polylines, for example.
+
+For the Zeiss types, we can represent these in the model using:
+Event/Events: Point or union of Points
+Line: Line with end marker(s)
+Caliper/Multiple Caliper: union of Lines
+Distance/Multiple Distance: union of Lines
+Angle3/Angle4: union of two Lines with end markers
+Circle: union of Ellipse and Line
+Scale Bar: Line (with end markers)
+Polyline [open]: Polyline
+Aligned Rectangle: Rectangle (or Polygon)
+Rotated Rectangle: Polygon (or Rectangle with transform)
+Ellipse: Ellipse
+Polyline [closed]: Polygon
+Text: Text
+Length: union of Lines
+Spline [open]: (Needs spline type)
+Spline [closed]: (Needs spline type)
+LUT: (Needs gradient type).  Could be represented as a stack of filled
+  rectangles plus text labels
+Profile: Can't be represented directly without client support; for now
+  would simply be a Line.
+
+Annotations don't typically have labels (with the exception of scale
+bars).  Measurements would have one or more labels in the union as
+well displaying the value(s) of the measurement.
+
+27/04/12
+
+Some additional information derived from the Zeiss formats:
+
+The ROIs (Shapes) are contained within Layers.  This means you can have sets of ROIs in different layers.  AFAICT the UI only uses a single layer, but uses separate layers for during- and post-acquisition.  But in the file format one may define arbitary numbers of layers to act as a grouping mechanism for ROIs.
+
+WRT the types I outlined in the earlier emails, some may be created in a variety of different ways, and it would make sense to store how the shape was defined, because it records how the measurement was made by the user, which may have implications in further analysis and/or verification that the measurement was correct.
+
+Event/Events: A simple list of points.
+  The point size/style/colour may be changed to permit different sets to be distinguished.
+
+Caliper/Distance/Multi-Caliper/Multi-Distance.
+  These are all the same measurement(s), a baseline followed by a list of points.  The measurement is the distance from each point to the baseline.  The differences between the types are solely the visual presentation of the measurements.
+
+Angle3/Angle4.
+  These measure the angle between two lines.  Angle4 is two separate lines, while Angle3 is two lines with a common point (i.e. a special case of Angle4).  Angle3 could be represented with a three-point polyline.  Angle4 would need to be two separate lines.  Given that Angle3 is a special case of Angle4, it's not clear that it should be represented as a polyline.
+
+Circle.  While the OME model represents this as an ellipse with equal x and y radii, there are three ways to represent a circle here:
+- radius defined as a line from centre to edge
+- radius defined as a line from edge to centre (stored as the first type with the point order reversed)
+- circumference defined using three points.
+The first two are representable in the model as an ellipse plus a line.
+The latter is representable as an ellipse plus three points.
+
+Polyline is directly translatable.
+
+Aligned Rectangle is directly translatable as a rectangle (with some trivial differences in coordinates).  However, additional tags define metadata to display inside the rectangle (optional) such as channel/slide/acquisition time/exposure time/etc.  The verbatim text can be put into a Label, but the specific meaning would be lost--this is an overlay which would change as you navigate through a stack or timecourse etc, varying with the plane-specific parameters.  While the specific tags would be retained, a more generic means to overlay image- and plane-specific OME metadata might be generally useful within the context of the OME model.
+
+Ellipse is directly translatable.
+
+Outline/closed polyline is directly translatable.
+
+Text is convertible to Label.  However, the OME Label type lacks the alignment attributes mentioned in my earlier mail.  This makes it difficult to control the placement of text in complex compound ROIs.
+
+Length is a single line distance measurement line like, but with additional end lines to make it like a technical drawing line outside the object itself, i.e.
+
+|******OBJECT*******|
+|                   |
+|<----------------->|
+        50 µm
+
+Representable in the model as a simple line, across OBJECT, but with loss of the other lines.  It's representable as three separate lines, but with loss of the context of the specific measurement.
+
+Open and closed splines: these are probably natural splines (not Bezier).  ZVI currently stores them as polylines given that we don't support splines.  But having a spline type would permit them to be stored.
+
+LUT and Profile: Covered in previous mail.
+
+
+27/04/10
+
+I've been thinking about how we might store and interact with more complex compound ROI types.  This is just some thoughts on that; comments (and/or abuse) welcome!
+
+
+Storing and manipulating complex compound objects
+=================================================
+
+With these measurements, one thing perhaps worth considering is that there are up to four types of object here:
+1) Result context.  The object(s) representing the physical measurement.  This is what we currently store in the model.
+2) Measurement context: line along radius of circle, points along circumference of circle etc.  This is "how the measurement was made"
+3) Visual context: such as visual cues such as construction lines.  This is the visual presentation of the measurement to the viewer.
+4) Editing context: values which control the placement of the above. Information for generation of UI manipulation handles, and of the other contexts while editing.
+
+We can represent the actual measurements in most cases using the existing ROI types.  However, if we store the additional types, it's no longer possible to distinguish between the measurement and the additional context.
+
+If it was possible to distinguish between these in the model, it would be possible for the objects to be displayed without any advanced knowledge of how an object should be edited.  It would also be possible to extract the primitive measurement values.  However, the measurement context would provide additional information to editors for manupulation of the object, which would then be able to update all three contexts appropriately.
+
+Doing this would provide a simple but effective means for additional ROI types to be added without requiring support in all programs displaying/modifying ROIs.  This does not of course replace the need for namespaces to identify ROI categories, but it does supplement it by allowing programs to selectively display different contexts without any knowledge of the underlying type.
+
+As an example, using this length measurement:
+
+   |******OBJECT*******|
+   |                   |
+   |<----------------->|
+           50 µm
+
+
+1) Result context
+
+   #******OBJECT*******#
+
+   (where the #s are the start and end points of a Line at either end of the object.  This is the value of the physical measurement.)
+
+2) Measurement context
+
+   No additional information needed in this case.
+
+3) Visual context
+
+   |                   |
+   |                   |
+   |<----------------->|
+           50 µm
+
+   Three lines, one with arrow end markers, plus text label.
+   This is the visual representation of the measurement.
+
+4) Editing context
+
+   #******OBJECT*******
+   #
+   #
+
+   (where the #s represent a distance between the measured line and the drawn line in the visual context.  This information is used to generate the visual context from the measurement context.)
+
+
+I hope the above doesn't sound too way out.  But the current system is
+limited to storing only the first of these four contexts, which loses
+information.  While it's possible to delegate all of the presentation
+and editing to the viewer, the reality is that this is stuff people
+want.  If I'm annotating an image for a paper, I want the annotations
+to appear exactly the same as I see them if I send them to someone
+else. And if I'm doing physical measurements, I want the specifics of
+how I made the measurement to be recorded.  All we are doing here is
+providing additional information to the viewer/editor that it is free
+to use and/or ignore as it chooses.
+
+27/04/12
+
+I've attached a copy of some simple figures to illustrate what I was
+trying to articulate below.  This takes some relatively simple
+measurements, and breaks them down into the four different contexts.
+
+Thinking about this a little more, in many cases it will be possible
+to omit some contexts and infer them from the others. For example, if
+I have a simple line I will store a line in the result context.  The
+measurement context is the same two points, and so we may simply use
+the result context points in its place.  Likewise, if the measurement
+is a simple one, the visual context may be omitted and inferred from
+the result context also.  The different contexts really only come into
+play when we want a more sophisticated visual representation (for
+example with overlaid textual representations of the measurement value
+or to visualise the measurement in a more complex manner than the
+result context alone can provide).  And they are essential when using
+more complex compound ROIs as the last example attached shows.
+
+In the last example, all the information is provided to allow the user
+to edit the object in a UI.  For example, they can adjust the end
+points of the baseline, and the start points of the lines in the
+measurement context can be retriangulated from the end points and
+baseline.  The measurement context can be inferred from the endpoints
+of the lines in the result context.  And the endpoints can also be
+adjusted independently.  Following any adjustment, the updated
+baseline can be stored in the editing context, the measurement lines
+in the measurement context, and the visual representation in the
+visual context.  The visual context is shown here to include end
+markers on the distance lines, and text labels with the measured
+values.  But these could be toggled on or off and the settings stored
+in an annotation specific for this measurement type--there's really no
+limit to the "extra stuff" you can add here, but the basic measurement
+remains the same in the result context.
+
+(In this example, the baseline could actually be in the measurement
+context, since it's part of the measurement; the first example is a
+better illustration of the editing context.)
+
+The important point is that anyone should be able to open the file and
+display the visual representation without any knowledge of the
+specifics of the ROI type or measurements being made.  Likewise they
+can also look at the measured distances in the results context and use
+them without any knowledge of how they were measured.  Only a UI which
+supports the ROI type in question will need to use the editing and/or
+measurements context, and they will know how to regenerate the other
+contexts when editing.
+
+27/04/12
+
+I've attached a copy of some simple figures to illustrate what I was
+trying to articulate below.  This takes some relatively simple
+measurements, and breaks them down into the four different contexts.
+
+Thinking about this a little more, in many cases it will be possible
+to omit some contexts and infer them from the others. For example, if I
+have a simple line I will store a line in the result context.  The
+measurement context is the same two points, and so we may simply use the
+result context points in its place.  Likewise, if the measurement is a
+simple one, the visual context may be omitted and inferred from the
+result context also.  The different contexts really only come into play
+when we want a more sophisticated visual representation (for example
+with overlaid textual representations of the measurement value or to
+visualise the measurement in a more complex manner than the result
+context alone can provide).  And they are essential when using more
+complex compound ROIs as the last example attached shows.
+
+In the last example, all the information is provided to allow the user
+to edit the object in a UI.  For example, they can adjust the end points
+of the baseline, and the start points of the lines in the measurement
+context can be retriangulated from the end points and baseline.  The
+measurement context can be inferred from the endpoints of the lines in
+the result context.  And the endpoints can also be adjusted
+independently.  Following any adjustment, the updated baseline can be
+stored in the editing context, the measurement lines in the measurement
+context, and the visual representation in the visual context.  The
+visual context is shown here to include end markers on the distance
+lines, and text labels with the measured values.  But these could be
+toggled on or off and the settings stored in an annotation specific for
+this measurement type--there's really no limit to the "extra stuff" you
+can add here, but the basic measurement remains the same in the result
+context.
+
+(In this example, the baseline could actually be in the measurement
+context, since it's part of the measurement; the first example is a
+better illustration of the editing context.)
+
+The important point is that anyone should be able to open the file and
+display the visual representation without any knowledge of the specifics
+of the ROI type or measurements being made.  Likewise they can also look
+at the measured distances in the results context and use them without
+any knowledge of how they were measured.  Only a UI which supports the
+ROI type in question will need to use the editing and/or measurements
+context, and they will know how to regenerate the other contexts when
+editing.
+
+
+12/09/12
+
+I have attached a copy of some comparions between ROIs in 2D, 3D and
+nD (plus 2D-extruded where possible, which we kind of support with our
+current method of allowing a ROI to be composed of multiple 2D shapes
+distributed through a z stack).  You might need to zoom in to see the
+detail.
+
+As discussed in the previous mail, this shows the 3D and nD
+equivalents of our current primitives, plus a few others which might
+be nice to support, e.g. arcs and distances.  I've not included
+complex 3D volumes as meshes because I can't draw them, likewise with
+3D spline surfaces! But they should probably also be there.
+
+One consideration is that for quite a number of the shapes, it's
+possible to support 3D and nD very simply--we just increase the number
+of dimensions in each vertex, and that's it (obviously just for
+storage; it will still require some work for rendering).  From the
+point of view of storing the list of vertices, it would be nice if we
+could specify the dimensions being used e.g. XZT, and then allow
+missing dimensions to be specified as constants as we now do for theZ.
+This would keep the representation quite compact--we don't really want
+a separate element for each vertex since for complex shapes
+e.g. meshes we'll be using multi-megabytes of XML markup for no good
+reason.
+
+Supporting 2D primitives in 3D and nD: While it would be possible to
+translate and rotate using a 4×4 matrix, it would be nice if we could
+e.g. just use an nD unit vector which can specify a rotation in
+arbitrary dimensions [we can trivially construct a matrix rotation
+transform from the vector].  However, note that while current
+transforms occur only in 2D, where the x and y pixel sizes are
+typically the same, this is not usually the case in z or higher
+dimensions, and so the transformations may need doing in physical
+units; so adding proper support for units would also be desirable to
+fully support 3D transforms.  Note that this would also solve the
+existing problem in 2D that prevents ellipses and rectangles being
+rotated (without the use of a matrix transform), though where the
+rotation centre should be may be shape- and context-dependent.  We
+could default the unit vector to (0,0,-1) which would specify the
+existing behaviour.
+
+Alternative representations: One problem I have with the current ROI
+model is that there is only one way to describe each shape.  e.g. a
+polyline can only be described as a series of points; it might in some
+cases be more natural to specify one as a starting point and a series
+of vectors; while either are fine just to draw the ROI, it would (IMO)
+be very desirable for the purposes of measuring to store what was
+measured, since converting it to a canonical representation is lossy,
+and removes the original measurements, and hence the intent of the
+original annotation.  This applies to other shapes as well.  For
+example, a circle or ellipse can be described by a bounding box (which
+may itself be a point and one or two vectors, or a set of points), or
+by a point and radius or half-axes, or by the Mahalanobis distance
+(typically for computing from a normal distribution of points).  For a
+cylinder/cone, we can specify this in multiple ways also from a
+circle/ellipse plus length, or point plus vector (length and
+direction) plus radius (or half-axes).
+
+The point with the above is that the current model is focussed on
+drawing shapes, while making measurements involves drawing only for
+visualisation; the important parts are the values for making the
+measurement, and of course the results.  Some programs
+(e.g. AxioVision) have completely separate sets of objects for drawing
+(annotation) and measurement.  These are a largely overlapping set,
+but the former are not used for any length/area/volume/pixel
+measurements.  Objects such as scale bars and labels are for drawing
+only.
+
+ROI relationships: When segmenting cell contents, shown as cytoplasm,
+actin filaments, nucleus and nucleolus, these fall into a strict
+heirarchy (a nucleus can only be in one cell, though one cell could
+have more than one nucleus).  If we added a ROI type that was a
+container of ROIs (note: not a union), and added a means of
+classifying ROIs with tags/labels, this would be very useful for HCS
+and other types of analysis.  Additionally, some relationships are not
+hierarchial, e.g. tree-like branching and merging in a vessel bed, but
+could be represented if a ROI could point to one or more other ROIs,
+which would permit a directed graph of relationships between ROIs.
+
+There's still quite a lot of things which need careful consideration
+for 3D ROIs, but hopefully this is useful for further discussion.
+
+
+12/09/12
+
+This email is a bit long and boring, but it's the companion for the
+figures in the previous email.  This specifies how shapes are
+described in the model.  For some shapes, there are alternative ways
+of specifying them; which are worth supporting needs dicussion.
+Personally, I would like to preserve the intent behind the original
+measurement and what is in the original metadata where this makes
+sense, even if this does mean some redundancy; this won't impact on
+the actual drawing/analysis code.  Some alternative ways have already
+been deleted, after brief discussion with J-M.  Additionally, while
+I've put a number of shapes in here for completeness, it's quite
+possible that we don't need them all, particularly in all dimensions.
+
+If anyone wants to check the maths behind the geometry, that would be
+much appreciated, because I'm firstly not an expert in this area, and
+it's also quite possible I've made some typos.  The naming of the
+shapes is probably also wanting some improvement.
+
+
+Abbreviations:
+  Point1D:   double                  Point in 1D
+  Point2D:   double, double          Point in 2D
+  Point3D:   double, double, double  Point in 3D
+  PointnD:   double (× n dimensions) Point in nD
+  Vector1D:  double                  Vector in 1D
+  Vector2D:  double, double          Vector in 2D
+  Vector3D:  double, double, double  Vector in 3D
+  VectornD:  double (× n dimensions) Vector in nD
+
+
+All 2D shapes can be oriented in 3D or nD using a unit Vector3D/VectornD, which will allow all 2D shapes to be used as surfaces in 3D.
+
+
+Point2D:
+ 1: P1 (Point2D)
+
+Point3D:
+ 1: P1 (Point3D)
+
+PointnD:
+ 1: P1 (PointnD)
+
+Line2D:
+ 1: P1 (Point2D), P2 (Point2D)
+ Rotation centre: P1, P2, centrepoint
+
+Line3D:
+ 1: P1 (Point3D), P2 (Point3D)
+
+LinenD
+ 1: P1 (PointnD), P2 (PointnD)
+
+Distance2D:
+ 1: P1 (Point2D), V1 (Vector2D)
+ Rotation centre: P1, V1, centrepoint
+
+Distance3D:
+ 1: P1 (Point3D), V1 (Vector3D)
+
+DistancenD
+ 1: P1 (PointnD), V1 (VectornD)
+
+Polyline2D
+ 1: P1 (Point2D), P2 (Point2D), …, Pn (Point2D)
+ Rotation centre: P1, P2, …, Pn, centre, bbox centre
+
+Polyline3D
+ 1: P1 (Point3D), P2 (Point3D), …, Pn (Point3D)
+
+PolylinenD
+ 1: P1 (PointnD), P2 (PointnD), …, Pn (PointnD)
+
+Polygon2D
+ 1: P1 (Point2D), P2 (Point2D), …, Pn (Point2D)
+ Rotation centre: P1, P2, …, Pn, centre, bbox centre
+
+Polygon3D
+ 1: P1 (Point3D), P2 (Point3D), …, Pn (Point3D)
+
+PolygonnD
+ 1: P1 (PointnD), P2 (PointnD), …, Pn (PointnD)
+
+Polydistance2D
+ 1: P1 (Point2D), V1 (Vector2D), V2 (Vector2D), …, Vn (Vector2D)
+ Rotation centre: P1, V1, V2, …, Vn, centre, bbox centre
+
+Polydistance3D
+ 1: P1 (Point3D), V1 (Vector3D), V2 (Vector3D), …, Vn (Vector3D)
+
+PolydistancenD
+ 1: P1 (PointnD), V1 (VectornD), V2 (VectornD), …, Vn (VectornD)
+
+Square2D
+ [ Aligned at right angles to xy axes ]
+ 2: P1 (Point2D), P2 (Point1D)
+    Point and point on x axis (y inferred)
+ 2: P1 (Point2D), V1 (Vector2D)
+    Point and vector on x axis (y inferred)
+
+ [ Rotated ]
+ 3: P1 (Point2D), P2 (Point2D)
+    P1 and P2 specify opposing corners
+ 4: P1 (Point2D), V1 (Vector2D)
+    P1 is the first corner, V1 specifies the opposing corner
+
+Cube3D
+ [ Aligned at right angles to xy axes ]
+ 2: P1 (Point3D), P2 (Point1D)
+    Point and point on x axis (y and z inferred)
+ 2: P1 (Point3D), V1 (Vector1D)
+    Point and vector on x axis (y and z inferred)
+
+ [ Rotated ]
+ 3: P1 (Point3D), P2 (Point3D)
+    P1 and P2 specify opposing corners
+ 4: P1 (Point3D), V1 (Vector3D)
+    P1 is the first corner, V1 specifies the opposing corner
+
+CuboidnD
+ [ Aligned at right angles to xy axes ]
+ 2: P1 (PointnD), P2 (Point1D)
+    Point and point on x axis (y, z, …  inferred)
+ 2: P1 (PointnD), V1 (Vector1D)
+    Point and vector on x axis (y, z … inferred)
+
+ [ Rotated ]
+ 3: P1 (PointnD), P2 (PointnD)
+    P1 and P2 specify opposing corners
+ 4: P1 (PointnD), V1 (VectornD)
+    P1 is the first corner, V1 specifies the opposing corner
+
+Rectangle2D
+ [ Aligned at right angles to xy axes ]
+ 1: P1 (Point2D), P2 (Point2D)
+    Two opposing corners
+ 2: P1 (Point2D), V1 (Vector2D)
+    Point and vector to opposing corner
+
+ [ Rotated ]
+ 3: P1 (Point2D), P2 (Point2D), V1 (Vector1D)
+    P1 and P2 corners specify one edge; V1 specifies length of other edge
+ 4: P1 (Point2D), V1 (Vector2D), V2 (Vector1D)
+    P1 is the first corner, V1 specifies the second corner and V2 the
+    length of the other edge.
+
+Cuboid3D
+ [ Aligned at right angles to xyz axes ]
+ 1: P1 (Point3D), P2 (Point3D)
+    Two opposing corners
+ 2: P1 (Point3D), V1 (Vector3D)
+    Point and vector to opposing corner
+
+ [ Rotated ]
+ 3: P1 (Point3D), P2 (Point3D), V1 (Vector2D), V2 (Vector1D) P1 and P2
+    corners specify one edge, V2 the corner to define the first 2D
+    face, and V3 the corner to define the final two 2D faces, and
+    opposes P1.
+ 4: P1 (Point3D), V1 (Vector3D), V2 (Vector2D), V3 (Vector1D)
+    P1 is the first corner, V1 specifies the second corner and V2 the
+    corner to define the first 2D face, and V3 the corner to define
+    the final two 2D faces, and opposes P1.
+
+HypercuboidnD
+ [ Aligned at right angles to xyz axes ]
+ 1: P1 (PointnD), P2 (PointnD)
+    Two opposing corners
+ 2: P1 (PointnD), V1 (VectornD)
+    Point and vector to opposing corner
+
+ [ Rotated ]
+ 3: P1 (Point3D), P2 (Point3D), … Vn-3 (Vector3D), Vn-2 (Vector2D), Vn-1 (Vector1D)
+    P1 and P2 corners specify one edge; vectors specify additional corners.
+ 4: P1 (PointnD), V1 (VectornD) … Vn-2 (Vector3D), Vn-1 (Vector2D), Vn (Vector1D)
+    P1 is the first corner, vectors specify additional corners.
+
+Ellipse2D
+ [ Aligned at right angles to xy axes ]
+ 1: P1 (Point2D), V1 (Vector2D)
+    Centre and half axes
+ 2: P1 (Point2D), V1 (Vector1D), V2 (Vector1D)
+    Centre and half axes specified separately
+ 3: All Rectangle2D (aligned at right-angle) specifications.
+
+ [ Rotated ]
+ 4: P1 (Point2D), V1 (Vector2D), V2 (Vector1D)
+    Centre and half axes; V2 is at right-angles to V1, so has only one dimension.
+ 5: All Rectangle2D (rotated) specifications.
+ 6: P1 (Point2D) COV (double × 2^2)
+    Mahalanbobis distance used to draw an ellipse using the mean
+    coordinates (P1) and 2 × 2 covariance matrix (COV)
+
+Ellipsoid3D
+ [ Aligned at right angles to xy axes ]
+ 1: P1 (Point3D), V1 (Vector3D)
+    Centre and half axes
+ 2: P1 (Point2D), V1 (Vector1D), V2 (Vector1D), V3 (Vector1D)
+    Centre and half axes specified separately
+ 3: All Rectangle3D (aligned at right-angle) specifications.
+
+ [ Rotated ]
+ 4: P1 (Point3D), V1 (Vector3D), V2 (Vector2D), V3 (Vector1D)
+    Centre and half axes; V2 and V3 are at right-angles to V1 and each
+    other, so have reduced dimensions.
+ 5: All Rectangle3D (rotated) specifications.
+ 6: P1 (Point3D) COV (double × 3^2)
+    Mahalanbobis distance used to draw an ellipse using the mean
+    coordinates (P1) and 3 × 3 covariance matrix (COV)
+
+EllipsoidnD
+ [ Aligned at right angles to xy axes ]
+ 1: P1 (PointnD), V1 (VectornD)
+    Centre and half axes
+ 2: P1 (PointnD), V1 (Vector1D), V2 (Vector1D), V3 (Vector1D)
+    Centre and half axes specified separately
+ 3: All RectanglenD (aligned at right-angle) specifications.
+
+ [ Rotated ]
+ 4: P1 (Point3D), V1 (VectornD) … Vn-2 (Vector3D), Vn-1 (Vector2D) … Vn (Vector1D)
+    Centre and half axes; Vectors are at right-angles to V1 and each
+    other, so have progressively reduced dimensions.
+ 5: All RectanglenD (rotated) specifications.
+ 6: P1 (PointnD) COV (double × n^2)
+    Mahalanbobis distance used to draw an ellipse using the mean
+    coordinates (P1) and n × n covariance matrix (COV)
+
+Circle2D
+ 1: P1 (Point2D), V1 (Vector1D)
+    Centre and radius
+ 2: P1 (Point2D), V1 (Vector2D)
+    Centre and radius
+ 3: All Square2D specifications
+    Bounding square
+
+Sphere3D
+ 1: P1 (Point3D), V1 (Vector1D)
+    Centre and radius
+ 2: P1 (Point3D), V1 (Vector2D)
+    Centre and radius
+ 3: P1 (Point3D), V1 (Vector3D)
+    Centre and radius
+ 4: All Cube3D specifications
+    Bounding cube
+
+HyperspherenD
+ 1: P1 (PointnD), V1 (Vector1D)
+    Centre and radius
+ 2: P1 (PointnD), V1 (Vector2D)
+    Centre and radius
+ 3: P1 (PointnD), V1 (Vector3D)
+    Centre and radius
+ …
+ 4: P1 (PointnD), V1 (VectornD)
+    Centre and radius
+ 5: All CubenD specifications
+    Bounding hypercube
+
+PolylineSpline2D
+ 1: P1 (Point2D), P2 (Point2D), …, Pn (Point2D)
+ Rotation centre: P1, P2, …, Pn, centre, bbox centre
+
+PolylineSpline3D
+ 1: P1 (Point3D), P2 (Point3D), …, Pn (Point3D)
+
+PolylineSplinenD
+ 1: P1 (PointnD), P2 (PointnD), …, Pn (PointnD)
+
+PolygonSpline2D
+ 1: P1 (Point2D), P2 (Point2D), …, Pn (Point2D)
+ Rotation centre: P1, P2, …, Pn, centre, bbox centre
+
+PolygonSpline3D
+ 1: P1 (Point3D), P2 (Point3D), …, Pn (Point3D)
+
+PolygonSplinenD
+ 1: P1 (PointnD), P2 (PointnD), …, Pn (PointnD)
+
+Cylinder3D
+ [ Circular ]
+ 1: P1 (Point3D), P2 (Point3D), V1 (Vector1D)
+    Start and endpoint, plus radius
+ 2: P1 (Point3D), V1 (Vector3D), V2 (Vector1D)
+    Start point, distance to endpoint, plus radius
+ 3: P1 (Point3D), P2 (Point3D), V1 (Vector3D), V2 (Vector3D)
+    Start and endpoint, plus vectors to define radius (V1) and angle
+    of start face, and unit vector defining angle of end face.  Face
+    angles other than right-angles let chains of cyclinders be used
+    for tubular structures without gaps at the joins.
+ 3: P1 (Point3D), V1 (Vector3D), V2 (Vector3D), V3 (Vector3D)
+    Start point, distance to endpoint, plus vectors to define radius
+    (V2) and angle of start face, and unit vector defining angle of
+    end face (V3).  Face angles other than right-angles let chains of
+    cyclinders be used for tubular structures without gaps at the
+    joins.
+
+ [ Elliptic ]
+ 1: P1 (Point3D), P2 (Point3D), V1 (Vector2D), V2 (Vector1D)
+    Start and endpoint, plus half axes
+ 2: P1 (Point3D), V1 (Vector3D), V2 (Vector2D), V3 (Vector1D)
+    Start point, distance to endpoint, plus half axes
+ 3: P1 (Point3D), P2 (Point3D), V1 (Vector3D), V2 (Vector2D) V3 (Vector3D)
+    Start and endpoint, plus vectors to define half axes (V1 and V2)
+    and angle of start face, and unit vector defining angle of end
+    face (V3).  Face angles other than right-angles let chains of
+    cyclinders be used for tubular structures without gaps at the
+    joins.
+ 3: P1 (Point3D), V1 (Vector3D), V2 (Vector3D), V3 (Vector2D) V4 (Vector3D)
+    Start point, distance to endpoint, plus vectors to define half
+    axes (V2 and V3) and angle of start face, and unit vector defining
+    angle of end face (V4).  Face angles other than right-angles let
+    chains of cyclinders be used for tubular structures without gaps
+    at the joins.
+
+Arc2D
+ 1: P1 (Point2D), P2 (Point2D), V1 (Vector2D)
+    Two points and unit vector describe an arc
+ 2: P1 (Point2D), V1 (Vector2D), V2 (Vector2D)
+    Centre point, plus length and unit vector describe an arc
+
+Arc3D
+ 1: P1 (Point3D), P2 (Point3D), V1 (Vector3D)
+    Two points and unit vector describe an arc
+ 2: P1 (Point3D), V1 (Vector3D), V2 (Vector3D)
+    Centre point, plus length and unit vector describe an arc
+
+ArcnD
+ 1: P1 (PointnD), P2 (PointnD), V1 (VectornD)
+    Two points and unit vector describe an arc
+ 2: P1 (PointnD), V1 (VectornD), V2 (VectornD)
+    Centre point, plus length and unit vector describe an arc
+
+Mask2D
+ 1: DIMS (Vector2D), OFFSET (Vector2D), DATA (double × (DIMS[0] × DIMS[1]))
+    Dimensions specify the x and y size of the mask, and offset the
+    offset of this mask into the plane; DATA should be stored outside
+    the ROI specification either as BinData or (better) in an IFD for
+    OME-TIFF.
+
+Mask3D
+ 1: DIMS (Vector3D), OFFSET (Vector3D), DATA (double × (DIMS[0] × DIMS[1] × DIMS[2]))
+    Dimensions specify the x, y and z size of the mask, and offset the
+    offset of this mask into the volume; DATA should be stored outside
+    the ROI specification either as BinData or (better) in a set of
+    IFDs for OME-TIFF.
+
+Mesh2D
+ Representation depends on mesh format; shown here as face-vertex
+ 1: NUMFACE (double), (V1REF (double), V2REF (double), V3REF (double)) × NUMFACE,
+    NUMVERT (double), V1 (Vertex2D) … Vn (Vertex2D)
+    Number of faces, followed by the three vertices (counterclockwise winding) for
+    each face, number of vertices, followed by a list of vertices.
+    Vertex-face mapping is implied.
+
+Mesh3D
+ Representation depends on mesh format; shown here as face-vertex
+ 1: NUMFACE (double), (V1REF (double), V2REF (double), V3REF (double)) × NUMFACE,
+    NUMVERT (double), V1 (Vertex3D) … Vn (Vertex3D)
+    Number of faces, followed by the three vertices (counterclockwise winding) for
+    each face, number of vertices, followed by a list of vertices
+   Vertex-face mapping is implied.
+
+Text2D
+ 1: All Point2D, Point3D and PointnD specifications
+    Text aligned relative to a point
+ 1: All Line2D, Line3D and LinenD specifications
+    Text aligned relative to a line
+ 1: All Rectangle2D, Rectangle3D and RectanglenD specifications
+    Text aligned and flowed inside a rectangle
+
+Scale2D
+ 1: P1 (Point2D), P2 (Point2D)
+    Scale bar with distance between the two points
+ 1: P1 (Point2D), V1 (Vector2D)
+    Scale bar with distance from the vector
+
+Scale3D
+ 1: P1 (Point3D), P2 (Point3D)
+    Scale bar with distance between the two points
+ 1: P1 (Point3D), V1 (Vector3D)
+    Scale bar with distance from the vector 
