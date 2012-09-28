@@ -1,6 +1,10 @@
 ROI Specification [DRAFT]
 =========================
 
+.. only:: html
+
+   .. image:: images/logos.png
+
 Contents:
 
 .. toctree::
