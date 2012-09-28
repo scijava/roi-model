@@ -31,21 +31,19 @@ Primitive Representation          Description
 Vertex1D  double                  Vertex in 1D
 Vertex2D  double, double          Vertex in 2D
 Vertex3D  double, double, double  Vertex in 3D
-VertexnD  double (× n dimensions) Vertex in nD
 Vector1D  double                  Vector in 1D
 Vector2D  double, double          Vector in 2D
 Vector3D  double, double, double  Vector in 3D
-VectornD  double (× n dimensions) Vector in nD
 ========= ======================= ============
 
 All shape primitives are described in terms of the above basic
 primitives.  This means that all shape descriptions are serialisable
 as a list of double precision floating point values.
 
-All 2D shape primitives could be oriented in 3D or nD using a unit
-Vector3D/VectornD, which would allow all 2D shapes to be used as
-surfaces in 3D or nD.  They would additionally require a depth in
-order to be meaningful (or assume a depth of one z slice).
+All 2D shape primitives could be oriented in 3D or using a unit
+Vector3D, which would allow all 2D shapes to be used as surfaces in
+3D.  They would additionally require a depth in order to be meaningful
+(or assume a depth of one z slice).
 
 .. todo::
     Bounding box
@@ -68,10 +66,11 @@ Point2D
 
 Representation:
 
-1. P1 (Vertex2D)
-
-    P1
-        Vertex describing point coordinates
+==== ======== =================
+Name Type     Description
+==== ======== =================
+P1   Vertex2D Point coordinates
+==== ======== =================
 
 .. index::
     Point3D
@@ -81,23 +80,11 @@ Point3D
 
 Representation:
 
-1. P1 (Vertex3D)
-
-    P1
-        Vertex describing point coordinates
-
-.. index::
-    PointnD
-
-PointnD
-^^^^^^^
-
-Representation:
-
-1. P1 (VertexnD)
-
-    P1
-        Vertex describing point coordinates
+==== ======== =================
+Name Type     Description
+==== ======== =================
+P1   Vertex3D Point coordinates
+==== ======== =================
 
 .. index::
     Lines
@@ -105,15 +92,22 @@ Representation:
 Lines
 -----
 
+A line is a single straight edge drawn between two points.
+
 .. index::
     Line2D
 
 Line2D
 ^^^^^^
 
-1. P1 (Vertex2D), P2 (Vertex2D)
+Representation:
 
-    Rotation centre: P1, P2, centrepoint
+==== ======== ===========
+Name Type     Description
+==== ======== ===========
+P1   Vertex2D Line start
+P2   Vertex2D Line end
+==== ======== ===========
 
 .. index::
     Line3D
@@ -121,15 +115,14 @@ Line2D
 Line3D
 ^^^^^^
 
-1. P1 (Vertex3D), P2 (Vertex3D)
+Representation:
 
-.. index::
-    LinenD
-
-LinenD
-^^^^^^
-
-1. P1 (VertexnD), P2 (VertexnD)
+==== ======== ===========
+Name Type     Description
+==== ======== ===========
+P1   Vertex3D Line start
+P2   Vertex3D Line end
+==== ======== ===========
 
 .. index::
     Distances
@@ -137,15 +130,22 @@ LinenD
 Distances
 ---------
 
+A distance is a vector describing the distance travelled from a starting point.
+
 .. index::
     Distance2D
 
 Distance2D
 ^^^^^^^^^^
 
-1. P1 (Vertex2D), V1 (Vector2D)
+Representation:
 
-    Rotation centre: P1, V1, centrepoint
+==== ======== =========================
+Name Type     Description
+==== ======== =========================
+P1   Vertex2D Line start
+V1   Vector2D Line end (relative to P1)
+==== ======== =========================
 
 .. index::
     Distance3D
@@ -153,15 +153,14 @@ Distance2D
 Distance3D
 ^^^^^^^^^^
 
-1. P1 (Vertex3D), V1 (Vector3D)
+Representation:
 
-.. index::
-    DistancenD
-
-DistancenD
-^^^^^^^^^^
-
-1. P1 (VertexnD), V1 (VectornD)
+==== ======== =========================
+Name Type     Description
+==== ======== =========================
+P1   Vertex3D Line start
+V1   Vector3D Line end (relative to P1)
+==== ======== =========================
 
 .. index::
     Polylines
@@ -175,9 +174,14 @@ Polylines
 Polyline2D
 ^^^^^^^^^^
 
-1. P1 (Vertex2D), P2 (Vertex2D), …, Pn (Vertex2D)
-
-    Rotation centre: P1, P2, …, Pn, centre, bbox centre
+==== ======== =========================
+Name Type     Description
+==== ======== =========================
+P1   Vertex2D Line start
+P2   Vertex2D Second point
+…    Vertex2D Further points
+Pn   Vertex2D Line end
+==== ======== =========================
 
 .. index::
     Polyline3D
@@ -185,15 +189,14 @@ Polyline2D
 Polyline3D
 ^^^^^^^^^^
 
-1. P1 (Vertex3D), P2 (Vertex3D), …, Pn (Vertex3D)
-
-.. index::
-    PolylinenD
-
-PolylinenD
-^^^^^^^^^^
-
-1. P1 (VertexnD), P2 (VertexnD), …, Pn (VertexnD)
+==== ======== =========================
+Name Type     Description
+==== ======== =========================
+P1   Vertex3D Line start
+P2   Vertex3D Second point
+…    Vertex3D Further points
+Pn   Vertex3D Line end
+==== ======== =========================
 
 .. index::
     Polygons
@@ -207,9 +210,14 @@ Polygons
 Polygon2D
 ^^^^^^^^^
 
-1. P1 (Vertex2D), P2 (Vertex2D), …, Pn (Vertex2D)
-
-    Rotation centre: P1, P2, …, Pn, centre, bbox centre
+==== ======== ================
+Name Type     Description
+==== ======== ================
+P1   Vertex2D First vertex
+P2   Vertex2D Second vertex
+…    Vertex2D Further vertices
+Pn   Vertex2D Last vertex
+==== ======== ================
 
 .. index::
     Polygon3D
@@ -217,15 +225,14 @@ Polygon2D
 Polygon3D
 ^^^^^^^^^
 
-1. P1 (Vertex3D), P2 (Vertex3D), …, Pn (Vertex3D)
-
-.. index::
-    PolygonnD
-
-PolygonnD
-^^^^^^^^^
-
-1. P1 (VertexnD), P2 (VertexnD), …, Pn (VertexnD)
+==== ======== ================
+Name Type     Description
+==== ======== ================
+P1   Vertex3D First vertex
+P2   Vertex3D Second vertex
+…    Vertex3D Further vertices
+Pn   Vertex3D Last vertex
+==== ======== ================
 
 .. index::
     Polydistances
@@ -233,31 +240,40 @@ PolygonnD
 Polydistances
 -------------
 
+A polydistance is a series of vectors describing the series of
+distances travelled from a starting point.
+
 .. index::
     Polydistance2D
 
 Polydistance2D
 ^^^^^^^^^^^^^^
 
-1. P1 (Vertex2D), V1 (Vector2D), V2 (Vector2D), …, Vn (Vector2D)
-
-   Rotation centre: P1, V1, V2, …, Vn, centre, bbox centre
+==== ======== =========================================
+Name Type     Description
+==== ======== =========================================
+P1   Vertex2D First point
+V1   Vector2D Distance to second point (relative to P1)
+V2   Vector2D Distance to second point (relative to V1)
+…    Vector2D Further distances
+Vn   Vector2D Last distance (relative to V(n-1))
+==== ======== =========================================
 
 .. index::
-    Polydistance2D
+    Polydistance3D
 
 Polydistance3D
 ^^^^^^^^^^^^^^
 
-1. P1 (Vertex3D), V1 (Vector3D), V2 (Vector3D), …, Vn (Vector3D)
-
-.. index::
-    Polydistance2D
-
-PolydistancenD
-^^^^^^^^^^^^^^
-
-1. P1 (VertexnD), V1 (VectornD), V2 (VectornD), …, Vn (VectornD)
+==== ======== =========================================
+Name Type     Description
+==== ======== =========================================
+P1   Vertex2D First point
+V1   Vector2D Distance to second point (relative to P1)
+V2   Vector2D Distance to second point (relative to V1)
+…    Vector2D Further distances
+Vn   Vector2D Last distance (relative to V(n-1))
+==== ======== =========================================
 
 .. index::
     Squares
@@ -265,31 +281,52 @@ PolydistancenD
 Squares and rectangles
 ----------------------
 
+A square exists in its basic 2D form, and in the form of a cube in 3D.
+Non-square variants are the rectangle and cuboid.
+
 .. index::
     Square2D
 
 Square2D
 ^^^^^^^^
 
-1. P1 (Vertex2D), P2 (Vertex1D)
+Representation 1: Aligned at right angles to xy axes.  Vertex and
+point on x axis (y inferred).
 
-    Aligned at right angles to xy axes.
-    Vertex and point on x axis (y inferred).
+==== ======== ========================================
+Name Type     Description
+==== ======== ========================================
+P1   Vertex2D First corner
+P2   Vertex1D x coordinate of adjacent/opposing corner
+==== ======== ========================================
 
-1. P1 (Vertex2D), V1 (Vector2D)
+Representation 2: Aligned at right angles to xy axes.  Vertex and
+vector on x axis (y inferred).
 
-    Aligned at right angles to xy axes.
-    Vertex and vector on x axis (y inferred).
+==== ======== ======================================================
+Name Type     Description
+==== ======== ======================================================
+P1   Vertex2D First corner
+P2   Vector1D distance to adjacent corner on x axis (relative to P1)
+==== ======== ======================================================
 
-1. P1 (Vertex2D), P2 (Vertex2D)
+Representation 3: Rotated, not aligned at right angles to xy axes.
 
-    Rotated.
-    P1 and P2 specify opposing corners.
+==== ======== ===============
+Name Type     Description
+==== ======== ===============
+P1   Vertex2D First corner
+P2   Vertex2D Opposing corner
+==== ======== ===============
 
-1. P1 (Vertex2D), V1 (Vector2D)
+Representation 4: Rotated, not aligned at right angles to xy axes.
 
-    Rotated.
-    P1 is the first corner, V1 specifies the opposing corner.
+==== ======== ================================
+Name Type     Description
+==== ======== ================================
+P1   Vertex2D First corner
+V1   Vector2D Opposing corner (relative to P1)
+==== ======== ================================
 
 .. index::
     Cube3D
@@ -297,51 +334,43 @@ Square2D
 Cube3D
 ^^^^^^
 
-1. P1 (Vertex3D), P2 (Vertex1D)
+Representation 1: Aligned at right angles to xyz axes.  Vertex and
+point on x axis (y and z inferred).
 
-    Aligned at right angles to xy axes.
-    Vertex and point on x axis (y and z inferred).
+==== ======== ========================================
+Name Type     Description
+==== ======== ========================================
+P1   Vertex3D First corner
+P2   Vertex1D x coordinate of adjacent/opposing corner
+==== ======== ========================================
 
-1. P1 (Vertex3D), V1 (Vector1D)
+Representation 2: Aligned at right angles to xyz axes.  Vertex and
+vector on x axis (y and z inferred).
 
-    Aligned at right angles to xy axes.
-    Vertex and vector on x axis (y and z inferred).
+==== ======== ======================================================
+Name Type     Description
+==== ======== ======================================================
+P1   Vertex3D First corner
+P2   Vector1D distance to adjacent corner on x axis (relative to P1)
+==== ======== ======================================================
 
-1. P1 (Vertex3D), P2 (Vertex3D)
+Representation 3: Rotated, not aligned at right angles to xy axes.
 
-    Rotated.
-    P1 and P2 specify opposing corners.
+==== ======== ===============
+Name Type     Description
+==== ======== ===============
+P1   Vertex3D First corner
+P2   Vertex3D Opposing corner
+==== ======== ===============
 
-1. P1 (Vertex3D), V1 (Vector3D)
+Representation 4: Rotated, not aligned at right angles to xy axes.
 
-    Rotated.
-    P1 is the first corner, V1 specifies the opposing corner.
-
-.. index::
-    CuboidnD
-
-CuboidnD
-^^^^^^^^
-
-1. P1 (VertexnD), P2 (Vertex1D)
-
-    Aligned at right angles to xy axes.
-    Vertex and point on x axis (y, z, …  inferred).
-
-1. P1 (VertexnD), V1 (Vector1D)
-
-    Aligned at right angles to xy axes.
-    Vertex and vector on x axis (y, z … inferred)
-
-1. P1 (VertexnD), P2 (VertexnD)
-
-    Rotated.
-    P1 and P2 specify opposing corners.
-
-1. P1 (VertexnD), V1 (VectornD)
-
-    Rotated.
-    P1 is the first corner, V1 specifies the opposing corner.
+==== ======== ================================
+Name Type     Description
+==== ======== ================================
+P1   Vertex3D First corner
+V1   Vector3D Opposing corner (relative to P1)
+==== ======== ================================
 
 .. index::
     Rectangle2D
@@ -349,18 +378,46 @@ CuboidnD
 Rectangle2D
 ^^^^^^^^^^^
 
- [ Aligned at right angles to xy axes ]
- 1: P1 (Vertex2D), P2 (Vertex2D)
-    Two opposing corners
- 2: P1 (Vertex2D), V1 (Vector2D)
-    Vertex and vector to opposing corner
+Representation 1: Aligned at right angles to xy axes.  Two opposing corners.
 
- [ Rotated ]
- 3: P1 (Vertex2D), P2 (Vertex2D), V1 (Vector1D)
-    P1 and P2 corners specify one edge; V1 specifies length of other edge
- 4: P1 (Vertex2D), V1 (Vector2D), V2 (Vector1D)
-    P1 is the first corner, V1 specifies the second corner and V2 the
-    length of the other edge.
+==== ======== ===============
+Name Type     Description
+==== ======== ===============
+P1   Vertex2D First corner
+P2   Vertex2D Opposing corner
+==== ======== ===============
+
+Representation 2: Aligned at right angles to xy axes.  Two opposing corners.
+
+==== ======== ============================================
+Name Type     Description
+==== ======== ============================================
+P1   Vertex2D First corner
+V1   Vector2D Distance to opposing corner (relative to P1)
+==== ======== ============================================
+
+Representation 3: Rotated, not aligned at right angles to xy axes.  P1
+and P2 corners specify one edge; V1 specifies length of other edge
+
+==== ======== ===============================================
+Name Type     Description
+==== ======== ===============================================
+P1   Vertex2D First corner
+P2   Vertex2D Adjacent corner
+V1   Vector1D Distance to corner opposing P1 (relative to P2)
+==== ======== ===============================================
+
+Representation 4: Rotated, not aligned at right angles to xy axes.  P1
+is the first corner, V1 specifies the second corner and V2 the length
+of the other edge.
+
+==== ======== ===============================================
+Name Type     Description
+==== ======== ===============================================
+P1   Vertex2D First corner
+V1   Vector2D Distance to adjacent corner (relative to P1)
+V2   Vector1D Distance to corner opposing P1 (relative to P2)
+==== ======== ===============================================
 
 .. index::
     Cuboid3D
@@ -383,24 +440,6 @@ Cuboid3D
     P1 is the first corner, V1 specifies the second corner and V2 the
     corner to define the first 2D face, and V3 the corner to define
     the final two 2D faces, and opposes P1.
-
-.. index::
-    HypercuboidnD
-
-HypercuboidnD
-^^^^^^^^^^^^^
-
- [ Aligned at right angles to xyz axes ]
- 1: P1 (VertexnD), P2 (VertexnD)
-    Two opposing corners
- 2: P1 (VertexnD), V1 (VectornD)
-    Vertex and vector to opposing corner
-
- [ Rotated ]
- 3: P1 (Vertex3D), P2 (Vertex3D), … Vn-3 (Vector3D), Vn-2 (Vector2D), Vn-1 (Vector1D)
-    P1 and P2 corners specify one edge; vectors specify additional corners.
- 4: P1 (VertexnD), V1 (VectornD) … Vn-2 (Vector3D), Vn-1 (Vector2D), Vn (Vector1D)
-    P1 is the first corner, vectors specify additional corners.
 
 Circles and ellipses
 --------------------
@@ -432,23 +471,6 @@ Sphere3D
     Centre and radius
  4: All Cube3D specifications
     Bounding cube
-
-.. index::
-    HyperspherenD
-
-HyperspherenD
-^^^^^^^^^^^^^
- 1: P1 (VertexnD), V1 (Vector1D)
-    Centre and radius
- 2: P1 (VertexnD), V1 (Vector2D)
-    Centre and radius
- 3: P1 (VertexnD), V1 (Vector3D)
-    Centre and radius
- …
- 4: P1 (VertexnD), V1 (VectornD)
-    Centre and radius
- 5: All CubenD specifications
-    Bounding hypercube
 
 .. index::
     Ellipse2D
@@ -494,29 +516,6 @@ Ellipsoid3D
     coordinates (P1) and 3 × 3 covariance matrix (COV)
 
 .. index::
-    HyperellipsoidnD
-
-HyperellipsoidnD
-^^^^^^^^^^^^^^^^
-
- [ Aligned at right angles to xy axes ]
- 1: P1 (VertexnD), V1 (VectornD)
-    Centre and half axes
- 2: P1 (VertexnD), V1 (Vector1D), V2 (Vector1D), V3 (Vector1D)
-    Centre and half axes specified separately
- 3: All RectanglenD (aligned at right-angle) specifications.
-
- [ Rotated ]
- 4: P1 (Vertex3D), V1 (VectornD) … Vn-2 (Vector3D), Vn-1 (Vector2D) … Vn (Vector1D)
-    Centre and half axes; Vectors are at right-angles to V1 and each
-    other, so have progressively reduced dimensions.
- 5: All RectanglenD (rotated) specifications.
- 6: P1 (VertexnD) COV (double × n^2)
-    Mahalanbobis distance used to draw an ellipse using the mean
-    coordinates (P1) and n × n covariance matrix (COV)
-
-
-.. index::
     Polyline Splines
 
 Polyline Splines
@@ -529,7 +528,6 @@ PolylineSpline2D
 ^^^^^^^^^^^^^^^^
 
  1: P1 (Vertex2D), P2 (Vertex2D), …, Pn (Vertex2D)
- Rotation centre: P1, P2, …, Pn, centre, bbox centre
 
 .. index::
     PolylineSpline3D
@@ -538,14 +536,6 @@ PolylineSpline3D
 ^^^^^^^^^^^^^^^^
 
  1: P1 (Vertex3D), P2 (Vertex3D), …, Pn (Vertex3D)
-
-.. index::
-    PolylineSplinenD
-
-PolylineSplinenD
-^^^^^^^^^^^^^^^^
-
- 1: P1 (VertexnD), P2 (VertexnD), …, Pn (VertexnD)
 
 .. index::
     Polygon splines
@@ -560,7 +550,6 @@ PolygonSpline2D
 ^^^^^^^^^^^^^^^
 
  1: P1 (Vertex2D), P2 (Vertex2D), …, Pn (Vertex2D)
- Rotation centre: P1, P2, …, Pn, centre, bbox centre
 
 .. index::
     PolygonSpline3D
@@ -569,14 +558,6 @@ PolygonSpline3D
 ^^^^^^^^^^^^^^^
 
  1: P1 (Vertex3D), P2 (Vertex3D), …, Pn (Vertex3D)
-
-.. index::
-    PolygonSplinenD
-
-PolygonSplinenD
-^^^^^^^^^^^^^^^
-
- 1: P1 (VertexnD), P2 (VertexnD), …, Pn (VertexnD)
 
 .. index::
     Cylinders
@@ -653,17 +634,6 @@ Arc3D
     Centre point, plus length and unit vector describe an arc
 
 .. index::
-    ArcnD
-
-ArcnD
-^^^^^
-
- 1: P1 (VertexnD), P2 (VertexnD), V1 (VectornD)
-    Two points and unit vector describe an arc
- 2: P1 (VertexnD), V1 (VectornD), V2 (VectornD)
-    Centre point, plus length and unit vector describe an arc
-
-.. index::
     Masks
 
 Masks
@@ -737,11 +707,11 @@ Labels
 Text2D
 ^^^^^^
 
- 1: All Vertex2D, Vertex3D and VertexnD specifications
+ 1: All Vertex2D and Vertex3D specifications
     Text aligned relative to a point
- 2: All Line2D, Line3D and LinenD specifications
+ 2: All Line2D and Line3D specifications
     Text aligned relative to a line
- 3: All Rectangle2D, Rectangle3D and RectanglenD specifications
+ 3: All Rectangle2D and Rectangle3D specifications
     Text aligned and flowed inside a rectangle
 
 .. index::
