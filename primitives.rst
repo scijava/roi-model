@@ -11,9 +11,12 @@ consider is that the different ways preserve the intent behind the
 original measurement and what is in the original metadata where this
 makes sense, even if this does mean some redundancy; this won't impact
 on the actual drawing/analysis code, which can deal with each shape in
-a canonical form.  Additionally, while some shapes have been included
-here for completeness, it's quite possible that not all are needed,
-particularly in all dimensions.
+a canonical form.  This records how the measurement was made by the
+user, which may have implications in further analysis and/or
+verification that the measurement was correct.
+
+While some shapes have been included here for completeness, it's quite
+possible that not all are needed, particularly in all dimensions.
 
 If anyone wants to check the maths behind the geometry, that would be
 much appreciated, because I'm firstly not an expert in this area, and
@@ -69,6 +72,12 @@ Vector3D, which would allow all 2D shapes to be used as surfaces in
     Add triangle as special case of polygon, which can be a special case of mesh?
 
     Meshes: Need to be able to triangulate if higher order polygons are possible.
+
+    Add representation number to start of number list; this will allow
+    shapes to be embedded in other shapes and be self-describing.
+    e.g. all circle types may be used to specify a circular cylinder
+    end.  This will simplify the specification of more complex shapes
+    by limiting the number of variants.
 
 .. index::
     Points
@@ -556,6 +565,11 @@ V1   Vector2D Radius
 
 Representation: 3: Bounding square.  Inherits all Square2D and AlignedSquare2D representations.
 
+.. todo::
+    Specify using reversed radius (vector2D to centre)
+    Specify using diameter (two points)
+    Specify using three points around circumference (->radius and centre)
+
 .. index:: Sphere3D
 
 Sphere3D
@@ -589,6 +603,11 @@ V1   Vector3D Radius
 ==== ======== ============
 
 Representation: 4: Bounding cube.  Inherits all Cube3D and AlignedCube3D representations.
+
+.. todo::
+    Specify using reversed radius (vector3D to centre)
+    Specify using diameter (two points)
+    Specify using 4 points around surface (->radius and centre)
 
 .. index::
     AlignedEllipse2D
