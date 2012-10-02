@@ -13,6 +13,8 @@ Contents:
    initial
    primitives
    affine
+   layers
+   email
    terms
 
 Indices and tables

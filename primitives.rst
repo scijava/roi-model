@@ -63,6 +63,12 @@ Vector3D, which would allow all 2D shapes to be used as surfaces in
     (optionally).  Also useful to reduce to 2D (which can be a cuboid
     for a single plane).
     Non-aligned shapes inherit/implement the aligned forms.
+    Shrink and grow: move polygons along surface normals for meshes.
+    For other shapes, this will require recalculation of the geometry.
+
+    Add triangle as special case of polygon, which can be a special case of mesh?
+
+    Meshes: Need to be able to triangulate if higher order polygons are possible.
 
 .. index::
     Points
