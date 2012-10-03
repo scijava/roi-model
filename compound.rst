@@ -1,15 +1,109 @@
 Compound ROIs
 =============
 
-A ROI may consist of multiple shapes.
+A ROI may consist of multiple shapes combined in different ways.  The
+result is also a shape.
+
+Set primitives
+--------------
+
+Shapes may combined using set operators:
+
+- union
+- intersection
+- difference
+- symmetric difference
+
+The shape is the result of the set operation.
+
+.. note::
+  Restrict to combinations of 2D or 3D shapes only?
+
+Set
+^^^
+
+A simple collection of shapes.  There is no implied relationship
+unless used with the set operators.
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+NSHAPE Count    Number of shapes
+SHAPE1 Shape    First shape
+…      Shape    Further shapes
+SHAPEn Shape    Last shape
+====== ======== ================
+
+
+Union
+^^^^^
+
+Produce the union of the shapes in the provided set.
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+SET    Set*     Set of shapes
+====== ======== ================
+
+Intersection
+^^^^^^^^^^^^
+
+Produce the intersection of the shapes in the provided set.
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+SET    Set*     Set of shapes
+====== ======== ================
+
+Difference
+^^^^^^^^^^
+
+Produce the set difference of the shapes in the provided set.
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+SET    Set*     Set of shapes
+====== ======== ================
+
+Symmetric difference
+^^^^^^^^^^^^^^^^^^^^
+
+Produce the symmetric difference of the shapes in the provided set.
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+SET    Set*     Set of shapes
+====== ======== ================
+
+
+
 
 - Restrict to either 2D or 3D, but not both?
 
-- Shapes may combined using set operators:
-  - ∪ union
-  - ∩ intersection
-  - \ difference
-  - symmetric difference
 
 How do we detect if shapes intersect?
 Edge cases for set operations using masks-false positives for

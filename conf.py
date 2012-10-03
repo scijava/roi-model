@@ -39,6 +39,9 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 
+[extensions]
+todo_include_todos=True
+
 # General information about the project.
 project = u'ROI Specification [DRAFT]'
 copyright = u'2012, University of Dundee'
@@ -91,7 +94,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'sphinxdoc'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -99,7 +102,7 @@ html_theme = 'default'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+#html_theme_path = ['themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -183,7 +186,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('roi', 'roi.tex', u'ROI Specification [DRAFT]',
+  ('index', 'roi.tex', u'ROI Specification [DRAFT]',
    u'Roger Leigh', 'manual'),
 ]
 

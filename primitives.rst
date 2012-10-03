@@ -55,20 +55,20 @@ labels are for drawing only.
 Basic primitives
 ----------------
 
-Basic primitives describing vertices and vectors:
+Basic primitives describing shape types, vertices and vectors:
 
 ========= ============== =======================================
 Primitive Representation Description
 ========= ============== =======================================
+ShapeID   uint16         Numeric shape identifier
+RepID     uint16         Numeric shape representation identifier
+Count     uint32         Number of objects
 Vertex1D  double[1]      Vertex in 1D
 Vertex2D  double[2]      Vertex in 2D
 Vertex3D  double[3]      Vertex in 3D
 Vector1D  double[1]      Vector in 1D
 Vector2D  double[2]      Vector in 2D
 Vector3D  double[3]      Vector in 3D
-ShapeID   uint16         Numeric shape identifier
-RepID     uint16         Numeric shape representation identifier
-Count     uint32         Number of objects
 ========= ============== =======================================
 
 All shape primitives are described in terms of the above basic
@@ -94,6 +94,7 @@ Vector3D, which would allow all 2D shapes to be used as surfaces in
     to xy.  If all 2D shapes must be represented by 3D forms (i.e. are
     just proxies), then the equivalent 3D can be used quite simply.
     Get greymap/bitmap.
+    Get 2D/3D mesh.
     Intersect (only for cuboid?)  Need to clip to image volume
     (optionally).  Also useful to reduce to 2D (which can be a cuboid
     for a single plane).
@@ -137,7 +138,7 @@ and bitmaps.
 Shape
 -----
 
-An abstract description of a shape
+An abstract description of a shape.
 
 Representation:
 
@@ -152,6 +153,25 @@ Concrete implementations of shapes provide further elements in their
 representation.  The above are only sufficient to describe the shape
 and its representation.  The combination of shape and representation
 specifies the data required to construct the shape.
+
+Note that one disadvantage of this method is that a reader will be
+required to understand how to deserialise all shape types; it's not
+possible to skip unknown shapes due to not knowing their lengths
+(which may be variable).  However, this would be an issue for a purely
+XML-based implementation as well, so may not be a problem in practice.
+
+When a shape embeds a specific shape, it may skip the ShapeID and/or
+RepID header if one or both of these are fixed.  If both headers are
+skipped, this is indicated with a '*', or if only the ShapeID header
+is skipped, this is indicated with '&':
+
+======= ========================================
+Type    Description
+======= ========================================
+Cube3D  Shape contains a 3D cube
+Cube3D* Shape contains a 3D cube with no header
+Cube3D& Shape contains a 3D cube with RepID only
+======= ========================================
 
 .. index::
     Point2D
@@ -209,6 +229,41 @@ S1   ShapeID  Shape
 R1   RepID    Representation
 P1   Vertex3D Point coordinates
 ==== ======== =================
+
+Points2D
+^^^^^^^^
+
+Representation:
+
+======= ======== =================
+Name    Type     Description
+======= ======== =================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex2D First point
+…       Vertex2D Further points
+Pn      Vertex2D Last point
+======= ======== =================
+
+.. index::
+    Point3D
+
+Points3D
+^^^^^^^^
+
+Representation:
+
+======= ======== =================
+Name    Type     Description
+======= ======== =================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex3D First point
+…       Vertex3D Further points
+Pn      Vertex3D Last point
+======= ======== =================
 
 .. index::
     Lines
@@ -1469,85 +1524,6 @@ Representation 1: Scale bar described by vector.  Inherits all Distance3D repres
     bounding cuboid; inherit AlignedCuboid3D representations.  Permit
     scale rotation with Cuboid3D?  Allow specification of grid size
     and only allow sizing in discrete units?
-
-Set primitives
---------------
-
-Shapes may combined using set operators:
-
-- ∪ union
-- ∩ intersection
-- \\ difference
-- Δ symmetric difference
-
-The shape is the result of the set operation.
-
-.. note::
-  Restrict to combinations of 2D or 3D shapes only?
-
-Union
-^^^^^
-
-Representation:
-
-====== ======== ================
-Name   Type     Description
-====== ======== ================
-S1     ShapeID  Shape
-R1     RepID    Representation
-NSHAPE Count    Number of shapes
-SHAPE1 Shape    First shape
-…      Shape    Further shapes
-SHAPEn Shape    Last shape
-====== ======== ================
-
-Intersection
-^^^^^^^^^^^^
-
-Representation:
-
-====== ======== ================
-Name   Type     Description
-====== ======== ================
-S1     ShapeID  Shape
-R1     RepID    Representation
-NSHAPE Count    Number of shapes
-SHAPE1 Shape    First shape
-…      Shape    Further shapes
-SHAPEn Shape    Last shape
-====== ======== ================
-
-Difference
-^^^^^^^^^^
-
-Representation:
-
-====== ======== ================
-Name   Type     Description
-====== ======== ================
-S1     ShapeID  Shape
-R1     RepID    Representation
-NSHAPE Count    Number of shapes
-SHAPE1 Shape    First shape
-…      Shape    Further shapes
-SHAPEn Shape    Last shape
-====== ======== ================
-
-Symmetric difference
-^^^^^^^^^^^^^^^^^^^^
-
-Representation:
-
-====== ======== ================
-Name   Type     Description
-====== ======== ================
-S1     ShapeID  Shape
-R1     RepID    Representation
-NSHAPE Count    Number of shapes
-SHAPE1 Shape    First shape
-…      Shape    Further shapes
-SHAPEn Shape    Last shape
-====== ======== ================
 
 Additional primitives
 ---------------------

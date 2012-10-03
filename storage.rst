@@ -13,15 +13,23 @@ equivalent to a 3D primitive with the z value specified separately to
 the (x,y) points.  This would provide one means of keeping the
 representation compact.  Additionally, it is undesirable to have a
 separate element for each vertex, since for complex shapes
-e.g. meshes, this would waste multi-megabytes of XML markup for no
-good reason.
+e.g. meshes, this would waste a lot of space: when scaling up to
+thousands of vertices, this would waste multi-megabytes of XML markup
+for no good reason.
 
 XML schema
 ----------
 
-Shape type and representation are stored as unsigned
+Shape type and representation are stored as unsigned 16 bit integers,
+counts as unsigned 32 bit integers, and vertices and vectors as
+double-precision floating point.
 
 .. literalinclude:: shape.xsd
     :language: xml
 
+Properties
+----------
 
+Store at the level of the ROI, not the shape.  Since all the shapes
+within a ROI describe a single entity, there is no need for separate
+properties (colour, line thickness/style/endings etc.) on each shape.
