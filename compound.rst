@@ -56,18 +56,29 @@ Ellipse is directly translatable.
 
 Outline/closed polyline is directly translatable.
 
-Text is convertible to Label.  However, the OME Label type lacks the alignment attributes mentioned in my earlier mail.  This makes it difficult to control the placement of text in complex compound ROIs.
+Text is convertible to Label.  However, the OME Label type lacks the
+alignment attributes mentioned in my earlier mail.  This makes it
+difficult to control the placement of text in complex compound ROIs.
 
-Length is a single line distance measurement line like, but with additional end lines to make it like a technical drawing line outside the object itself, i.e.
+Length is a single line distance measurement line like, but with
+additional end lines to make it like a technical drawing line outside
+the object itself, i.e.
 
-|******OBJECT*******|
-|                   |
-|<----------------->|
-        50 µm
+::
 
-Representable in the model as a simple line, across OBJECT, but with loss of the other lines.  It's representable as three separate lines, but with loss of the context of the specific measurement.
+    |******OBJECT*******|
+    |                   |
+    |<----------------->|
+            50 µm
 
-Open and closed splines: these are probably natural splines (not Bezier).  ZVI currently stores them as polylines given that we don't support splines.  But having a spline type would permit them to be stored.
+Representable in the model as a simple line, across OBJECT, but with
+loss of the other lines.  It's representable as three separate lines,
+but with loss of the context of the specific measurement.
+
+Open and closed splines: these are probably natural splines (not
+Bezier).  ZVI currently stores them as polylines given that we don't
+support splines.  But having a spline type would permit them to be
+stored.
 
 LUT and Profile: Covered in previous mail.
 
@@ -75,7 +86,7 @@ LUT and Profile: Covered in previous mail.
 
 
 Storing and manipulating complex compound objects
-=================================================
+-------------------------------------------------
 
 With these measurements, one thing perhaps worth considering is that
 there are up to four types of object here:
@@ -113,15 +124,19 @@ any knowledge of the underlying type.
 
 As an example, using this length measurement:
 
-   |******OBJECT*******|
-   |                   |
-   |<----------------->|
-           50 µm
+::
+
+    |******OBJECT*******|
+    |                   |
+    |<----------------->|
+            50 µm
 
 
 1) Result context
 
-   #******OBJECT*******#
+::
+
+    #******OBJECT*******#
 
    (where the #s are the start and end points of a Line at either end
    of the object.  This is the value of the physical measurement.)
@@ -132,19 +147,23 @@ As an example, using this length measurement:
 
 3) Visual context
 
-   |                   |
-   |                   |
-   |<----------------->|
-           50 µm
+::
+
+    |                   |
+    |                   |
+    |<----------------->|
+            50 µm
 
    Three lines, one with arrow end markers, plus text label.
    This is the visual representation of the measurement.
 
 4) Editing context
 
-   #******OBJECT*******
-   #
-   #
+::
+
+    #******OBJECT*******
+    #
+    #
 
    (where the #s represent a distance between the measured line and
    the drawn line in the visual context.  This information is used to
@@ -204,3 +223,58 @@ them without any knowledge of how they were measured.  Only a UI which
 supports the ROI type in question will need to use the editing and/or
 measurements context, and they will know how to regenerate the other
 contexts when editing.
+
+Compound types
+==============
+
+Line Profile
+LUT
+Scale bar
+
+LUT/gradient boxes are quite specialist.  However, they are also quite
+common in published figures, so it would make sense to have a general
+implementation.  These are particularly useful when you have false
+colour heat maps where you need a visual scale to interpret the
+figure.  We already support LUTs, so this is really just a view of the
+LUT for a given channel inside a rectangle.
+
+Line profiles are quite common.  But I guess supporting this would
+depend upon whether you classify the profile as the result of analysis
+of a ROI, or part of a ROI.  It might be handy to be able to overlay a
+line profile as a set of coloured polylines, for example.
+
+Zeiss AxioVision ROI types
+--------------------------
+
+For the Zeiss types, we can represent these in the model using:
+
+================= =================================
+Zeiss type        ROI model type
+================= =================================
+Event             Point2D
+Events            Point2D (union of points)
+Line              Line2D
+Caliper           Line2D (union of lines)
+Multiple caliper  Line2D (union of lines)
+Distance          Line2D (union of lines)
+Multiple distance Line2D (union of lines)
+Angle3            Line2D and Arc2D
+Angle4            Line2D and Arc2D
+Circle            Circle2D and Line2D
+Scale Bar         Line2D (with end markers)
+Polyline [open]   Polyline2D
+Aligned Rectangle AlignedRectangle2D
+Rotated Rectangle Rectangle2D
+Ellipse           AlignedEllipse2D
+Polyline [closed] Polygon2D
+Text              Label2D
+Length            Line2D (union of lines)
+Spline [open]     PolylineSpline2D
+Spline [closed]   PolygonSpline2D
+LUT               AlignedRectangle2D and Label2D
+Line profile      Line2D and Polyline2D/Rectangle2D
+================= =================================
+
+Annotations don't typically have labels (with the exception of scale
+bars).  Measurements would have one or more labels in the union as
+well displaying the value(s) of the measurement.

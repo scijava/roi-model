@@ -23,6 +23,35 @@ much appreciated, because I'm firstly not an expert in this area, and
 it's also quite possible I've made some typos.  The naming of the
 shapes is probably also wanting some improvement.
 
+Alternative shape representations
+=================================
+
+Using the current ROI model is that there is only one way to describe
+each shape.  e.g. a polyline can only be described as a series of
+points; it might in some cases be more natural to specify one as a
+starting point and a series of vectors; while either are fine just to
+draw the ROI, it would desirable to store what was measured, since
+converting it to a canonical representation is lossy, and removes the
+original measurements taken, and hence the intent of the original
+annotation.  This applies to other shapes as well.  For example, a
+circle or ellipse can be described by a bounding box (which may itself
+be a point and one or two vectors, or a set of points), or by a point
+and radius or half-axes, or by the Mahalanobis distance (typically for
+computing from a normal distribution of points).  For a cylinder/cone,
+we can specify this in multiple ways also from a circle/ellipse plus
+length, or point plus vector (length and direction) plus radius (or
+half-axes).
+
+The current model is focussed on drawing shapes, while making
+measurements involves drawing only for visualisation; the important
+parts are the values for making the measurement, and of course the
+results.  Some programs (e.g. AxioVision) have separate sets of
+objects for drawing (annotation) and measurement.  These are a largely
+overlapping set, but the former are not used for any
+length/area/volume/pixel measurements.  Objects such as scale bars and
+labels are for drawing only.
+
+
 Basic primitives
 ----------------
 
@@ -1179,6 +1208,33 @@ mapping.
 Labels
 ------
 
+
+Text placement and alignment
+----------------------------
+
+In order to annotate text next to measurements, it would be ideal if
+it were possible to control text placement and orientation.  Currently
+the coordinate of the first letter is required.  However, it would be
+nicer if the text could be also placed to the right of the point or
+centred on the point.  And additionally, to the top, middle or bottom
+for vertical placement.  Rotation would also be useful, though it's
+probably achievable indirectly via the transformation matrix, i.e. you
+would effectively have these anchors for placement, where 1 is the
+current behaviour.
+
+::
+
+   7      8      9
+   4Text h5ere...6
+   1      2      3
+
+This is needed to e.g. align text along measurement lines.  Having a
+rotation angle specified directly would also save the need for complex
+calculations to work out the rotation origin and transform every time
+you want to just place a label along a line.  It also makes it
+possible to place text in the centre of a shape.
+
+
 .. index::
     Text2D
 
@@ -1227,3 +1283,23 @@ Representation 1: Scale bar described by vector.  Inherits all Distance3D repres
     bounding cuboid; inherit AlignedCuboid3D representations.  Permit
     scale rotation with Cuboid3D?  Allow specification of grid size
     and only allow sizing in discrete units?
+
+Additional primitives
+---------------------
+
+3D spline surfaces
+  Natural cubic spline (Catmull-Rom)
+
+The axiovision curve type is most likely a natural cubic spline, the
+curve passing smoothly through all points, but without local control.
+It is simply represented as a list of points through which the curve
+must pass; there are no additional control points.  Depending upon if
+they are doing any custom stuff, it might not be possible to represent
+with pixel-perfect accuracy.
+
+Curves might be more generally applicable to other formats, and useful
+in their own right.  It might be worth considering adding a spline
+type with local control where the curve passes straight through the
+control points such as Catmull-Rom splines.  This would make it very
+simple for non-experts to fit smooth lines while annotating their
+images.

@@ -11,10 +11,13 @@ Contents:
    :maxdepth: 2
 
    initial
+   3dconversion
    primitives
+   compound
    affine
    layers
-   email
+   linkage
+   storage
    terms
 
 Indices and tables
