@@ -24,7 +24,7 @@ it's also quite possible I've made some typos.  The naming of the
 shapes is probably also wanting some improvement.
 
 Alternative shape representations
-=================================
+---------------------------------
 
 Using the current ROI model is that there is only one way to describe
 each shape.  e.g. a polyline can only be described as a series of
@@ -57,16 +57,19 @@ Basic primitives
 
 Basic primitives describing vertices and vectors:
 
-========= ============== ============
+========= ============== =======================================
 Primitive Representation Description
-========= ============== ============
+========= ============== =======================================
 Vertex1D  double[1]      Vertex in 1D
 Vertex2D  double[2]      Vertex in 2D
 Vertex3D  double[3]      Vertex in 3D
 Vector1D  double[1]      Vector in 1D
 Vector2D  double[2]      Vector in 2D
 Vector3D  double[3]      Vector in 3D
-========= ============== ============
+ShapeID   uint16         Numeric shape identifier
+RepID     uint16         Numeric shape representation identifier
+Count     uint32         Number of objects
+========= ============== =======================================
 
 All shape primitives are described in terms of the above basic
 primitives.  This means that all shape descriptions are serialisable
@@ -108,6 +111,65 @@ Vector3D, which would allow all 2D shapes to be used as surfaces in
     end.  This will simplify the specification of more complex shapes
     by limiting the number of variants.
 
+Shape serialisation
+-------------------
+
+Key considerations:
+
+- A shape must be identifiable unambiguously
+- A shape must be versioned (to permit correction of any
+  design/analysis bugs without altering any data retrospectively);
+  this permits the replacement of the buggy implementation while not
+  removing it.
+- In order to allow code reuse and flexible use of shapes, shapes may
+  include other shapes as part of their primitive specification.
+
+In the following shape descriptions, all shapes are identified by a
+Shape ID and Representation ID.  The shape specifies the geometric
+shape type.  The representation specifies both the primitives required
+for serialisation, and can also be used for versioning the
+shape--i.e. it also specifies the behaviour for conversion to greymaps
+and bitmaps.
+
+.. index::
+    Shape
+
+Shape
+-----
+
+An abstract description of a shape
+
+Representation:
+
+==== ======== =================
+Name Type     Description
+==== ======== =================
+S1   ShapeID  Shape
+R1   RepID    Representation
+==== ======== =================
+
+Concrete implementations of shapes provide further elements in their
+representation.  The above are only sufficient to describe the shape
+and its representation.  The combination of shape and representation
+specifies the data required to construct the shape.
+
+.. index::
+    Point2D
+
+Point2D
+^^^^^^^
+
+Representation:
+
+==== ======== =================
+Name Type     Description
+==== ======== =================
+S1   ShapeID  Shape
+R1   RepID    Representation
+P1   Vertex2D Point coordinates
+==== ======== =================
+
+
 .. index::
     Points
 
@@ -127,6 +189,8 @@ Representation:
 ==== ======== =================
 Name Type     Description
 ==== ======== =================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Point coordinates
 ==== ======== =================
 
@@ -141,6 +205,8 @@ Representation:
 ==== ======== =================
 Name Type     Description
 ==== ======== =================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Point coordinates
 ==== ======== =================
 
@@ -160,12 +226,14 @@ Line2D
 
 Representation:
 
-==== ======== ===========
+==== ======== ==============
 Name Type     Description
-==== ======== ===========
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Line start
 P2   Vertex2D Line end
-==== ======== ===========
+==== ======== ==============
 
 .. index::
     Line3D
@@ -175,12 +243,14 @@ Line3D
 
 Representation:
 
-==== ======== ===========
+==== ======== ==============
 Name Type     Description
-==== ======== ===========
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Line start
 P2   Vertex3D Line end
-==== ======== ===========
+==== ======== ==============
 
 .. index::
     Distances
@@ -201,6 +271,8 @@ Representation:
 ==== ======== =========================
 Name Type     Description
 ==== ======== =========================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Line start
 V1   Vector2D Line end (relative to P1)
 ==== ======== =========================
@@ -216,6 +288,8 @@ Representation:
 ==== ======== =========================
 Name Type     Description
 ==== ======== =========================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Line start
 V1   Vector3D Line end (relative to P1)
 ==== ======== =========================
@@ -232,14 +306,16 @@ Polylines
 Polyline2D
 ^^^^^^^^^^
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex2D Line start
-P2   Vertex2D Second point
-…    Vertex2D Further points
-Pn   Vertex2D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex2D Line start
+…       Vertex2D Further points
+Pn      Vertex2D Line end
+======= ======== ================
 
 .. index::
     Polyline3D
@@ -247,14 +323,16 @@ Pn   Vertex2D Line end
 Polyline3D
 ^^^^^^^^^^
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex3D Line start
-P2   Vertex3D Second point
-…    Vertex3D Further points
-Pn   Vertex3D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex3D Line start
+…       Vertex3D Further points
+Pn      Vertex3D Line end
+======= ======== ================
 
 .. index::
     Polygons
@@ -268,14 +346,16 @@ Polygons
 Polygon2D
 ^^^^^^^^^
 
-==== ======== ================
-Name Type     Description
-==== ======== ================
-P1   Vertex2D First vertex
-P2   Vertex2D Second vertex
-…    Vertex2D Further vertices
-Pn   Vertex2D Last vertex
-==== ======== ================
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex2D Line start
+…       Vertex2D Further points
+Pn      Vertex2D Line end
+======= ======== ================
 
 .. index::
     Polygon3D
@@ -283,14 +363,16 @@ Pn   Vertex2D Last vertex
 Polygon3D
 ^^^^^^^^^
 
-==== ======== ================
-Name Type     Description
-==== ======== ================
-P1   Vertex3D First vertex
-P2   Vertex3D Second vertex
-…    Vertex3D Further vertices
-Pn   Vertex3D Last vertex
-==== ======== ================
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex3D Line start
+…       Vertex3D Further points
+Pn      Vertex3D Line end
+======= ======== ================
 
 .. index::
     Polydistances
@@ -307,15 +389,17 @@ distances travelled from a starting point.
 Polydistance2D
 ^^^^^^^^^^^^^^
 
-==== ======== =========================================
-Name Type     Description
-==== ======== =========================================
-P1   Vertex2D First point
-V1   Vector2D Distance to second point (relative to P1)
-V2   Vector2D Distance to second point (relative to V1)
-…    Vector2D Further distances
-Vn   Vector2D Last distance (relative to V(n-1))
-==== ======== =========================================
+======= ======== =========================================
+Name    Type     Description
+======= ======== =========================================
+S1      ShapeID  Shape
+R1      RepID    Representation
+P1      Vertex2D First point
+NVEC    Count    Number of vectors
+V1      Vector2D Distance to second point (relative to P1)
+…       Vector2D Further distances
+Vn      Vector2D Last distance (relative to V(n-1))
+======= ======== =========================================
 
 .. index::
     Polydistance3D
@@ -323,15 +407,17 @@ Vn   Vector2D Last distance (relative to V(n-1))
 Polydistance3D
 ^^^^^^^^^^^^^^
 
-==== ======== =========================================
-Name Type     Description
-==== ======== =========================================
-P1   Vertex2D First point
-V1   Vector2D Distance to second point (relative to P1)
-V2   Vector2D Distance to second point (relative to V1)
-…    Vector2D Further distances
-Vn   Vector2D Last distance (relative to V(n-1))
-==== ======== =========================================
+======= ======== =========================================
+Name    Type     Description
+======= ======== =========================================
+S1      ShapeID  Shape
+R1      RepID    Representation
+P1      Vertex3D First point
+NVEC    Count    Number of vectors
+V1      Vector3D Distance to second point (relative to P1)
+…       Vector3D Further distances
+Vn      Vector3D Last distance (relative to V(n-1))
+======= ======== =========================================
 
 .. index::
     Squares
@@ -356,6 +442,8 @@ Representation 1: Vertex and point on x axis (y inferred).
 ==== ======== ========================================
 Name Type     Description
 ==== ======== ========================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 P2   Vertex1D x coordinate of adjacent/opposing corner
 ==== ======== ========================================
@@ -365,6 +453,8 @@ Representation 2: Vertex and vector on x axis (y inferred).
 ==== ======== ======================================================
 Name Type     Description
 ==== ======== ======================================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 P2   Vector1D distance to adjacent corner on x axis (relative to P1)
 ==== ======== ======================================================
@@ -382,6 +472,8 @@ Representation 1: Vertices of two opposing corners.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 P2   Vertex2D Opposing corner
 ==== ======== ===============
@@ -391,6 +483,8 @@ Representation 2: Vertex and vector to opposing corner.
 ==== ======== ================================
 Name Type     Description
 ==== ======== ================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 V1   Vector2D Opposing corner (relative to P1)
 ==== ======== ================================
@@ -408,6 +502,8 @@ Representation 1: Vertex and point on x axis (y and z inferred).
 ==== ======== ========================================
 Name Type     Description
 ==== ======== ========================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 P2   Vertex1D x coordinate of adjacent/opposing corner
 ==== ======== ========================================
@@ -417,6 +513,8 @@ Representation 2: Vertex and vector on x axis (y and z inferred).
 ==== ======== ======================================================
 Name Type     Description
 ==== ======== ======================================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 P2   Vector1D distance to adjacent corner on x axis (relative to P1)
 ==== ======== ======================================================
@@ -434,6 +532,8 @@ Representation 1: Vertices of two opposing corners.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 P2   Vertex3D Opposing corner
 ==== ======== ===============
@@ -443,6 +543,8 @@ Representation 2: Vertex and vector to opposing corner.
 ==== ======== ================================
 Name Type     Description
 ==== ======== ================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 V1   Vector3D Opposing corner (relative to P1)
 ==== ======== ================================
@@ -460,6 +562,8 @@ Representation 1: Two opposing corners.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 P2   Vertex2D Opposing corner
 ==== ======== ===============
@@ -469,6 +573,8 @@ Representation 2: Two opposing corners.
 ==== ======== ============================================
 Name Type     Description
 ==== ======== ============================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 V1   Vector2D Distance to opposing corner (relative to P1)
 ==== ======== ============================================
@@ -487,6 +593,8 @@ length of other edge.
 ==== ======== ===============================================
 Name Type     Description
 ==== ======== ===============================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 P2   Vertex2D Adjacent corner
 V1   Vector1D Distance to corner opposing P1 (relative to P2)
@@ -499,6 +607,8 @@ of the other edge.
 ==== ======== ===============================================
 Name Type     Description
 ==== ======== ===============================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D First corner
 V1   Vector2D Distance to adjacent corner (relative to P1)
 V2   Vector1D Distance to corner opposing P1 (relative to P2)
@@ -517,6 +627,8 @@ Representation 1: Two opposing corners.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 P2   Vertex3D Opposing corner
 ==== ======== ===============
@@ -526,6 +638,8 @@ Representation 2: Vertex and vector to opposing corner
 ==== ======== ============================================
 Name Type     Description
 ==== ======== ============================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 V1   Vector3D Distance to opposing corner (relative to P1)
 ==== ======== ============================================
@@ -545,6 +659,8 @@ final two 2D faces, and opposes P1.
 ==== ======== =======================================================
 Name Type     Description
 ==== ======== =======================================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 P2   Vertex3D Second corner (adjacent to P1)
 V1   Vector2D Distance to third corner (adjacent to P2)
@@ -558,6 +674,8 @@ the corner to define the final two 2D faces, and opposes P1.
 ==== ======== =======================================================
 Name Type     Description
 ==== ======== =======================================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D First corner
 V1   Vector3D Distance to second corner (relative to P1)
 V2   Vector2D Distance to third corner (relative to V1)
@@ -576,21 +694,25 @@ Circle2D
 
 Representation 1: Centre point and radius (1D vector)
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 V1   Vector1D Radius
-==== ======== ============
+==== ======== ==============
 
 Representation 2: Centre point and radius (2D vector)
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 V1   Vector2D Radius
-==== ======== ============
+==== ======== ==============
 
 Representation: 3: Bounding square.  Inherits all Square2D and AlignedSquare2D representations.
 
@@ -606,30 +728,36 @@ Sphere3D
 
 Representation 1: Centre point and radius (1D vector)
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector1D Radius
-==== ======== ============
+==== ======== ==============
 
 Representation 2: Centre point and radius (2D vector)
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector2D Radius
-==== ======== ============
+==== ======== ==============
 
 Representation 3: Centre point and radius (3D vector)
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector3D Radius
-==== ======== ============
+==== ======== ==============
 
 Representation: 4: Bounding cube.  Inherits all Cube3D and AlignedCube3D representations.
 
@@ -651,6 +779,8 @@ Representation 1: Centre and half axes.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 V1   Vector2D Half axes (x,y)
 ==== ======== ===============
@@ -672,6 +802,8 @@ so has only one dimension.
 ==== ======== ==============
 Name Type     Description
 ==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 V1   Vector2D Half axes (xy)
 V1   Vector1D Half axes (x)
@@ -686,6 +818,8 @@ coordinates (P1) and 2 × 2 covariance matrix (COV1)
 ==== ========= =======================
 Name Type      Description
 ==== ========= =======================
+S1   ShapeID   Shape
+R1   RepID     Representation
 P1   Vertex2D  Centre point (mean)
 COV1 double[4] 2 × 2 covariance matrix
 ==== ========= =======================
@@ -703,20 +837,24 @@ Representation 1: Centre and half axes
 ==== ======== =================
 Name Type     Description
 ==== ======== =================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector3D Half axes (x,y,z)
 ==== ======== =================
 
 Representation 2: Centre and half axes (specified separately).
 
-==== ======== =============
+==== ======== ==============
 Name Type     Description
-==== ======== =============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector3D Half axis (x)
 V2   Vector3D Half axis (y)
 V3   Vector3D Half axis (z)
-==== ======== =============
+==== ======== ==============
 
 Representation 3: Bounding cuboid: Inherits all AlignedCuboid3D representations.
 
@@ -734,6 +872,8 @@ to V1 and each other, so have reduced dimensions.
 ==== ======== ===============
 Name Type     Description
 ==== ======== ===============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V1   Vector3D Half axes (xyz)
 V2   Vector2D Half axes (xy)
@@ -749,6 +889,8 @@ coordinates (P1) and 3 × 3 covariance matrix (COV1)
 ==== ========= =======================
 Name Type      Description
 ==== ========= =======================
+S1   ShapeID   Shape
+R1   RepID     Representation
 P1   Vertex3D  Centre point (mean)
 COV1 double[9] 3 × 3 covariance matrix
 ==== ========= =======================
@@ -767,14 +909,16 @@ PolylineSpline2D
 
 Representation:
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex2D Line start
-P2   Vertex2D Second point
-…    Vertex2D Further points
-Pn   Vertex2D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex2D Line start
+…       Vertex2D Further points
+Pn      Vertex2D Line end
+======= ======== ================
 
 .. index::
     PolylineSpline3D
@@ -784,14 +928,16 @@ PolylineSpline3D
 
 Representation:
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex3D Line start
-P2   Vertex3D Second point
-…    Vertex3D Further points
-Pn   Vertex3D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex3D Line start
+…       Vertex3D Further points
+Pn      Vertex3D Line end
+======= ======== ================
 
 .. index::
     Polygon splines
@@ -807,14 +953,16 @@ PolygonSpline2D
 
 Representation:
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex2D Line start
-P2   Vertex2D Second point
-…    Vertex2D Further points
-Pn   Vertex2D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex2D Line start
+…       Vertex2D Further points
+Pn      Vertex2D Line end
+======= ======== ================
 
 .. index::
     PolygonSpline3D
@@ -824,14 +972,16 @@ PolygonSpline3D
 
 Representation:
 
-==== ======== ==============
-Name Type     Description
-==== ======== ==============
-P1   Vertex3D Line start
-P2   Vertex3D Second point
-…    Vertex3D Further points
-Pn   Vertex3D Line end
-==== ======== ==============
+======= ======== ================
+Name    Type     Description
+======= ======== ================
+S1      ShapeID  Shape
+R1      RepID    Representation
+NPOINTS Count    Number of points
+P1      Vertex3D Line start
+…       Vertex3D Further points
+Pn      Vertex3D Line end
+======= ======== ================
 
 .. index::
     Cylinders
@@ -858,6 +1008,8 @@ Representation 1: Start and endpoint, plus radius.
 ==== ======== =====================
 Name Type     Description
 ==== ======== =====================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 P2   Vertex3D Centre of second face
 V1   Vector1D Radius
@@ -868,6 +1020,8 @@ Representation 2: Start point, distance to endpoint, plus radius
 ==== ======== =================================
 Name Type     Description
 ==== ======== =================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 V1   Vector3D Distance to centre of second face
 V2   Vector1D Radius
@@ -885,6 +1039,8 @@ used for tubular structures without gaps at the joins.
 ==== ======== ==============================
 Name Type     Description
 ==== ======== ==============================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 P2   Vertex3D Centre of second face
 V1   Vector3D Radius and angle of first face
@@ -900,6 +1056,8 @@ the joins.
 ==== ======== =================================
 Name Type     Description
 ==== ======== =================================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 V1   Vector3D Distance to centre of second face
 V2   Vector3D Radius and angle of first face
@@ -935,6 +1093,8 @@ Representation 1: Start and endpoint, plus half axes.
 ==== ======== =====================
 Name Type     Description
 ==== ======== =====================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 P2   Vertex3D Centre of second face
 V1   Vector2D Half axes (xy)
@@ -949,6 +1109,8 @@ Representation 2: Start point, distance to endpoint, plus half axes
 ==== ======== =======================
 Name Type     Description
 ==== ======== =======================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 V1   Vector3D Distance to second face
 V2   Vector3D Half axes (xy)
@@ -968,6 +1130,8 @@ V3   Vector2D Half axes (x)
 ==== ======== =============================
 Name Type     Description
 ==== ======== =============================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 P2   Vertex3D Centre of second face
 V1   Vector3D Half axes of first face (xyz)
@@ -982,6 +1146,8 @@ V3   Vector3D Angle of second face
 ==== ======== =======================
 Name Type     Description
 ==== ======== =======================
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre of first face
 V1   Vector3D Distance to second face
 V2   Vector3D Half axes (xyz)
@@ -1006,23 +1172,27 @@ Arc2D
 
 Representation 1:
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 P2   Vertex2D Arc start
 V1   Vector2D Arc end
-==== ======== ============
+==== ======== ==============
 
 Representation 2:
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex2D Centre point
 V2   Vector2D Arc start
 V1   Vector2D Arc end
-==== ======== ============
+==== ======== ==============
 
 .. index::
     Arc3D
@@ -1032,23 +1202,27 @@ Arc3D
 
 Representation 1:
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 P2   Vertex3D Arc start
 V1   Vector3D Arc end
-==== ======== ============
+==== ======== ==============
 
 Representation 2:
 
-==== ======== ============
+==== ======== ==============
 Name Type     Description
-==== ======== ============
+==== ======== ==============
+S1   ShapeID  Shape
+R1   RepID    Representation
 P1   Vertex3D Centre point
 V2   Vector3D Arc start
 V1   Vector3D Arc end
-==== ======== ============
+==== ======== ==============
 
 .. index::
     Masks
@@ -1084,6 +1258,8 @@ x and y size of the mask.  DATA is the mask pixel data.
 ==== =========== =================================
 Name Type        Description
 ==== =========== =================================
+S1   ShapeID     Shape
+R1   RepID       Representation
 P1   Vertex2D    Start point of bounding rectangle
 P2   Vertex2D    End point of bounding rectangle
 DIM1 Vector2D    Mask dimensions (x,y)
@@ -1104,6 +1280,8 @@ x and y size of the mask.  DATA is the mask pixel data.
 ==== =========== =================================
 Name Type        Description
 ==== =========== =================================
+S1   ShapeID     Shape
+R1   RepID       Representation
 P1   Vertex2D    Start point of bounding rectangle
 P2   Vertex2D    End point of bounding rectangle
 DIM1 Vector2D    Mask dimensions (x,y)
@@ -1124,6 +1302,8 @@ x, y and z size of the mask.  DATA is the mask pixel data.
 ==== ============= =================================
 Name Type          Description
 ==== ============= =================================
+S1   ShapeID       Shape
+R1   RepID         Representation
 P1   Vertex3D      Start point of bounding rectangle
 P2   Vertex3D      End point of bounding rectangle
 DIM1 Vector3D      Mask dimensions (x,y)
@@ -1144,6 +1324,8 @@ x, y and z size of the mask.  DATA is the mask pixel data.
 ==== =========== =================================
 Name Type        Description
 ==== =========== =================================
+S1   ShapeID     Shape
+R1   RepID       Representation
 P1   Vertex3D    Start point of bounding rectangle
 P2   Vertex3D    End point of bounding rectangle
 DIM1 Vector3D    Mask dimensions (x,y)
@@ -1171,9 +1353,11 @@ Representation:
 ===== ================ ====================================================
 Name  Type             Description
 ===== ================ ====================================================
-NFACE double           Number of faces
+S1    ShapeID          Shape
+R1    RepID            Representation
+NFACE Count            Number of faces
 VREF  double[NFACE][3] Vertex references per face, counterclockwise winding
-NVERT double           Number of vertices
+NVERT Count            Number of vertices
 VERTS Vertex2D[NVERT]  Vertex coordinates
 ===== ================ ====================================================
 
@@ -1192,9 +1376,11 @@ Representation:
 ===== ================ ====================================================
 Name  Type             Description
 ===== ================ ====================================================
-NFACE double           Number of faces
+S1    ShapeID          Shape
+R1    RepID            Representation
+NFACE Count            Number of faces
 VREF  double[NFACE][3] Vertex references per face, counterclockwise winding
-NVERT double           Number of vertices
+NVERT Count            Number of vertices
 VERTS Vertex3D[NVERT]  Vertex coordinates
 ===== ================ ====================================================
 
@@ -1283,6 +1469,85 @@ Representation 1: Scale bar described by vector.  Inherits all Distance3D repres
     bounding cuboid; inherit AlignedCuboid3D representations.  Permit
     scale rotation with Cuboid3D?  Allow specification of grid size
     and only allow sizing in discrete units?
+
+Set primitives
+--------------
+
+Shapes may combined using set operators:
+
+- ∪ union
+- ∩ intersection
+- \\ difference
+- Δ symmetric difference
+
+The shape is the result of the set operation.
+
+.. note::
+  Restrict to combinations of 2D or 3D shapes only?
+
+Union
+^^^^^
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+NSHAPE Count    Number of shapes
+SHAPE1 Shape    First shape
+…      Shape    Further shapes
+SHAPEn Shape    Last shape
+====== ======== ================
+
+Intersection
+^^^^^^^^^^^^
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+NSHAPE Count    Number of shapes
+SHAPE1 Shape    First shape
+…      Shape    Further shapes
+SHAPEn Shape    Last shape
+====== ======== ================
+
+Difference
+^^^^^^^^^^
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+NSHAPE Count    Number of shapes
+SHAPE1 Shape    First shape
+…      Shape    Further shapes
+SHAPEn Shape    Last shape
+====== ======== ================
+
+Symmetric difference
+^^^^^^^^^^^^^^^^^^^^
+
+Representation:
+
+====== ======== ================
+Name   Type     Description
+====== ======== ================
+S1     ShapeID  Shape
+R1     RepID    Representation
+NSHAPE Count    Number of shapes
+SHAPE1 Shape    First shape
+…      Shape    Further shapes
+SHAPEn Shape    Last shape
+====== ======== ================
 
 Additional primitives
 ---------------------
