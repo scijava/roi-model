@@ -19,6 +19,9 @@ The shape is the result of the set operation.
 .. note::
   Restrict to combinations of 2D or 3D shapes only?
 
+.. note::
+  **J-M Burel** Union in the mathematical sense or aggregation.
+
 Set
 ^^^
 
@@ -123,7 +126,7 @@ Angle3/Angle4.  These measure the angle between two lines.  Angle4 is
   two separate lines, while Angle3 is two lines with a common point
   (i.e. a special case of Angle4).  Angle3 could be represented with a
   three-point polyline.  Angle4 would need to be two separate lines.
-  Given that Angle3 is a special case of Angle4, it's not clear that
+  Given that Angle3 is a special case of Angle4, it is not clear that
   it should be represented as a polyline.
 
 Circle.  While the OME model represents this as an ellipse with equal x and y radii, there are three ways to represent a circle here:
@@ -166,7 +169,7 @@ the object itself, i.e.
             50 µm
 
 Representable in the model as a simple line, across OBJECT, but with
-loss of the other lines.  It's representable as three separate lines,
+loss of the other lines.  It is representable as three separate lines,
 but with loss of the context of the specific measurement.
 
 Open and closed splines: these are probably natural splines (not
@@ -185,7 +188,7 @@ Storing and manipulating complex compound objects
 With these measurements, one thing perhaps worth considering is that
 there are up to four types of object here:
 
-1. Result context.  The object(s) representing the physical
+1. Result context: the object(s) representing the physical
    measurement.  This is what we currently store in the model.
 2. Measurement context: line along radius of circle, points along
    circumference of circle etc.  This is "how the measurement was
@@ -197,7 +200,7 @@ there are up to four types of object here:
    of the other contexts while editing.
 
 We can represent the actual measurements in most cases using the
-existing ROI types.  However, if we store the additional types, it's
+existing ROI types.  However, if we store the additional types, it is
 no longer possible to distinguish between the measurement and the
 additional context.
 
@@ -206,7 +209,7 @@ be possible for the objects to be displayed without any advanced
 knowledge of how an object should be edited.  It would also be
 possible to extract the primitive measurement values.  However, the
 measurement context would provide additional information to editors
-for manupulation of the object, which would then be able to update all
+for manipulation of the object, which would then be able to update all
 three contexts appropriately.
 
 Doing this would provide a simple but effective means for additional
@@ -264,9 +267,9 @@ As an example, using this length measurement:
    generate the visual context from the measurement context.)
 
 
-I hope the above doesn't sound too way out.  But the current system is
+I hope the above does not sound too way out.  But the current system is
 limited to storing only the first of these four contexts, which loses
-information.  While it's possible to delegate all of the presentation
+information.  While it is possible to delegate all of the presentation
 and editing to the viewer, the reality is that this is stuff people
 want.  If I'm annotating an image for a paper, I want the annotations
 to appear exactly the same as I see them if I send them to someone

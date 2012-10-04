@@ -29,7 +29,7 @@ While it would be possible to translate and rotate 2D primitives in 3D
 using a 4×4 matrix, it would be simpler for users if rotation could be
 specified using a unit vector which can specify the angle of the
 primitive in 3D space; the matrix transform can be trivially construct
-edfrom the vector.  However, note that while current transforms occur
+ed from the vector.  However, note that while current transforms occur
 only in 2D, where the x and y pixel sizes are typically the same, this
 is not usually the case in z, and so the transformations may need
 performing in physical units; therefore adding proper support for

@@ -4,7 +4,7 @@ Layers
 In the Zeiss AxioVision formats, ROIs (shapes) are contained within
 Layers.  Sets of ROIs are collected in different layers.  The UI only
 uses a single layer, but uses separate layers for acquisition and
-post-acquisition ROIs.  But in the file format one may define arbitary
+post-acquisition ROIs.  But in the file format one may define arbitrary
 numbers of layers to act as a grouping mechanism for ROIs.
 
 Adding layers as a top level grouping would permit related ROIs to be

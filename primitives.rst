@@ -6,7 +6,7 @@ Overview
 
 This section specifies how shapes are described in the model.  For
 some shapes, there are several alternative ways of specifying them;
-which are worth supporting needs further dicussion.  One point to
+which are worth supporting needs further discussion.  One point to
 consider is that the different ways preserve the intent behind the
 original measurement and what is in the original metadata where this
 makes sense, even if this does mean some redundancy; this won't impact
