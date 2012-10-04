@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:simpleType name="shapeDetailElement">
+        <xsd:union memberTypes="xsd:unsignedShort xsd:unsignedInt xsd:double" />
+    </xsd:simpleType>
+    <xsd:simpleType name="shapeDetail">
+        <xsd:list itemType="shapeDetailElement"/>
+    </xsd:simpleType>
+    <xsd:element name="shape">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="shapeDetail">
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
