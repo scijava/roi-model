@@ -3,7 +3,8 @@ ROI Specification Overview
 
 .. only:: html
 
-   .. image:: images/logos.png
+   .. image:: images/scijava.png
+       :width: 20%
 
 Requirements
 ------------
