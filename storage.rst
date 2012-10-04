@@ -1,7 +1,7 @@
 Storage of vertex data
 ======================
 
-For quite a number of the shape primitives, it's possible to support
+For quite a number of the shape primitives, it is possible to support
 3D very simply--we just increase the number of dimensions in each
 vertex, and that's it (obviously just for storage; it will still
 require some work for rendering).  From the point of view of storing
@@ -33,3 +33,6 @@ Properties
 Store at the level of the ROI, not the shape.  Since all the shapes
 within a ROI describe a single entity, there is no need for separate
 properties (colour, line thickness/style/endings etc.) on each shape.
+
+.. note::
+  **J-M Burel**: previous discussion about that. Need to review the notes taken at the time.
