@@ -1,3 +1,5 @@
+.. _model_toplevel:
+
 ROI Specification [DRAFT]
 =========================
 
