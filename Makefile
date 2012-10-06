@@ -107,6 +107,16 @@ latex:
 latexpdf:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
+
+	cd "$(BUILDDIR)/latex" && \
+	xelatex $(LATEXOPTS) 'roi.tex' && \
+        xelatex $(LATEXOPTS) 'roi.tex' && \
+        xelatex $(LATEXOPTS) 'roi.tex' && \
+        makeindex -s python.ist '$(basename roi.tex).idx' && \
+        xelatex $(LATEXOPTS) 'roi.tex' && \
+        xelatex $(LATEXOPTS) 'roi.tex'
+
+
 	$(MAKE) -C $(BUILDDIR)/latex all-pdf
 	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 

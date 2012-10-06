@@ -173,14 +173,69 @@ htmlhelp_basename = 'ROISpecificationDraftdoc'
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+    'pointsize': '12pt',
+    'inputenc': '',
+    'utf8extra': '',
+    'fontpkg': '',
+    'babel': '',
+    'preamble': '''
 
-# The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+\\usepackage[a4paper, left=1.5cm,top=2cm,right=1.5cm,bottom=2cm]{geometry}
+\\usepackage{amsmath}
+\\usepackage{color}
+\\usepackage{fancyhdr}
+\\usepackage{fixltx2e}
 
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
+%get rid of hanging lines
+\\widowpenalty=1000
+\\clubpenalty=1000
+\\renewcommand{\\textfraction}{0.05}
+\\renewcommand{\\topfraction}{0.95}
+\\renewcommand{\\bottomfraction}{0.95}
+\\renewcommand{\\floatpagefraction}{0.95}
+\\setcounter{totalnumber}{5}
+\\setlength{\\fboxsep}{12pt}
+\\setcounter{errorcontextlines}{999}
+%\\setlength{\\parskip}{0cm}
+
+\\setlength{\\headheight}{16pt}
+\\fancyhf{}
+\\fancyhead{}
+\\fancyhead[RO,LE]{\\thepage}
+\\fancyhead[LO]{\\textsl\\rightmark}
+\\fancyhead[RE]{\\textsl\\leftmark}
+\\fancyfoot{}
+\\renewcommand{\\headrulewidth}{0pt}
+\\renewcommand{\\footrulewidth}{0pt}
+
+%\\usepackage[xetex,
+%  pdftitle={ROI Specification DRAFT},
+%  pdfauthor={Roger Leigh},
+%  pdfsubject={Microscopy, Image analysis},
+%  pdfkeywords={ROI},
+%  raiselinks,
+%  bookmarks,
+%  pdfstartview={FitH}]
+%{hyperref}
+
+\usepackage{mathpazo}
+%\usepackage{fontspec}
+\usepackage{mathspec}
+%\usepackage{unicode-math}
+
+%\setmathfont{STIXGeneral}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\usepackage{polyglossia}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont{TeX Gyre Termes}
+\setromanfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Courier 10 Pitch}
+%\setmathsfont{Asana Math}
+\setdefaultlanguage[variant=british]{english}
+
+''',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
