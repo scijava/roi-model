@@ -231,7 +231,7 @@ latex_elements = {
 \setmainfont{TeX Gyre Termes}
 \setromanfont{TeX Gyre Termes}
 \setsansfont{TeX Gyre Heros}
-\setmonofont{Courier 10 Pitch}
+\setmonofont{TeX Gyre Cursor}
 %\setmathsfont{Asana Math}
 \setdefaultlanguage[variant=british]{english}
 
