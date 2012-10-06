@@ -5,10 +5,10 @@ ROI Specification [DRAFT]
 
 .. only:: html
 
-   .. image:: images/logos.png
-       :width: 40%
+    .. image:: images/logos.png
+        :width: 40%
 
-Contents:
+    Contents:
 
 .. toctree::
    :maxdepth: 2
@@ -16,6 +16,8 @@ Contents:
    initial
    3dconversion
    primitives
+   geometry
+   ndim
    compound
    affine
    layers

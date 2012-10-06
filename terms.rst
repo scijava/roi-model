@@ -4,7 +4,7 @@ Definition of terms
 .. glossary::
 
     ROI
-        Region of interest.  A subset of samples within a dataset 
+        Region of interest.  A subset of samples within a dataset
         This is specified by the boundary or surface of the object.
 
     Shape
@@ -14,4 +14,4 @@ Definition of terms
 
 .. note::
 
-	**J-M Burel* dataset is referred as an image in OMERO.
+	**J-M Burel** dataset is referred as an image in OMERO.
