@@ -12,23 +12,10 @@ Implementors should treat these sizes as minimium requirements.
 Basic primitives
 ----------------
 
-========= ============== =======================================
-Primitive Representation Description
-========= ============== =======================================
-ShapeID   uint16         Numeric shape identifier
-RepID     uint16         Numeric shape representation identifier
-Count     uint32         Number of objects
-Index     uint32         Index into an array
-Value     double         Numerical value
-Operator  uint8          Mathematical operator
-BLogic    uint8          Bitwise binary logical operator
-Vertex1D  double[1]      Vertex in 1D
-Vertex2D  double[2]      Vertex in 2D
-Vertex3D  double[3]      Vertex in 3D
-Vector1D  double[1]      Vector in 1D
-Vector2D  double[2]      Vector in 2D
-Vector3D  double[3]      Vector in 3D
-========= ============== =======================================
+.. csv-table:: Primitives
+    :header-rows: 1
+    :file: spec/primitives.tsv
+    :delim: tab
 
 .. note::
     **Barry DeZonia** Support different coordinate spaces as needed

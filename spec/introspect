@@ -1,0 +1,48 @@
+#!/bin/sh
+
+set -e
+
+SPEC=shapes.tsv
+
+list() {
+       cut -f1 "$SPEC" | sort | uniq
+}
+
+shaperows() {
+    egrep "^(Primitive|$1)	" "$SPEC"
+}
+
+shapereprows() {
+    egrep "^(Primitive|$1	$2)	" "$SPEC"
+}
+
+listreps() {
+       shaperows "$1" | cut -f 2 | grep -v ^Representation | sort | uniq
+}
+
+table() {
+    shapereprows "$1" "$2" | cut -f1,3,4,7
+}
+
+dumptables() {
+    for shape in $(list); do
+	for rep in $(listreps "$shape"); do
+echo "Dumping $shape-$rep.gen.tsv"
+	    table "$shape" "$rep"  > "$shape-$rep.tsv"
+	done
+    done
+}
+
+CMD=$1
+shift
+
+case "$CMD" in
+    list)
+	list;;
+    listreps)
+	listreps "$1";;
+    table)
+	table "$1" "$2";;
+    dumptables)
+	dumptables
+esac
