@@ -14,7 +14,12 @@ Basic primitives
 
 .. csv-table:: Primitives
     :header-rows: 1
-    :file: spec/primitives.tsv
+    :file: spec/primitives.txt
+    :delim: tab
+
+.. csv-table:: Compound primitives
+    :header-rows: 1
+    :file: spec/compound.txt
     :delim: tab
 
 .. note::
