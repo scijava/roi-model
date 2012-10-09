@@ -26,12 +26,12 @@ AlignedEllipse2D	23	Shape
 Ellipse2D	24	Shape
 AlignedEllipsoid3D	25	Shape
 Ellipsoid3D	26	Shape
-Ellipsoid3D	26	
+Ellipsoid3D	26
 PolylineSpline2D	27	Shape
 PolylineSpline3D	28	Shape
 PolygonSpline2D	29	Shape
 PolygonSpline3D	30	Shape
-AlignedCircularCylinder3D	31	
+AlignedCircularCylinder3D	31
 CircularCylinder3D	32	Shape
 AlignedEllipticCylinder3D	33	Shape
 EllipticCylinder3D	34	Shape

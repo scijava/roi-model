@@ -21,7 +21,7 @@ listreps() {
 }
 
 table() {
-    shapereprows "$1" "$2" | cut -f1,3,4,7
+    shapereprows "$1" "$2" | cut -f1,3,4,7 | sed -e "s;^\([^	]*\)	\([^	]*\)	\(.*\);\`\`\1\`\`	``\2``	\3;"
 }
 
 dumptables() {

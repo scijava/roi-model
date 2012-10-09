@@ -5,101 +5,95 @@ Points2D	RPoints2D	RPoints2D
 Points3D	RPoints3D	RPoints3D
 Line2D	RLinePoints2D	RLinePoints2D
 Line3D	RLinePoints3D	RLinePoints3D
-Distance2D	RLineVector2D	
-Distance3D	RLineVector3D	
-Polyline2D	RPolylinePoints2D	
-Polyline3D	RPolylinePoints3D	
-Polygon2D	RPolylinePoints2D	
-Polygon3D	RPolylinePoints3D	
-Polydistance2D	RPolylineVector2D	
-Polydistance3D	RPolylineVector3D	
-AlignedSquare2D	RAlignedSquare1	
-AlignedSquare2D	RalignedSquare2	
-AlignedCube3D	RVertex3D_1D	
-AlignedCube3D	RVertex3D_Vector1D	
-Cube3D	RLinePoints3D	First corner and opposing corner
-Cube3D	RLineVector3D	First corner and opposing corner (relative to P1)
-AlignedRectangle2D	RLinePoints2D	First corner and opposing corner
-AlignedRectangle2D	RLineVector2D	First corner and opposing corner (relative to P1)
-AlignedRectangle2D	RAlignedHalfAxes2D	Inherited from AlignedEllipse
-Rectangle2D	RLinePoints2D	Inherit AlignedRectangle2D representation
-Rectangle2D	RLineVector2D	Inherit AlignedRectangle2D representation
-Rectangle2D	RAlignedHalfAxes2D	Inherited from AlignedEllipse
-Rectangle2D	RHalfAxes2D	Inherited from Ellipse
-Rectangle2D	RRectangle1	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
-Rectangle2D	RRectangle2	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
-AlignedCuboid3D	RLinePoints3D	First corner and opposing corner
-AlignedCuboid3D	RLineVector3D	First corner and opposing corner (relative to P1)
-AlignedCuboid3D	RAlignedHalfAxes3D	Inherited from AlignedEllipsoid
-Cuboid3D	RLinePoints3D	Inherit AlignedCuboid representation
-Cuboid3D	RLineVector3D	Inherit AlignedCuboid representation
-Cuboid3D	RAlignedHalfAxes3D	Inherited from AlignedEllipsoid
-Cuboid3D	RHalfAxes3D	Inherited from Ellipsoid
-Cuboid3D	RCuboid1	
-Cuboid3D	RCuboid2	
-Circle2D	RCircle1	
-Circle2D	RCircle1	
-Circle2D	RCircle1	
-Circle2D	RCircle1	
-Sphere3D	RSphere1	
-Sphere3D	RSphere2	
-Sphere3D	RSphere3	
-Sphere3D	RSphere4	
-Sphere3D	RSphere5	
-		
-AlignedEllipse2D	RLinePoints2D	Inherited from AlignedRectangle
-AlignedEllipse2D	RLineVector2D	Inherited from AlignedRectangle
-AlignedEllipse2D	RAlignedHalfAxes2D	
-Ellipse2D	RLinePoints2D	Inherit AlignedRectangle2D representation
-Ellipse2D	RLineVector2D	Inherit AlignedRectangle2D representation
-Ellipse2D	RAlignedHalfAxes2D	Inherited from AlignedEllipse
-Ellipse2D	RRectangle1	Inherited from Rectangle
-Ellipse2D	RRectangle2	Inherited from Rectangle
-Ellipse2D	RHalfAxes2D	
-Ellipse2D	REllipseCovariance	
-		
-		
-AlignedEllipsoid3D	RLinePoints3D	Inherited from AlignedCuboid
-AlignedEllipsoid3D	RLineVector3D	Inherited from AlignedCuboid
-AlignedEllipsoid3D	RAlignedHalfAxes3D	
-		
-Ellipsoid3D	RLinePoints3D	Inherited from AlignedCuboid
-Ellipsoid3D	RLineVector3D	Inherited from AlignedCuboid
-Ellipsoid3D	RAlignedHalfAxes3D	Inherited from AlignedEllipsoid
-Ellipsoid3D	RCuboid1	Inherited from Cuboid
-Ellipsoid3D	RCuboid2	Inherited from Cuboid
-Ellipsoid3D	RHalfAxes3D	
-		
-		
-PolylineSpline2D	RPoints2D	
-PolylineSpline3D	RPoints3D	
-PolygonSpline2D	RPoints2D	
-PolygonSpline3D	RPoints3D	
-AlignedCircularCylinder3D	TODO	
-CircularCylinder3D	RCircularCylinder1	
-CircularCylinder3D	RCircularCylinder2	
-CircularCylinder3D	RCircularCylinder3	
-CircularCylinder3D	RCircularCylinder4	
-AlignedEllipticCylinder3D	TODO	
-EllipticCylinder3D	REllipticCylinder1	
-EllipticCylinder3D	REllipticCylinder2	
-EllipticCylinder3D	REllipticCylinder3	
-EllipticCylinder3D	REllipticCylinder4	
-EllipticCylinder3D	REllipticCylinder5	
-Arc2D	RArc2D1	
-Arc2D	RArc2D2	
-Arc2D	RArc2D3	
-Arc3D	RArc3D1	
-Arc3D	RArc3D2	
-Arc3D	RArc3D3
-GreyMask1D	RGreytMask1D
-BitMask1D	RBitMask1D
-GreyMask2D	RGreytMask2D
-BitMask2D	RBitMask2D
-GreyMask3D	RGreyMask3D
-BitMask3D	RBitMask3D
-Mesh2D	RMesh2D	
-Mesh3D	RMesh3D	
-AffineTransform1D	RAffineTransform1D
-AffineTransform2D	RAffineTransform2D
-AffineTransform3D	RAffineTransform3D
+Distance2D	RLineVector2D	RLineVector2D
+Distance3D	RLineVector3D	RLineVector3D
+Polyline2D	RPolylinePoints2D	RPolylinePoints2D
+Polyline3D	RPolylinePoints3D	RPolylinePoints3D
+Polygon2D	RPolylinePoints2D	RPolylinePoints2D
+Polygon3D	RPolylinePoints3D	RPolylinePoints3D
+Polydistance2D	RPolylineVector2D	RPolylineVector2D
+Polydistance3D	RPolylineVector3D	RPolylineVector3D
+AlignedSquare2D	RAlignedSquare1	RAlignedSquare1
+AlignedSquare2D	RalignedSquare2	RalignedSquare2
+AlignedCube3D	RVertex3D_1D	RVertex3D_1D
+AlignedCube3D	RVertex3D_Vector1D	RVertex3D_Vector1D
+Cube3D	RLinePoints3D	RLinePoints3D	First corner and opposing corner
+Cube3D	RLineVector3D	RLineVector3D	First corner and opposing corner (relative to P1)
+AlignedRectangle2D	RLinePoints2D	RLinePoints2D	First corner and opposing corner
+AlignedRectangle2D	RLineVector2D	RLineVector2D	First corner and opposing corner (relative to P1)
+AlignedRectangle2D	RAlignedHalfAxes2D	RAlignedHalfAxes2D	Inherited from AlignedEllipse
+Rectangle2D	RLinePoints2D	RLinePoints2D	Inherit AlignedRectangle2D representation
+Rectangle2D	RLineVector2D	RLineVector2D	Inherit AlignedRectangle2D representation
+Rectangle2D	RAlignedHalfAxes2D	NA	Inherited from AlignedEllipse
+Rectangle2D	RHalfAxes2D	RHalfAxes2D	Inherited from Ellipse
+Rectangle2D	RRectangle1	RRectangle1	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
+Rectangle2D	RRectangle2	RRectangle2	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
+AlignedCuboid3D	RLinePoints3D	RLinePoints3D	First corner and opposing corner
+AlignedCuboid3D	RLineVector3D	RLineVector3D	First corner and opposing corner (relative to P1)
+AlignedCuboid3D	RAlignedHalfAxes3D	RAlignedHalfAxes3D	Inherited from AlignedEllipsoid
+Cuboid3D	RLinePoints3D	RLinePoints3D	Inherit AlignedCuboid representation
+Cuboid3D	RLineVector3D	RLineVector3D	Inherit AlignedCuboid representation
+Cuboid3D	RAlignedHalfAxes3D	NA	Inherited from AlignedEllipsoid
+Cuboid3D	RHalfAxes3D	RHalfAxes3D	Inherited from Ellipsoid
+Cuboid3D	RCuboid1	RCuboid1
+Cuboid3D	RCuboid2	RCuboid2
+Circle2D	RCircle1	RCircle1
+Circle2D	RCircle1	RCircle1
+Circle2D	RCircle1	RCircle1
+Circle2D	RCircle1	RCircle1
+Sphere3D	RSphere1	RSphere1
+Sphere3D	RSphere2	RSphere2
+Sphere3D	RSphere3	RSphere3
+Sphere3D	RSphere4	RSphere4
+Sphere3D	RSphere5	RSphere5
+AlignedEllipse2D	RLinePoints2D	RLinePoints2D	Inherited from AlignedRectangle
+AlignedEllipse2D	RLineVector2D	RLineVector2D	Inherited from AlignedRectangle
+AlignedEllipse2D	RAlignedHalfAxes2D	RAlignedHalfAxes2D
+Ellipse2D	RLinePoints2D	RLinePoints2D	Inherit AlignedRectangle2D representation
+Ellipse2D	RLineVector2D	RLineVector2D	Inherit AlignedRectangle2D representation
+Ellipse2D	RAlignedHalfAxes2D	NA	Inherited from AlignedEllipse
+Ellipse2D	RRectangle1	RRectangle1	Inherited from Rectangle
+Ellipse2D	RRectangle2	RRectangle2	Inherited from Rectangle
+Ellipse2D	RHalfAxes2D	RHalfAxes2D
+Ellipse2D	REllipseCovariance	REllipseCovariance
+AlignedEllipsoid3D	RLinePoints3D	RLinePoints3D	Inherited from AlignedCuboid
+AlignedEllipsoid3D	RLineVector3D	RLineVector3D	Inherited from AlignedCuboid
+AlignedEllipsoid3D	RAlignedHalfAxes3D	RAlignedHalfAxes3D
+Ellipsoid3D	RLinePoints3D	RLinePoints3D	Inherited from AlignedCuboid
+Ellipsoid3D	RLineVector3D	RLineVector3D	Inherited from AlignedCuboid
+Ellipsoid3D	RAlignedHalfAxes3D	NA	Inherited from AlignedEllipsoid
+Ellipsoid3D	RCuboid1	RCuboid1	Inherited from Cuboid
+Ellipsoid3D	RCuboid2	RCuboid2	Inherited from Cuboid
+Ellipsoid3D	RHalfAxes3D	RHalfAxes3D
+PolylineSpline2D	RPoints2D	RPoints2D
+PolylineSpline3D	RPoints3D	RPoints3D
+PolygonSpline2D	RPoints2D	RPoints2D
+PolygonSpline3D	RPoints3D	RPoints3D
+AlignedCircularCylinder3D	TODO	TODO
+CircularCylinder3D	RCircularCylinder1	RCircularCylinder1
+CircularCylinder3D	RCircularCylinder2	RCircularCylinder2
+CircularCylinder3D	RCircularCylinder3	RCircularCylinder3
+CircularCylinder3D	RCircularCylinder4	RCircularCylinder4
+AlignedEllipticCylinder3D	TODO	TODO
+EllipticCylinder3D	REllipticCylinder1	REllipticCylinder1
+EllipticCylinder3D	REllipticCylinder2	REllipticCylinder2
+EllipticCylinder3D	REllipticCylinder3	REllipticCylinder3
+EllipticCylinder3D	REllipticCylinder4	REllipticCylinder4
+EllipticCylinder3D	REllipticCylinder5	REllipticCylinder5
+Arc2D	RArc2D1	RArc2D1
+Arc2D	RArc2D2	RArc2D2
+Arc2D	RArc2D3	RArc2D3
+Arc3D	RArc3D1	RArc3D1
+Arc3D	RArc3D2	RArc3D2
+Arc3D	RArc3D3	RArc3D3
+GreyMask1D	RGreytMask1D	RGreytMask1D
+BitMask1D	RBitMask1D	RBitMask1D
+GreyMask2D	RGreytMask2D	RGreytMask2D
+BitMask2D	RBitMask2D	RBitMask2D
+GreyMask3D	RGreyMask3D	RGreyMask3D
+BitMask3D	RBitMask3D	RBitMask3D
+Mesh2D	RMesh2D	RMesh2D
+Mesh3D	RMesh3D	RMesh3D
+AffineTransform1D	RAffineTransform1D	RAffineTransform1D
+AffineTransform2D	RAffineTransform2D	RAffineTransform2D
+AffineTransform3D	RAffineTransform3D	RAffineTransform3D

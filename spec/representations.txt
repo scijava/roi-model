@@ -1,7 +1,6 @@
 Representation	RepID	SeqNo	Name	Type	Description
 RPoint1D	-1	0	P1	Vertex1D	Point coordinate
 RPoint2D	0	0	P1	Vertex2D	Point coordinates
-					
 RPoint3D	1	0	P1	Vertex3D	Point coordinates
 RPoints1D	-2	0	NPOINTS	Count	Number of points
 RPoints1D	-2	1	POINTS	Vertex1D[NPOINTS]	Array of point coordinates
@@ -157,5 +156,3 @@ RAffineTransform2D	59	0	Affine2D       Transform
 RAffineTransform2D	59	1	Affine2D       Shape
 RAffineTransform3D	59	0	Affine3D       Transform
 RAffineTransform3D	59	1	Affine3D       Shape
-
-	
