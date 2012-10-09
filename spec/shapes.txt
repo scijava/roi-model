@@ -1,0 +1,50 @@
+Shape	ShapeID	Description
+Point2D	0	Shape
+Point3D	1	Shape
+Points2D	2	Shape
+Points3D	3	Shape
+Line2D	4	Shape
+Line3D	5	Shape
+Distance2D	6	Shape
+Distance3D	7	Shape
+Polyline2D	8	Shape
+Polyline3D	9	Shape
+Polygon2D	10	Shape
+Polygon3D	11	Shape
+Polydistance2D	12	Shape
+Polydistance3D	13	Shape
+AlignedSquare2D	14	Shape
+AlignedCube3D	15	Shape
+Cube3D	16	Shape
+AlignedRectangle2D	17	Shape
+Rectangle2D	18	Shape
+AlignedCuboid3D	19	Shape
+Cuboid3D	20	Shape
+Circle2D	21	Shape
+Sphere3D	22	Shape
+AlignedEllipse2D	23	Shape
+Ellipse2D	24	Shape
+AlignedEllipsoid3D	25	Shape
+Ellipsoid3D	26	Shape
+Ellipsoid3D	26	
+PolylineSpline2D	27	Shape
+PolylineSpline3D	28	Shape
+PolygonSpline2D	29	Shape
+PolygonSpline3D	30	Shape
+AlignedCircularCylinder3D	31	
+CircularCylinder3D	32	Shape
+AlignedEllipticCylinder3D	33	Shape
+EllipticCylinder3D	34	Shape
+Arc2D	35	Shape
+Arc3D	36	Shape
+GreyMask1D	37
+BitMask1D	38
+GreyMask2D	39	Shape
+BitMask2D	40	Shape
+GreyMask3D	41	Shape
+BitMask3D	42	Shape
+Mesh2D	42	Shape
+Mesh3D	43	Shape
+AffineTransform1D	44	Shape
+AffineTransform2D	45	Shape
+AffineTransform3D	46	Shape

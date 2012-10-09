@@ -12,3 +12,6 @@ Vertex3D	double[3]	Vertex in 3D
 Vector1D	double[1]	Vector in 1D
 Vector2D	double[2]	Vector in 2D
 Vector3D	double[3]	Vector in 3D
+Affine1D	double[2][2]	Affine transform in 1D
+Affine2D	double[3][3]	Affine transform in 2D
+Affine3D	double[4][4]	Affine transform in 3D
