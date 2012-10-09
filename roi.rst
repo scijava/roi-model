@@ -13,6 +13,8 @@ ROI Specification [DRAFT]
 .. toctree::
    :maxdepth: 2
 
+   introduction
+   requirements
    initial
    3dconversion
    primitives
