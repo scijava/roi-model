@@ -2,47 +2,94 @@
 
 set -e
 
-SPEC=shapes.tsv
+PRIMITIVES="primitives.txt"
+COMPOUND="compound.txt"
+SHAPES="shapes.txt"
+SHAPEREPS="shapereps.txt"
+REPS="representations.txt"
+REPSMEMBERS="representationmembers.txt"
 
-list() {
-       cut -f1 "$SPEC" | sort | uniq
+listprimitives() {
+    cut -f1 "$PRIMITIVES" | grep -v '^Primitive$' | sort | uniq
 }
 
-shaperows() {
-    egrep "^(Primitive|$1)	" "$SPEC"
+listcompounds() {
+    cut -f1 "$COMPOUND" | grep -v '^Primitive' | sort | uniq
 }
 
-shapereprows() {
-    egrep "^(Primitive|$1	$2)	" "$SPEC"
+listshapes() {
+       cut -f2 "$SHAPES" | grep -v '^Shape' | sort | uniq
 }
 
 listreps() {
-       shaperows "$1" | cut -f 2 | grep -v ^Representation | sort | uniq
+       cut -f2 "$REPS" | grep -v '^Representation' | sort | uniq
 }
 
-table() {
-    shapereprows "$1" "$2" | cut -f1,3,4,7 | sed -e "s;^\([^	]*\)	\([^	]*\)	\(.*\);\`\`\1\`\`	``\2``	\3;"
+shaperows() {
+    egrep "^(Shape|$1)	" "$SHAPEREPS"
 }
 
-dumptables() {
-    for shape in $(list); do
-	for rep in $(listreps "$shape"); do
-echo "Dumping $shape-$rep.gen.tsv"
-	    table "$shape" "$rep"  > "$shape-$rep.tsv"
-	done
+listshapereps() {
+       shaperows "$1" | cut -f 2 | grep -v '^RepIn' | sort | uniq
+}
+
+dumprep () {
+    egrep  "^Representation	" "$REPSMEMBERS" | cut -f 2,3,4,5
+    egrep  "^$1	" "$REPSMEMBERS" | cut -f 2,3,4,5 | sort -n -k 1
+}
+
+dumpreptables() {
+    [ ! -d gen ] && mkdir gen
+    REPRST="gen/representations.rst"
+    rm -f "$REPRST"
+
+    for rep in $(listreps); do
+        REPTAB="gen/rep-$rep.gen.txt"
+	echo "Dumping $REPTAB"
+	dumprep "$rep"  > "$REPTAB"
+
+	echo <<EOF >> "$REPRST"
+$rep
+-------------------------------------------------
+
+.. csv-table:: $rep
+    :header-rows: 1
+    :file: $REPTAB
+    :delim: tab
+
+
+EOF
     done
+}
+
+gencxxtypes() {
+:
 }
 
 CMD=$1
 shift
 
 case "$CMD" in
-    list)
-	list;;
+    listprimitives)
+	listprimitives;;
+    listcompounds)
+	listcompounds;;
+    listshapes)
+	listshapes;;
     listreps)
-	listreps "$1";;
-    table)
-	table "$1" "$2";;
+	listreps;;
+    listshapereps)
+	listshapereps "$1";;
+    dumprep)
+	dumprep "$1";;
+    dumpreptables)
+	dumpreptables;;
     dumptables)
-	dumptables
+	dumptables;;
+    cxx)
+        gencxxtypes;;
+    *)
+	echo "Unknown command"
+	exit 1
+	;;
 esac

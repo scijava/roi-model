@@ -1,158 +1,70 @@
-Representation	RepID	SeqNo	Name	Type	Description
-RPoint1D	-1	0	P1	Vertex1D	Point coordinate
-RPoint2D	0	0	P1	Vertex2D	Point coordinates
-RPoint3D	1	0	P1	Vertex3D	Point coordinates
-RPoints1D	-2	0	NPOINTS	Count	Number of points
-RPoints1D	-2	1	POINTS	Vertex1D[NPOINTS]	Array of point coordinates
-RPoints2D	2	0	NPOINTS	Count	Number of points
-RPoints2D	2	1	POINTS	Vertex2D[NPOINTS]	Array of point coordinates
-RPoints3D	3	0	NPOINTS	Count	Number of points
-RPoints3D	3	1	POINTS	Vertex3D[NPOINTS]	Array of point coordinates
-RVector1D	-4	0	V1	Vector1D	Vector
-RVector2D	4	0	V1	Vector2D	Vector
-RVector3D	5	0	V1	Vector3D	Vector
-RVectors1D	-6	0	NVEC	Count	Number of vectors
-RVectors1D	-6	1	VA1	Vector1D[NVEC]	Array of vectors
-RVectors2D	6	0	NVEC	Count	Number of vectors
-RVectors2D	6	1	VA1	Vector2D[NVEC]	Array of vectors
-RVectors3D	7	0	NVEC	Count	Number of vectors
-RVectors3D	7	1	VA1	Vector3D[NVEC]	Array of vectors
-RLinePoints2D	8	0	P1	Vertex2D[2]	Line start and end points
-RLineVector2D	9	0	P1	Vertex2D	Line start
-RLineVector2D	9	1	V1	Vector2D	Line end (relative to P1)
-RLinePoints3D	10	0	P1	Vertex3D[2]	Line start and end points
-RLineVector3D	11	0	P1	Vertex3D	Line start
-RLineVector3D	11	1	V1	Vector3D	Line end (relative to P1)
-RPolylinePoints2D	12	0	P1	RPoints2D	Array of points
-RPolylineVector2D	13	0	P1	Vertex2D	First point
-RPolylineVector2D	13	1	V1	RVectors2D	Array of vectors
-RPolylinePoints3D	12	0	P1	RPoints3D	Array of points
-RPolylineVector3D	13	0	P1	Vertex3D	First point
-RPolylineVector3D	13	1	V1	RVectors3D	Array of vectors
-RAlignedSquare1	14	0	P1	Vertex2D	First corner
-RAlignedSquare1	14	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
-RAlignedSquare2	15	0	P1	Vertex2D	First corner
-RAlignedSquare2	15	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
-RAlignedCube1	16	0	P1	Vertex3D	First corner
-RAlignedCube1	16	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
-RAlignedCube2	17	0	P1	Vertex3D	First corner
-RAlignedCube2	17	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
-RRectangle1	18	0	P1	Vertex2D	First corner
-RRectangle1	18	1	P2	Vertex2D	Adjacent corner
-RRectangle1	18	2	V1	Vector1D	Distance to corner opposing P1 (relative to P2)
-RRectangle2	19	0	P1	Vertex2D	First corner
-RRectangle2	19	1	V1	Vector2D	Distance to adjacent corner (relative to P1)
-RRectangle2	19	2	V2	Vector1D	Distance to corner opposing P1 (relative to P2)
-RCuboid1	20	0	P1	Vertex3D	First corner
-RCuboid1	20	1	P2	Vertex3D	Second corner (adjacent to P1)
-RCuboid1	20	2	V1	Vector2D	Distance to third corner (adjacent to P2)
-RCuboid1	20	3	V2	Vector1D	Distance to fourth corner (opposing P1, adjacent to V1)
-RCuboid2	21	0	P1	Vertex3D	First corner
-RCuboid2	21	1	V1	Vector3D	Distance to second corner (relative to P1)
-RCuboid2	21	2	V2	Vector2D	Distance to third corner (relative to V1)
-RCuboid2	21	3	V3	Vector1D	Distance to fourth corner (relative to V2, opposing P1)
-RCircle1	22	0	P1	Vertex2D	Centre point
-RCircle1	22	1	V1	Vector1D	Radius
-RCircle2	23	0	P1	Vertex2D	Centre point
-RCircle2	23	1	V1	Vector2D	Radius
-RCircle3	24	0	P1	Vertex2D	Point on circumference
-RCircle3	24	1	V1	Vector2D	Vector to centre
-RCircle4	25	0	P1	Vertex2D[3]	Three points on circumference
-RSphere1	26	0	P1	Vertex3D	Centre point
-RSphere1	26	1	V1	Vector1D	Radius
-RSphere2	27	0	P1	Vertex3D	Centre point
-RSphere2	27	1	V1	Vector2D	Radius
-RSphere3	28	0	P1	Vertex3D	Centre point
-RSphere3	28	1	V1	Vector3D	Radius
-RSphere4	29	0	P1	Vertex3D	Point on surface
-RSphere4	29	1	V1	Vector3D	Vector to centre
-RSPhere5	30	0	P1	Vertex3D[4]	Four points on surface
-RAlignedHalfAxes2D	31	0	P1	Vertex2D	Centre point
-RAlignedHalfAxes2D	31	1	V1	Vector2D	Half axes (x,y)
-RHalfAxes2D	32	0	P1	Vertex2D	Centre point
-RHalfAxes2D	32	1	V1	Vector2D	Half axes (xy)
-RHalfAxes2D	32	2	V1	Vector1D	Half axes (x)
-REllipseCovariance	33	0	P1	Vertex2D	Centre point (mean)
-REllipseCovariance	33	1	COV1	double[2][2]	2 × 2 covariance matrix
-RAlignedHalfAxes3D	34	0	P1	Vertex3D	Centre point
-RAlignedHalfAxes3D	34	1	V1	Vector3D	Half axes (x,y,z)
-RHalfAxes3D	35	0	P1	Vertex3D	Centre point
-RHalfAxes3D	35	1	V1	Vector3D	Half axes (xyz)
-RHalfAxes3D	35	2	V2	Vector2D	Half axes (xy)
-RHalfAxes3D	35	3	V3	Vector1D	Half axes (x)
-REllipsoidCovariance	36	0	P1	Vertex3D	Centre point (mean)
-REllipsoidCovariance	36	1	COV1	double[3][3]	3 × 3 covariance matrix
-RCircularCylinder1	37	0	P1	Vertex3D	Centre of first face
-RCircularCylinder1	37	1	P2	Vertex3D	Centre of second face
-RCircularCylinder1	37	2	V1	Vector1D	Radius
-RCircularCylinder2	38	0	P1	Vertex3D	Centre of first face
-RCircularCylinder2	38	1	V1	Vector3D	Distance to centre of second face
-RCircularCylinder2	38	2	V2	Vector1D	Radius
-RCircularCylinder3	39	0	P1	Vertex3D	Centre of first face
-RCircularCylinder3	39	1	P2	Vertex3D	Centre of second face
-RCircularCylinder3	39	2	V1	Vector3D	Radius and angle of first face
-RCircularCylinder3	39	3	V2	Vector3D	Angle of second face
-RCircularCylinder3	40	0	P1	Vertex3D	Centre of first face
-RCircularCylinder4	40	1	V1	Vector3D	Distance to centre of second face
-RCircularCylinder4	40	2	V2	Vector3D	Radius and angle of first face
-RCircularCylinder4	40	3	V3	Vector3D	Angle of second face
-REllipticCylinder1	41	0	P1	Vertex3D	Centre of first face
-REllipticCylinder1	41	1	P2	Vertex3D	Centre of second face
-REllipticCylinder1	41	2	V1	Vector2D	Half axes (xy)
-REllipticCylinder1	41	3	V2	Vector1D	Half axes (x)
-REllipticCylinder2	42	0	P1	Vertex3D	Centre of first face
-REllipticCylinder2	42	1	V1	Vector3D	Distance to second face
-REllipticCylinder2	42	2	V2	Vector3D	Half axes (xy)
-REllipticCylinder2	42	3	V3	Vector2D	Half axes (x)
-REllipticCylinder3	43	0	P1	Vertex3D	Centre of first face
-REllipticCylinder3	43	1	P2	Vertex3D	Centre of second face
-REllipticCylinder3	43	2	V1	Vector3D	Half axes of first face (xyz)
-REllipticCylinder3	43	3	V2	Vector2D	Half axes of first face (xy)
-REllipticCylinder3	43	4	V3	Vector3D	Angle of second face
-REllipticCylinder4	44	0	P1	Vertex3D	Centre of first face
-REllipticCylinder4	44	1	V1	Vector3D	Distance to second face
-REllipticCylinder4	44	2	V2	Vector3D	Half axes (xyz)
-REllipticCylinder4	44	3	V3	Vector2D	Half axes (xy)
-REllipticCylinder4	44	4	V4	Vector3D	Angle of second face
-RArc2D1	45	0	P1	RLinePoints2D	Centre point and arc start
-RArc2D1	45	1	V1	Vector2D	Arc end
-RArc2D2	46	0	P1	RLineVector2D	Centre point and arc start
-RArc2D2	46	1	V1	Vector2D	Arc end
-RArc2D3	47	0	P1	Vertex2D[3]	Centre point, arc start and arc end (vector inferred)
-RArc3D1	48	0	P1	RLinePoints3D	Centre point and arc start
-RArc3D1	48	1	V1	Vector3D	Arc end
-RArc3D2	49	0	P1	RLineVector3D	Centre point and arc start
-RArc3D2	49	1	V1	Vector3D	Arc end
-RArc3D3	50	0	P1	Vertex3D[3]	Centre point, arc start and arc end (vector inferred)
-RGreyMask1D	51	0	B1	RLinePoints1D	Bounding line
-RGreyMask1D	51	1	DIM1	Vector1D	Mask dimensions (x)
-RGreyMask1D	51	2	DATA	double[x]	Mask data
-RBitMask1D	52	0	B1	RLinePoints2D	Bounding line
-RBitMask1D	52	1	DIM1	Vector1D	Mask dimensions (x)
-RBitMask1D	52	2	DATA	bool[x]	Mask data
-RGreyMask2D	53	0	B1	RLinePoints2D	Bounding box
-RGreyMask2D	53	1	DIM1	Vector2D	Mask dimensions (x,y)
-RGreyMask2D	53	2	DATA	double[x,y]	Mask data
-RBitMask2D	54	0	B1	RLinePoints2D	Bounding box
-RBitMask2D	54	1	DIM1	Vector2D	Mask dimensions (x,y)
-RBitMask2D	54	2	DATA	bool[x,y]	Mask data
-RGreyMask3D	55	0	B1	RLinePoints3D	Bounding box
-RGreyMask3D	55	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RGreyMask3D	55	2	DATA	double[x,y,z]	Mask data
-RBitMask3D	56	0	B1	RLinePoints3D	Bounding box
-RBitMask3D	56	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RBitMask3D	56	2	DATA	bool[x,y,z]	Mask data
-RMesh2D	57	0	NFACE	Count	Number of faces
-RMesh2D	57	1	VREF	double[NFACE][3]	Vertex references per face, counterclockwise winding
-RMesh2D	57	2	NVERT	Count	Number of vertices
-RMesh2D	57	3	VERTS	Vertex2D[NVERT]	Vertex coordinates
-RMesh3D	58	0	NFACE	Count	Number of faces
-RMesh3D	58	1	VREF	double[NFACE][3]	Vertex references per face, counterclockwise winding
-RMesh3D	58	2	NVERT	Count	Number of vertices
-RMesh3D	58	3	VERTS	Vertex3D[NVERT]	Vertex coordinates
-RAffineTransform1D	59	0	Affine1D       Transform
-RAffineTransform1D	59	1	Affine1D       Shape
-RAffineTransform2D	59	0	Affine2D       Transform
-RAffineTransform2D	59	1	Affine2D       Shape
-RAffineTransform3D	59	0	Affine3D       Transform
-RAffineTransform3D	59	1	Affine3D       Shape
+RepID	Representation	Description
+0	RPoint1D	
+1	RPoint2D	
+2	RPoint3D	
+3	RPoints1D	
+4	RPoints2D	
+5	RPoints3D	
+6	RVector1D	
+7	RVector2D	
+8	RVector3D	
+9	RVectors1D	
+10	RVectors2D	
+11	RVectors3D	
+12	RLinePoints2D	
+13	RLineVector2D	
+14	RLinePoints3D	
+15	RLineVector3D	
+16	RPolylinePoints2D	
+17	RPolylineVector2D	
+18	RPolylinePoints3D	
+19	RPolylineVector3D	
+20	RAlignedSquare1	
+21	RAlignedSquare2	
+22	RAlignedCube1	
+23	RAlignedCube2	
+24	RRectangle1	
+25	RRectangle2	
+26	RCuboid1	
+27	RCuboid2	
+28	RCircle1	
+29	RCircle2	
+30	RCircle3	
+31	RCircle4	
+32	RSphere1	
+33	RSphere2	
+34	RSphere3	
+35	RSphere4	
+36	RSPhere5	
+37	RAlignedHalfAxes2D	
+38	RHalfAxes2D	
+39	REllipseCovariance	
+40	RAlignedHalfAxes3D	
+41	RHalfAxes3D	
+42	REllipsoidCovariance	
+43	RCircularCylinder1	
+44	RCircularCylinder2	
+45	RCircularCylinder3	
+46	RCircularCylinder3	
+47	RCircularCylinder4	
+48	REllipticCylinder1	
+49	REllipticCylinder2	
+50	REllipticCylinder3	
+51	REllipticCylinder4	
+52	RArc2D1	
+53	RArc2D2	
+54	RArc2D3	
+55	RArc3D1	
+56	RArc3D2	
+57	RArc3D3	
+58	RGreyMask1D	
+59	RBitMask1D	
+60	RGreyMask2D	
+61	RBitMask2D	
+62	RGreyMask3D	
+63	RBitMask3D	
+64	RMesh2D	
+65	RMesh3D	
+66	RAffineTransform1D	
+67	RAffineTransform2D	
+68	RAffineTransform3D	

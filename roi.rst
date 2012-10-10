@@ -22,6 +22,8 @@ ROI Specification [DRAFT]
    ndim
    compound
    affine
+   shapes
+   representations
    layers
    linkage
    storage

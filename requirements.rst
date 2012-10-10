@@ -39,6 +39,7 @@ The following points are taken from the meeting notes.
         - Need examples to understand the problem better.
     - Store transforms with ROI?
 
+- Needs to be able to scale up to millions-billions of ROIs
 
 - Specific ROI types
     - Include checkerboard (uneven integers)
