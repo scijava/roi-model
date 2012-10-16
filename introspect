@@ -45,6 +45,10 @@ shapename() {
     grep "^$1	" "$SHAPES" | cut -f 2
 }
 
+shapedesc() {
+    grep "^$1	" "$SHAPES" | cut -f 4
+}
+
 dumpshape () {
     SHAPENAME=$(shapename "$1")
     egrep  "^Shape	" "$SHAPEREPS" | cut -f 2,3,4
@@ -52,13 +56,17 @@ dumpshape () {
 }
 
 repname() {
-    grep "^$1	" "$REPS" | cut -f 2
+    grep "^$1	" "$REPS" | cut -f 2,3
+}
+
+repdesc() {
+    grep "^$1	" "$REPS" | cut -f 4
 }
 
 dumprep () {
     REPNAME=$(repname "$1")
-    egrep  "^Representation	" "$REPSMEMBERS" | cut -f 2,3,4,5
-    egrep  "^$REPNAME	" "$REPSMEMBERS" | cut -f 2,3,4,5 | sort -n -k 1
+    egrep  "^Representation	" "$REPSMEMBERS" | cut -f 3,4,5,6
+    egrep  "^$REPNAME	" "$REPSMEMBERS" | cut -f 3,3,4,5,6 | sort -n -k 1
 }
 
 dumpshapetables() {
@@ -68,14 +76,21 @@ dumpshapetables() {
 
     for shape in $(listnshapes); do
 	SHAPENAME=$(shapename "$shape")
+	SHAPEDESC=$(shapedesc "$shape")
         SHAPETAB="shape-$SHAPENAME.txt"
 	echo "Dumping shape $shape to gen/$SHAPETAB"
 	dumpshape "$shape" > "gen/$SHAPETAB"
 
 	cat <<EOF >>"$SHAPERST"
+.. index::
+    $SHAPENAME
+
 $SHAPENAME
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+$SHAPEDESC.
+
+.. tabularcolumns:: |l|l|l|p{3in}|
 .. csv-table:: $SHAPENAME
     :header-rows: 1
     :file: $SHAPETAB
@@ -92,14 +107,22 @@ dumpreptables() {
     rm -f "$REPRST"
 
     for rep in $(listnreps); do
-	REPNAME=$(repname "$rep")
+	REPNAME=$(repname "$rep" | tr -d '	')
+	REPDESC=$(repdesc "$rep")
         REPTAB="rep-$REPNAME.txt"
 	echo "Dumping representation $rep to gen/$REPTAB"
 	dumprep "$rep"  > "gen/$REPTAB"
 
 	cat <<EOF >>"$REPRST"
+.. index::
+    $REPNAME
+
 $REPNAME
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^q
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+$REPDESC.
+
+.. tabularcolumns |l|l|l|p{2in}|
 
 .. csv-table:: $REPNAME
     :header-rows: 1
@@ -117,7 +140,7 @@ sanitycheck() {
 	echo "Duplicated shape numbers: $DUPSHAPES"
 	exit 1
     fi
-    DUPSHAPES=$(cut -f 2 spec/shapes.txt| sort -n | uniq -d)
+    DUPSHAPES=$(cut -f 2,3 spec/shapes.txt| sort -n | uniq -d)
     if [ -n "$DUPSHAPES" ]; then
 	echo "Duplicated shape names: $DUPSHAPES"
 	exit 1
@@ -127,7 +150,7 @@ sanitycheck() {
 	echo "Duplicated representation numbers: $DUPREPS"
 	exit 1
     fi
-    DUPREPS=$(cut -f 2 spec/representations.txt| sort -n | uniq -d)
+    DUPREPS=$(cut -f 2,3 spec/representations.txt| sort -n | uniq -d)
     if [ -n "$DUPREPS" ]; then
 	echo "Duplicated representation names: $DUPREPS"
 	exit 1

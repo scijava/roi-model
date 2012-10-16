@@ -1,49 +1,47 @@
-ShapeID	Shape	Description
-0	Point2D	Shape
-1	Point3D	Shape
-2	Points2D	Shape
-3	Points3D	Shape
-4	Line2D	Shape
-5	Line3D	Shape
-6	Distance2D	Shape
-7	Distance3D	Shape
-8	Polyline2D	Shape
-9	Polyline3D	Shape
-10	Polygon2D	Shape
-11	Polygon3D	Shape
-12	Polydistance2D	Shape
-13	Polydistance3D	Shape
-14	AlignedSquare2D	Shape
-15	AlignedCube3D	Shape
-16	Cube3D	Shape
-17	AlignedRectangle2D	Shape
-18	Rectangle2D	Shape
-19	AlignedCuboid3D	Shape
-20	Cuboid3D	Shape
-21	Circle2D	Shape
-22	Sphere3D	Shape
-23	AlignedEllipse2D	Shape
-24	Ellipse2D	Shape
-25	AlignedEllipsoid3D	Shape
-26	Ellipsoid3D	Shape
-27	PolylineSpline2D	Shape
-28	PolylineSpline3D	Shape
-29	PolygonSpline2D	Shape
-30	PolygonSpline3D	Shape
-31	AlignedCircularCylinder3D
-32	CircularCylinder3D	Shape
-33	AlignedEllipticCylinder3D	Shape
-34	EllipticCylinder3D	Shape
-35	Arc2D	Shape
-36	Arc3D	Shape
-37	GreyMask1D
-38	BitMask1D
-39	GreyMask2D	Shape
-40	BitMask2D	Shape
-41	GreyMask3D	Shape
-42	BitMask3D	Shape
-43	Mesh2D	Shape
-44	Mesh3D	Shape
-45	AffineTransform1D	Shape
-46	AffineTransform2D	Shape
-47	AffineTransform3D	Shape
+ShapeID	Shape	Dims	Description
+0	Point	2D	A single point
+1	Point	3D	A single point
+2	Points	2D	A set of points
+3	Points	3D	A set of points
+4	Line	2D	A single line
+5	Line	3D	A single line
+6	Lines	2D	A set of lines
+7	Lines	3D	A set of lines
+8	Polyline	2D	A set of connected points
+9	Polyline	3D	A set of connected points
+10	Polygon	2D	A polygon (closed polyline)
+11	Polygon	3D	A "polygon" (closed polyline) [does this make sense to have in 3D?]
+14	AlignedSquare	2D	A square aligned with all axes
+15	AlignedCube	3D	A cube aligned with all axes
+16	Cube	3D	A cube
+17	AlignedRectangle	2D	A rectangle aligned with all axes
+18	Rectangle	2D	A rectangle
+19	AlignedCuboid	3D	A cuboid aligned with all axes
+20	Cuboid	3D	A cuboid
+21	Circle	2D	A circle
+22	Sphere	3D	A sphere
+23	AlignedEllipse	2D	An ellipse aligned with all axes
+24	Ellipse	2D	An ellipse
+25	AlignedEllipsoid	3D	An ellipsoid aligned with all axes
+26	Ellipsoid	3D	An ellipsoid
+27	PolylineSpline	2D	A set of connected splines (open)
+28	PolylineSpline	3D	A set of connected splines (open)
+29	PolygonSpline	2D	A set of connected splines (closed)
+30	PolygonSpline	3D	A set of connected splines (closed)
+31	AlignedCircularCylinder	3D	A circular cylinder aligned with all axes
+32	CircularCylinder	3D	A circular cylinder
+33	AlignedEllipticCylinder	3D	An elliptic cylinder aligned with all axes
+34	EllipticCylinder	3D	Al elliptic cylinder
+35	Arc	2D	An arc
+36	Arc	3D	An arc
+37	BitMask	1D	A mask with one bit values
+38	BitMask	2D	A mask with one bit values
+39	BitMask	3D	A mask with one bit values
+40	GreyMask	1D	A mask with multiple grey levels
+41	GreyMask	2D	A mask with multiple grey levels
+42	GreyMask	3D	A mask with multiple grey levels
+43	Mesh	2D	A mesh
+44	Mesh	3D	A mesh
+45	AffineTransform	1D	Affine transformation of a shape
+46	AffineTransform	2D	Affine transformation of a shape
+47	AffineTransform	3D	Affine transformation of a shape
