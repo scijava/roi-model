@@ -111,12 +111,37 @@ EOF
     done
 }
 
+sanitycheck() {
+    DUPSHAPES=$(cut -f 1 spec/shapes.txt| sort -n | uniq -d)
+    if [ -n "$DUPSHAPES" ]; then
+	echo "Duplicated shape numbers: $DUPSHAPES"
+	exit 1
+    fi
+    DUPSHAPES=$(cut -f 2 spec/shapes.txt| sort -n | uniq -d)
+    if [ -n "$DUPSHAPES" ]; then
+	echo "Duplicated shape names: $DUPSHAPES"
+	exit 1
+    fi
+    DUPREPS=$(cut -f 1 spec/representations.txt| sort -n | uniq -d)
+    if [ -n "$DUPREPS" ]; then
+	echo "Duplicated representation numbers: $DUPREPS"
+	exit 1
+    fi
+    DUPREPS=$(cut -f 2 spec/representations.txt| sort -n | uniq -d)
+    if [ -n "$DUPREPS" ]; then
+	echo "Duplicated representation names: $DUPREPS"
+	exit 1
+    fi
+}
+
 gencxxtypes() {
 :
 }
 
 CMD=$1
 shift
+
+sanitycheck
 
 case "$CMD" in
     listprimitives)

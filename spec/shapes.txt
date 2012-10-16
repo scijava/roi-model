@@ -26,7 +26,6 @@ ShapeID	Shape	Description
 24	Ellipse2D	Shape
 25	AlignedEllipsoid3D	Shape
 26	Ellipsoid3D	Shape
-26	Ellipsoid3D
 27	PolylineSpline2D	Shape
 28	PolylineSpline3D	Shape
 29	PolygonSpline2D	Shape
