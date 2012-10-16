@@ -1,0 +1,148 @@
+#!/bin/sh
+
+set -e
+
+PRIMITIVES="spec/primitives.txt"
+COMPOUND="spec/compound.txt"
+SHAPES="spec/shapes.txt"
+SHAPEREPS="spec/shapereps.txt"
+REPS="spec/representations.txt"
+REPSMEMBERS="spec/representationmembers.txt"
+
+listprimitives() {
+    cut -f1 "$PRIMITIVES" | grep -v '^Primitive$' | sort | uniq
+}
+
+listcompounds() {
+    cut -f1 "$COMPOUND" | grep -v '^Primitive' | sort | uniq
+}
+
+listshapes() {
+       cut -f2 "$SHAPES" | grep -v '^Shape' | sort | uniq
+}
+
+listnshapes() {
+       cut -f1 "$SHAPES" | grep -v '^ShapeID' | sort -n | uniq
+}
+
+listreps() {
+       cut -f2 "$REPS" | grep -v '^Representation' | sort | uniq
+}
+
+listnreps() {
+       cut -f1 "$REPS" | grep -v '^RepID' | sort -n | uniq
+}
+
+shaperows() {
+    egrep "^(Shape|$1)	" "$SHAPEREPS"
+}
+
+listshapereps() {
+       shaperows "$1" | cut -f 2 | grep -v '^RepIn' | sort | uniq
+}
+
+shapename() {
+    grep "^$1	" "$SHAPES" | cut -f 2
+}
+
+dumpshape () {
+    SHAPENAME=$(shapename "$1")
+    egrep  "^Shape	" "$SHAPEREPS" | cut -f 2,3,4
+    egrep  "^$SHAPENAME	" "$SHAPEREPS" | cut -f 2,3,4
+}
+
+repname() {
+    grep "^$1	" "$REPS" | cut -f 2
+}
+
+dumprep () {
+    REPNAME=$(repname "$1")
+    egrep  "^Representation	" "$REPSMEMBERS" | cut -f 2,3,4,5
+    egrep  "^$REPNAME	" "$REPSMEMBERS" | cut -f 2,3,4,5 | sort -n -k 1
+}
+
+dumpshapetables() {
+    [ ! -d gen ] && mkdir gen
+    SHAPERST="gen/shapes.rst"
+    rm -f "$SHAPERST"
+
+    for shape in $(listnshapes); do
+	SHAPENAME=$(shapename "$shape")
+        SHAPETAB="shape-$SHAPENAME.txt"
+	echo "Dumping shape $shape to gen/$SHAPETAB"
+	dumpshape "$shape" > "gen/$SHAPETAB"
+
+	cat <<EOF >>"$SHAPERST"
+$SHAPENAME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. csv-table:: $SHAPENAME
+    :header-rows: 1
+    :file: $SHAPETAB
+    :delim: tab
+
+EOF
+
+    done
+}
+
+dumpreptables() {
+    [ ! -d gen ] && mkdir gen
+    REPRST="gen/representations.rst"
+    rm -f "$REPRST"
+
+    for rep in $(listnreps); do
+	REPNAME=$(repname "$rep")
+        REPTAB="rep-$REPNAME.txt"
+	echo "Dumping representation $rep to gen/$REPTAB"
+	dumprep "$rep"  > "gen/$REPTAB"
+
+	cat <<EOF >>"$REPRST"
+$REPNAME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^q
+
+.. csv-table:: $REPNAME
+    :header-rows: 1
+    :file: $REPTAB
+    :delim: tab
+
+EOF
+
+    done
+}
+
+gencxxtypes() {
+:
+}
+
+CMD=$1
+shift
+
+case "$CMD" in
+    listprimitives)
+	listprimitives;;
+    listcompounds)
+	listcompounds;;
+    listshapes)
+	listshapes;;
+    listreps)
+	listreps;;
+    listshapereps)
+	listshapereps "$1";;
+    dumpshape)
+	dumpshape "$1";;
+    dumprep)
+	dumprep "$1";;
+    dumpshapetables)
+	dumpshapetables;;
+    dumpreptables)
+	dumpreptables;;
+    dumptables)
+	dumptables;;
+    cxx)
+        gencxxtypes;;
+    *)
+	echo "Unknown command"
+	exit 1
+	;;
+esac

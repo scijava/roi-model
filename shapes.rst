@@ -8,3 +8,5 @@ Overview
     :header-rows: 1
     :file: spec/shapes.txt
     :delim: tab
+
+.. include:: gen/shapes.rst

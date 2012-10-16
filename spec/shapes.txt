@@ -43,8 +43,8 @@ ShapeID	Shape	Description
 40	BitMask2D	Shape
 41	GreyMask3D	Shape
 42	BitMask3D	Shape
-42	Mesh2D	Shape
-43	Mesh3D	Shape
-44	AffineTransform1D	Shape
-45	AffineTransform2D	Shape
-46	AffineTransform3D	Shape
+43	Mesh2D	Shape
+44	Mesh3D	Shape
+45	AffineTransform1D	Shape
+46	AffineTransform2D	Shape
+47	AffineTransform3D	Shape

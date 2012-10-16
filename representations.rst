@@ -8,3 +8,5 @@ Overview
     :header-rows: 1
     :file: spec/representations.txt
     :delim: tab
+
+.. include:: gen/representations.rst
