@@ -11,63 +11,65 @@ RepID	Representation	Dims	Description
 9	RVectors	1D	A list of vectors in 1D
 10	RVectors	2D	A list of vectors in 2D
 11	RVectors	3D	A list of vectors in 3D
-12	RLinePoints	2D	A line described by two points in 2D
+12	RLinePoints	1D	A line described by two points in 1D
+13	RLinePoints	2D	A line described by two points in 2D
 14	RLinePoints	3D	A line described by two points in 3D
-13	RLineVector	2D	A line described by a point and a vector
-15	RLineVector	3D	A line described by a point and a vector
-16	RLinesPoints	2D	A list of lines described by two points in 2D
-17	RLinesPoints	3D	A list of lines described by two points in 3D
-18	RLinesVectors	2D	A list of lines described by a point and a vector in 2D; can be used to represent a vector field
-19	RLinesVectors	3D	A list of lines described by a point and a vector in 3D; can be used to represent a vector field
-20	RPolylinePoints	2D	A list of points in a polyline in 2D [could use RPoints2D directly]
-21	RPolylinePoints	3D	A list of points in a polyline in 3D [could use RPoints3D directly]
-22	RPolylineVector	2D	A list of points in a polyline represented by a starting point and list of vectors in 2D
-23	RPolylineVector	3D	A list of points in a polyline represented by a starting point and list of vectors in 3D
-24	RAlignedSquare1	2D	A square in 2D aligned with the axes described by a corner point and adjacent corner
-25	RAlignedSquare2	2D	A square in 2D aligned with the axes described by a corner point and vector to an adjacent corner
-26	RAlignedCube1	3D	A cube in 3D aligned with the axes described by a corner point and adjacent corner
-27	RAlignedCube2	3D	A cube in 3D aligned with the axes described by a corner point and vector to an adjacent corner
-28	RRectangle1	2D	A rectangle in 2D described by two corner points and a vector
-29	RRectangle2	2D	A rectangle in 2D described by a corner point and two vectors
-30	RCuboid1	3D	A cuboid in 3D described by two adjacent corners and two vectors
-31	RCuboid2	3D	A cuboid in 3D described by a corner and three vectors
-32	RCircle1	2D	A circle in 2D described by a centre point and 1D radius
-33	RCircle2	2D	A circle in 2D described by a centre point and 2D radius
-34	RCircle3	2D	A circle in 2D described by a circumference point and vector to the centre point
-35	RCircle4	2D	A circle in 2D described by three circumference points
-36	RSphere1	3D	A sphere in 3D described by a centre point and 1D radius
-37	RSphere2	3D	A sphere in 3D described by a centre point and 2D radius
-38	RSphere3	3D	A sphere in 3D described by a centre point and 3D radius
-39	RSphere4	3D	A sphere in 3D described by a surface point and vector to the centre point
-40	RSphere5	3D	A sphere in 3D described by a four surface points
-41	RAlignedHalfAxes	2D	An ellipse in 2D aligned with the axes described by two half axes
-42	RHalfAxes	2D	An ellipse in 2D described by two half axes
-43	REllipseCovariance	2D	An ellipse in 2D described by a centre point and covariance matrix
-44	RAlignedHalfAxes	3D	An ellipsoid in 3D aligned with the axes
-45	RHalfAxes	3D	An ellipsoid in 3D described by three half axes
-46	REllipsoidCovariance	3D	An ellipsoid in 3D described by a centre point and covariance matrix
-47	RCircularCylinder1	3D	A circular cylinder in 3D described by the centres of both faces and a radius
-48	RCircularCylinder2	3D	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
-49	RCircularCylinder3	3D	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
-50	RCircularCylinder4	3D	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
-51	REllipticCylinder1	3D	An elliptic cylinder in 3D described by the centres both faces and half axes
-52	REllipticCylinder2	3D	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
-53	REllipticCylinder3	3D	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
-54	REllipticCylinder4	3D	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
-55	RArc1	2D	An arc in 2D described by a line (points) and vector
-56	RArc2	2D	An arc in 2D described by a line (vector) and a vector
-57	RArc3	2D	An arc in 2D described by three points; vector inferred from third point
-58	RArc1	3D	An arc in 3D described by a line (points) and vector
-59	RArc2	3D	An arc in 3D described by a line (vector) and a vector
-60	RArc3	3D	An arc in 3D described by three points; vector inferred from third point
-61	RBitMask	1D	A bitmask in 1D described by bounding line, dimensions and mask data
-62	RBitMask	2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
-63	RBitMask	3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
-64	RGreyMask	1D	A greymask in 1D described by bounding line, dimensions and mask data
-65	RGreyMask	2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
-66	RGreyMask	3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
-67	RMesh	2D	A face-vertex mesh in 2D described by face and vertex lists
-68	RMesh	3D	A face-vertex mesh in 3D described by face and vertex lists
-69	RAffineTransform	1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
-70	RAffineTransform	2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
-71	RAffineTransform	3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform
+15	RLineVector	1D	A line described by a point and a vector
+16	RLineVector	2D	A line described by a point and a vector
+17	RLineVector	3D	A line described by a point and a vector
+18	RLinesPoints	2D	A list of lines described by two points in 2D
+19	RLinesPoints	3D	A list of lines described by two points in 3D
+20	RLinesVectors	2D	A list of lines described by a point and a vector in 2D; can be used to represent a vector field
+21	RLinesVectors	3D	A list of lines described by a point and a vector in 3D; can be used to represent a vector field
+22	RPolylinePoints	2D	A list of points in a polyline in 2D [could use RPoints2D directly]
+23	RPolylinePoints	3D	A list of points in a polyline in 3D [could use RPoints3D directly]
+24	RPolylineVector	2D	A list of points in a polyline represented by a starting point and list of vectors in 2D
+25	RPolylineVector	3D	A list of points in a polyline represented by a starting point and list of vectors in 3D
+26	RAlignedSquare1	2D	A square in 2D aligned with the axes described by a corner point and adjacent corner
+27	RAlignedSquare2	2D	A square in 2D aligned with the axes described by a corner point and vector to an adjacent corner
+28	RAlignedCube1	3D	A cube in 3D aligned with the axes described by a corner point and adjacent corner
+29	RAlignedCube2	3D	A cube in 3D aligned with the axes described by a corner point and vector to an adjacent corner
+30	RRectangle1	2D	A rectangle in 2D described by two corner points and a vector
+31	RRectangle2	2D	A rectangle in 2D described by a corner point and two vectors
+32	RCuboid1	3D	A cuboid in 3D described by two adjacent corners and two vectors
+33	RCuboid2	3D	A cuboid in 3D described by a corner and three vectors
+34	RCircle1	2D	A circle in 2D described by a centre point and 1D radius
+35	RCircle2	2D	A circle in 2D described by a centre point and 2D radius
+36	RCircle3	2D	A circle in 2D described by a circumference point and vector to the centre point
+37	RCircle4	2D	A circle in 2D described by three circumference points
+38	RSphere1	3D	A sphere in 3D described by a centre point and 1D radius
+39	RSphere2	3D	A sphere in 3D described by a centre point and 2D radius
+40	RSphere3	3D	A sphere in 3D described by a centre point and 3D radius
+41	RSphere4	3D	A sphere in 3D described by a surface point and vector to the centre point
+42	RSphere5	3D	A sphere in 3D described by a four surface points
+43	RAlignedHalfAxes	2D	An ellipse in 2D aligned with the axes described by two half axes
+44	RHalfAxes	2D	An ellipse in 2D described by two half axes
+45	REllipseCovariance	2D	An ellipse in 2D described by a centre point and covariance matrix
+46	RAlignedHalfAxes	3D	An ellipsoid in 3D aligned with the axes
+47	RHalfAxes	3D	An ellipsoid in 3D described by three half axes
+48	REllipsoidCovariance	3D	An ellipsoid in 3D described by a centre point and covariance matrix
+49	RCircularCylinder1	3D	A circular cylinder in 3D described by the centres of both faces and a radius
+50	RCircularCylinder2	3D	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
+51	RCircularCylinder3	3D	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
+52	RCircularCylinder4	3D	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
+53	REllipticCylinder1	3D	An elliptic cylinder in 3D described by the centres both faces and half axes
+54	REllipticCylinder2	3D	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
+55	REllipticCylinder3	3D	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
+56	REllipticCylinder4	3D	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
+57	RArc1	2D	An arc in 2D described by a line (points) and vector
+58	RArc2	2D	An arc in 2D described by a line (vector) and a vector
+59	RArc3	2D	An arc in 2D described by three points; vector inferred from third point
+60	RArc1	3D	An arc in 3D described by a line (points) and vector
+61	RArc2	3D	An arc in 3D described by a line (vector) and a vector
+62	RArc3	3D	An arc in 3D described by three points; vector inferred from third point
+63	RBitMask	1D	A bitmask in 1D described by bounding line, dimensions and mask data
+64	RBitMask	2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
+65	RBitMask	3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
+66	RGreyMask	1D	A greymask in 1D described by bounding line, dimensions and mask data
+67	RGreyMask	2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
+68	RGreyMask	3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
+69	RMesh	2D	A face-vertex mesh in 2D described by face and vertex lists
+70	RMesh	3D	A face-vertex mesh in 3D described by face and vertex lists
+71	RAffineTransform	1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
+72	RAffineTransform	2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
+73	RAffineTransform	3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform

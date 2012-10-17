@@ -42,8 +42,7 @@ help:
 
 gen: genstamp
 genstamp:
-	./introspect dumpshapetables
-	./introspect dumpreptables
+	./introspect
 
 clean:
 	-rm -rf $(BUILDDIR)/* gen genstamp
@@ -113,6 +112,8 @@ latexpdf: gen
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
 
+	if [ ! -d _build/latex/gen ]; then mkdir _build/latex/gen; fi
+	cp gen/*.pdf _build/latex/gen
 	cd "$(BUILDDIR)/latex" && \
 	xelatex $(LATEXOPTS) 'roi.tex' && \
         xelatex $(LATEXOPTS) 'roi.tex' && \

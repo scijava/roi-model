@@ -1,196 +1,392 @@
-#!/bin/sh
+#!/usr/bin/python
+# coding=UTF-8
 
-set -e
+# Model specification validation and processing:
+# 1. Load model
+# 2. Validate model for self-consistency and correctness
+# 3. Convert model to documentation
+# 4. Convert model to reference implementation
 
-PRIMITIVES="spec/primitives.txt"
-COMPOUND="spec/compound.txt"
-SHAPES="spec/shapes.txt"
-SHAPEREPS="spec/shapereps.txt"
-REPS="spec/representations.txt"
-REPSMEMBERS="spec/representationmembers.txt"
+import os
+import subprocess
 
-listprimitives() {
-    cut -f1 "$PRIMITIVES" | grep -v '^Primitive$' | sort | uniq
-}
+class Shape:
+    def __init__(self, text):
+        self.id, self.name, self.dim, self.desc = text.split('\t')
+        self.inherit = set()
+        self.rep_in = set()
+        self.rep_out = set()
+        self.rep_canonical = None
 
-listcompounds() {
-    cut -f1 "$COMPOUND" | grep -v '^Primitive' | sort | uniq
-}
+        if (self.id != 'ShapeID'):
+            self.id = int(self.id)
 
-listshapes() {
-       cut -f2 "$SHAPES" | grep -v '^Shape' | sort | uniq
-}
+    def check(self):
+        if self.rep_canonical == None:
+            raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
 
-listnshapes() {
-       cut -f1 "$SHAPES" | grep -v '^ShapeID' | sort -n | uniq
-}
+        if self.rep_canonical not in self.rep_in:
+            raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an input representation')
 
-listreps() {
-       cut -f2 "$REPS" | grep -v '^Representation' | sort | uniq
-}
+        if self.rep_canonical not in self.rep_out:
+            raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an output representation')
 
-listnreps() {
-       cut -f1 "$REPS" | grep -v '^RepID' | sort -n | uniq
-}
+        return
 
-shaperows() {
-    egrep "^(Shape|$1)	" "$SHAPEREPS"
-}
+    def reps(self):
+        used = set()
+        reps = dict()
+        self.__reps(reps, used)
 
-listshapereps() {
-       shaperows "$1" | cut -f 2 | grep -v '^RepIn' | sort | uniq
-}
+        return reps
 
-shapename() {
-    grep "^$1	" "$SHAPES" | cut -f 2
-}
+    def __reps(self, reps, used):
+        for r in self.rep_in | self.rep_out:
+            if (r in reps):
+                reps[r].add(self)
+            else:
+                reps[r] = set([self])
+        used.add(self)
+        for s in self.inherit:
+            if (s not in used):
+                s.__reps(reps, used)
+        return
 
-shapedesc() {
-    grep "^$1	" "$SHAPES" | cut -f 4
-}
+class Representation:
+    def __init__(self, text):
+        self.id, self.name, self.dim, self.desc = text.split('\t')
+        self.members = dict()
 
-dumpshape () {
-    SHAPENAME=$(shapename "$1")
-    egrep  "^Shape	" "$SHAPEREPS" | cut -f 2,3,4
-    egrep  "^$SHAPENAME	" "$SHAPEREPS" | cut -f 2,3,4
-}
+        if (self.id != 'RepID'):
+            self.id = int(self.id)
 
-repname() {
-    grep "^$1	" "$REPS" | cut -f 2,3
-}
+    # Consistency check.  Make sure that sequence numbers are correct,
+    # with no missing numbers.
+    def check(self):
+        print 'Checking ' + self.name + ':' + self.dim
+        for member in self.members.values():
+            member.check()
 
-repdesc() {
-    grep "^$1	" "$REPS" | cut -f 4
-}
+        s = set()
+        for member in self.members.values():
+            s.add(member.seq)
 
-dumprep () {
-    REPNAME=$(repname "$1")
-    egrep  "^Representation	" "$REPSMEMBERS" | cut -f 3,4,5,6
-    egrep  "^$REPNAME	" "$REPSMEMBERS" | cut -f 3,3,4,5,6 | sort -n -k 1
-}
+        if (len(s) == 0):
+            raise Exception("No members for representation " + str(self.id))
 
-dumpshapetables() {
-    [ ! -d gen ] && mkdir gen
-    SHAPERST="gen/shapes.rst"
-    rm -f "$SHAPERST"
+        m = max(s)
+        if (s != set(range(0,m+1))):
+            raise Exception("Invalid sequence IDs for representation " + str(self.id))
+        return
 
-    for shape in $(listnshapes); do
-	SHAPENAME=$(shapename "$shape")
-	SHAPEDESC=$(shapedesc "$shape")
-        SHAPETAB="shape-$SHAPENAME.txt"
-	echo "Dumping shape $shape to gen/$SHAPETAB"
-	dumpshape "$shape" > "gen/$SHAPETAB"
+class RepresentationMember:
+    def __init__(self, seq, name, type, desc):
+        self.seq = seq
+        self.name = name
+        self.type = type
+        self.desc = desc
 
-	cat <<EOF >>"$SHAPERST"
+        self.seq = int(self.seq)
+
+    def check(self):
+        return
+
+class Model:
+    def __init__(self):
+        self.shape_ids = dict()
+        self.shape_names = dict()
+        self.representation_ids = dict()
+        self.representation_names = dict()
+
+        self.load_shapes()
+        self.load_reps()
+        self.load_rep_members()
+        self.load_shape_reps()
+        self.load_shape_rels()
+        self.check()
+
+    def load_shapes(self):
+        # Load shapes
+        for line in open ('spec/shapes.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            shape = Shape(line)
+            if (shape.id == 'ShapeID'):
+                continue
+            if shape.id in self.shape_ids:
+                raise Exception("Duplicate shape ID " + shape.id)
+            self.shape_ids[shape.id] = shape
+            if shape.name+':'+shape.dim in self.shape_names:
+                raise Exception("Duplicate shape " + shape.name+':'+shape.dim)
+            self.shape_names[shape.name+':'+shape.dim] = shape
+
+        # TODO: Sort
+        for shape in self.shape_ids.values():
+            print shape.id, shape.name, shape.dim
+
+    def load_reps(self):
+        # Load representations
+        for line in open ('spec/representations.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            representation = Representation(line)
+            if (representation.id == 'RepID'):
+                continue
+            if representation.id in self.representation_ids:
+                raise Exception("Duplicate representation ID " + representation.id)
+            self.representation_ids[representation.id] = representation
+            if representation.name+':'+representation.dim in self.representation_names:
+                raise Exception("Duplicate representation name+dim " + representation.name+':'+representation.dim)
+            self.representation_names[representation.name+':'+representation.dim] = representation
+
+        # TODO: Sort
+        for representation in self.representation_ids.values():
+            print representation.id, representation.name, representation.dim
+
+        for key in self.representation_names.keys():
+            print "KEY: " + key
+
+    def load_rep_members(self):
+        # Load representation members
+        for line in open ('spec/representationmembers.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            name, dim, memberseq, membername, membertype, memberdesc = line.split('\t')
+            if (name == 'Representation'):
+                continue
+            representation = self.representation_names[name+':'+dim]
+            member = RepresentationMember(memberseq, membername, membertype, memberdesc)
+            if memberseq in representation.members:
+                raise Exception("Duplicate representation " + representation.id + " sequence " + memberseq)
+            representation.members[memberseq] = member
+
+    def load_shape_reps(self):
+        # Load shape representations
+        for line in open ('spec/shapereps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            shape, dim, rep, repdim, repin, repout, repcanonical, details = line.split('\t')
+            if (shape == 'Shape'):
+                continue
+            s = self.shape_names[shape+':'+dim]
+            srep = self.representation_names[rep+':'+repdim]
+            if (repin == 'true'):
+                s.rep_in.add(srep)
+            if (repout == 'true'):
+                s.rep_out.add(srep)
+            if (repcanonical == 'true'):
+                s.rep_canonical = srep
+
+    def load_shape_rels(self):
+        # Load shape relations
+        for line in open ('spec/shaperel.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            shape, dim, inherit, inheritdim = line.split('\t')
+            if (shape == 'Shape'):
+                continue
+            s = self.shape_names[shape+':'+dim]
+            si = self.shape_names[inherit+':'+inheritdim]
+            s.inherit.add(si)
+
+    def check(self):
+        for shape in self.shape_ids.values():
+            shape.check()
+        for representation in self.representation_ids.values():
+            representation.check()
+        return
+
+    def prepare_gen(self):
+        if not os.path.exists("gen"):
+            os.makedirs("gen")
+
+    def shaperef(self, name, shape, dim):
+        return ':ref:`' + name + ' <shape_' + shape + '_' + dim + '>`'
+
+    def repref(self, name, rep, dim):
+        return ':ref:`' + name + ' <rep_' + rep + '_' + dim + '>`'
+
+    def dump_shapelist(self):
+        self.prepare_gen()
+
+        f = open('gen/shapes.txt','w')
+        f.write("ID\tShape\tDims\tDescription\n")
+        shapes = model.shape_ids.keys()
+        shapes.sort()
+        for id in shapes:
+            shape = model.shape_ids[id]
+            f.write(str(shape.id) + '\t:ref:`' + shape.name + ' <shape_' +
+                    shape.name + '_' + shape.dim + '>`\t' +
+                    shape.dim + '\t' + shape.desc + '\n')
+
+    def dump_replist(self):
+        self.prepare_gen()
+
+        f = open('gen/representations.txt','w')
+        f.write("ID\tRepresentation\tDims\tDescription\n")
+        reps = model.representation_ids.keys()
+        reps.sort()
+        for id in reps:
+            rep = model.representation_ids[id]
+            f.write(str(rep.id) + '\t:ref:`' + rep.name + ' <rep_' +
+                    rep.name + '_' + rep.dim + '>`\t' +
+                    rep.dim + '\t' + rep.desc + '\n')
+
+    def dump_shapereps(self):
+        self.prepare_gen()
+
+        shapes = model.shape_ids.keys()
+        shapes.sort()
+        shaperst = open('gen/shapes.rst', 'w')
+        print 'Writing gen/shapes.rst'
+        for id in shapes:
+            shape = model.shape_ids[id]
+            filename = 'shape-' + shape.name + '-' + shape.dim + '.txt'
+            shapetab = open('gen/' + filename, 'w')
+            print 'Writing '+'gen/' + filename
+            shapetab.write('Representation\tDim\tIn\tOut\tInherited from\n')
+            reps = shape.reps()
+            replist = list(reps.keys())
+            replist.sort(key = lambda x: x.name+':'+x.dim)
+
+            for r in replist:
+                repval = reps[r]
+                canonical = (r == shape.rep_canonical)
+                name = r.name
+                if (canonical):
+                    name = '**' + name + '**'
+                repins = [x.name for x in shape.rep_in]
+                rin = ('', '\•')[r in shape.rep_in]
+                rout = ('', '\•')[r in shape.rep_out]
+                ishapes = [x.name + ' (' + x.dim + ')' for x in reps[r]]
+                ishapes.sort()
+                # Make this shape name bold
+                shapename = shape.name + ' (' + shape.dim + ')'
+                for i in range(len(ishapes)):
+                    if (ishapes[i] == shapename):
+                        ishapes[i] = '**' + ishapes[i] + '** [self]'
+                inherit = ', '.join(ishapes)
+
+                shapetab.write(self.repref(r.name, r.name, r.dim) + '\t' + r.dim + '\t' +
+                               rin + '\t' + rout + '\t' + inherit + '\n')
+            shapetab.close()
+            
+
+            template = """
 .. index::
-    $SHAPENAME
+    {0} ({1})
 
-$SHAPENAME
+.. _shape_{0}_{1}:
+
+{0} ({1})
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-$SHAPEDESC.
+{2}.
 
-.. tabularcolumns:: |l|l|l|p{3in}|
-.. csv-table:: $SHAPENAME
+.. tabularcolumns:: |l|l|l|l|p{{3in}}|
+.. csv-table:: {0} representations ({1})
     :header-rows: 1
-    :file: $SHAPETAB
+    :file: {3}
     :delim: tab
+    :widths: 5, 2, 2, 2, 10
 
-EOF
+"""
+            shaperst.write(template.format(shape.name, shape.dim, shape.desc, filename))
+            if (shape.rep_canonical):
+                shaperst.write('Canonical form is ' + shape.rep_canonical.name + ' (' + shape.rep_canonical.dim + ').\n')
 
-    done
-}
+        shaperst.close()
+        return
 
-dumpreptables() {
-    [ ! -d gen ] && mkdir gen
-    REPRST="gen/representations.rst"
-    rm -f "$REPRST"
+    def dump_repmembers(self):
+        self.prepare_gen()
 
-    for rep in $(listnreps); do
-	REPNAME=$(repname "$rep" | tr -d '	')
-	REPDESC=$(repdesc "$rep")
-        REPTAB="rep-$REPNAME.txt"
-	echo "Dumping representation $rep to gen/$REPTAB"
-	dumprep "$rep"  > "gen/$REPTAB"
+        reps = model.representation_ids.keys()
+        reps.sort()
+        reprst = open('gen/representations.rst', 'w')
+        print 'Writing gen/representations.rst'
 
-	cat <<EOF >>"$REPRST"
+        for id in reps:
+            rep = model.representation_ids[id]
+            filename = 'rep-' + rep.name + '-' + rep.dim + '.txt'
+            mtab = open('gen/' + filename, 'w')
+            print 'Writing '+'gen/' + filename
+            mtab.write('SeqNo\tName\tType\tDescription\n')
+            members = rep.members
+            mlist = list(members.keys())
+            mlist.sort()
+
+            for m in mlist:
+                mval = members[m]
+
+                mtab.write(str(mval.seq) + '\t' + mval.name + '\t' + mval.type + '\t' + mval.desc + '\n')
+            mtab.close()
+
+            template = """
 .. index::
-    $REPNAME
+    {0} ({1})
 
-$REPNAME
+.. _rep_{0}_{1}:
+
+{0} ({1})
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-$REPDESC.
+{2}.
 
-.. tabularcolumns |l|l|l|p{2in}|
-
-.. csv-table:: $REPNAME
+.. tabularcolumns:: |r|l|l|p{{2in}}|
+.. csv-table:: {0} members ({1})
     :header-rows: 1
-    :file: $REPTAB
+    :file: {3}
     :delim: tab
+    :widths: 2, 2, 5, 10
 
-EOF
+"""
 
-    done
-}
+            reprst.write(template.format(rep.name, rep.dim, rep.desc, filename))
 
-sanitycheck() {
-    DUPSHAPES=$(cut -f 1 spec/shapes.txt| sort -n | uniq -d)
-    if [ -n "$DUPSHAPES" ]; then
-	echo "Duplicated shape numbers: $DUPSHAPES"
-	exit 1
-    fi
-    DUPSHAPES=$(cut -f 2,3 spec/shapes.txt| sort -n | uniq -d)
-    if [ -n "$DUPSHAPES" ]; then
-	echo "Duplicated shape names: $DUPSHAPES"
-	exit 1
-    fi
-    DUPREPS=$(cut -f 1 spec/representations.txt| sort -n | uniq -d)
-    if [ -n "$DUPREPS" ]; then
-	echo "Duplicated representation numbers: $DUPREPS"
-	exit 1
-    fi
-    DUPREPS=$(cut -f 2,3 spec/representations.txt| sort -n | uniq -d)
-    if [ -n "$DUPREPS" ]; then
-	echo "Duplicated representation names: $DUPREPS"
-	exit 1
-    fi
-}
+        reprst.close()
+        return
 
-gencxxtypes() {
-:
-}
+    def dump_relgraph(self):
+        self.prepare_gen()
 
-CMD=$1
-shift
+        dot = open('gen/inherit.dot', 'w')
+        print 'Writing gen/inherit.dot'
+        dot.write('digraph inheritance {\n')
+#        dot.write('\tsize="4,8";\n')
+        dot.write('\tnslimit=20;\n')
+ #       dot.write('\tpage="6,8";\n')
+#        dot.write('\tratio=fill;\n')
+ #       dot.write('\taspect=0.75;')
+        dot.write('\tmargin=0;\n')
+        for rep in self.representation_ids.values():
+            dot.write('\t"{0} ({1})" [shape=rectangle];\n'.format(rep.name, rep.dim))
+        for shape in self.shape_ids.values():
+            dot.write('\t"{0} ({1})" [shape=ellipse];\n'.format(shape.name, shape.dim))
+            for i in shape.inherit:
+                dot.write('\t"{0} ({1})" -> "{2} ({3})";\n'.format(i.name, i.dim, shape.name, shape.dim))
+            for r in shape.rep_in:
+                dot.write('\t"{0} ({1})" -> "{2} ({3})" [color=red];\n'.format(r.name, r.dim, shape.name, shape.dim))
+            for r in shape.rep_out:
+                dot.write('\t"{0} ({1})" -> "{2} ({3})" [color=blue];\n'.format(shape.name, shape.dim, r.name, r.dim))
+        dot.write('}\n')
+        dot.close()
+        print 'Generating gen/inherit.svg'
+        subprocess.call(['sh', '-c', 'ccomps -x gen/inherit.dot | dot | gvpack -g | neato -n2 -Tsvg > gen/inherit.svg'])
+        print 'Generating gen/inherit.pdf'
+        subprocess.call(['sh', '-c', 'ccomps -x gen/inherit.dot | dot | gvpack -g | neato -n2 -Tpdf > gen/inherit.pdf'])
+        return
 
-sanitycheck
+if __name__ == "__main__":
+    model = Model()
 
-case "$CMD" in
-    listprimitives)
-	listprimitives;;
-    listcompounds)
-	listcompounds;;
-    listshapes)
-	listshapes;;
-    listreps)
-	listreps;;
-    listshapereps)
-	listshapereps "$1";;
-    dumpshape)
-	dumpshape "$1";;
-    dumprep)
-	dumprep "$1";;
-    dumpshapetables)
-	dumpshapetables;;
-    dumpreptables)
-	dumpreptables;;
-    dumptables)
-	dumptables;;
-    cxx)
-        gencxxtypes;;
-    *)
-	echo "Unknown command"
-	exit 1
-	;;
-esac
+    model.dump_shapelist()
+    model.dump_replist()
+    model.dump_shapereps()
+    model.dump_repmembers()
+    model.dump_relgraph()

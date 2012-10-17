@@ -1,0 +1,36 @@
+Shape	ShapeDim	InheritShape	InheritShapeDim
+Lines	2D	Line	2D
+Lines	3D	Line	3D
+AlignedRectangle	2D	AlignedEllipse	2D
+# Width implied from ROI line width
+Rectangle	2D	Line	2D
+# NOTE: Ambigouous shared representation; AlignedRectangle 2D needs dedicated representation?
+Rectangle	2D	AlignedRectangle	2D
+# Also inherits AlignedEllipse implicitly
+Rectangle	2D	Ellipse	2D
+AlignedCuboid	3D	AlignedEllipsoid	3D
+# Width implied from ROI line width
+Cuboid	3D	Line	3D
+# NOTE: Ambigouous shared representation; AlignedCuboid 3D needs dedicated representation?
+Cuboid	3D	AlignedCuboid	3D
+# Also inherits AlignedEllipsoid implicitly
+Cuboid	3D	Ellipsoid	3D
+# radius implied from ROI point radius
+Circle	2D	Point	2D
+# radius implied from ROI point radius
+Sphere	3D	Point	3D
+AlignedEllipse	2D	AlignedRectangle	2D
+# Also inherits AlignedRectangle implicitly
+Ellipse	2D	AlignedEllipse	2D
+Ellipse	2D	Rectangle	2D
+Ellipse	2D	Circle	2D
+AlignedEllipsoid	3D	AlignedCuboid	3D
+Ellipsoid	3D	AlignedEllipsoid	3D
+# Also inherits AlignedCuboid implicitly
+Ellipsoid	3D	Cuboid	3D
+Ellipsoid	3D	Sphere	3D
+Square	2D	AlignedSquare	2D
+Cube	3D	AlignedCube	3D
+EllipticCylinder	3D	CircularCylinder	3D
+#EllipticCylinder	3D	AlignedEllipticCylinder	3D
+#CircularCylinder	3D	AlignedCircularCylinder	3D

@@ -1,115 +1,87 @@
-Shape	Dim	RepIn	RepOut	Details
-Point	2D	RPoint2D	RPoint2D
-Point	3D	RPoint3D	RPoint3D
-Points	2D	RPoints2D	RPoints2D
-Points	3D	RPoints3D	RPoints3D
-Line	2D	RLinePoints2D	RLinePoints2D
-Line	2D	RLineVector2D	RLineVector2D
-Line	3D	RLinePoints3D	RLinePoints3D
-Line	3D	RLineVector3D	RLineVector3D
-Lines	2D	RLinePoints2D	RLinePoints2D	Inherited from Line2D
-Lines	2D	RLineVector2D	RLineVector2D	Inherited from Line2D
-Lines	2D	RLinesPoints2D	RLinesPoints2D
-Lines	2D	RLinesVectors2D	RLinesVectors2D
-Lines	3D	RLinePoints3D	RLinePoints3D	Inherited from Line3D
-Lines	3D	RLineVector3D	RLineVector3D	Inherited from Line3D
-Lines	3D	RLinesPoints3D	RLinesPoints3D
-Lines	3D	RLinesVectors3D	RLinesVectors3D
-Polyline	2D	RPolylinePoints2D	RPolylinePoints2D
-Polyline	2D	RPolylineVector2D	RPolylineVector2D
-Polyline	3D	RPolylinePoints3D	RPolylinePoints3D
-Polyline	3D	RPolylineVector3D	RPolylineVector3D
-Polygon	2D	RPolylinePoints2D	RPolylinePoints2D
-Polygon	2D	RPolylineVector2D	RPolylineVector2D
-Polygon	3D	RPolylinePoints3D	RPolylinePoints3D
-Polygon	3D	RPolylineVector3D	RPolylineVector3D
-AlignedSquare	2D	RAlignedSquare1	RAlignedSquare1
-AlignedSquare	2D	RalignedSquare2	RalignedSquare2
-AlignedCube	3D	RVertex3D_1D	RVertex3D_1D
-AlignedCube	3D	RVertex3D_Vector1D	RVertex3D_Vector1D
-Cube	3D	RLinePoints3D	RLinePoints3D	First corner and opposing corner
-Cube	3D	RLineVector3D	RLineVector3D	First corner and opposing corner (relative to P1)
-AlignedRectangle	2D	RLinePoints2D	RLinePoints2D	First corner and opposing corner
-AlignedRectangle	2D	RLineVector2D	RLineVector2D	First corner and opposing corner (relative to P1)
-AlignedRectangle	2D	RAlignedHalfAxes2D	RAlignedHalfAxes2D	Inherited from AlignedEllipse
-Rectangle	2D	RLinePoints2D	RLinePoints2D	Inherit from Line2D representation; width implied from ROI line width
-Rectangle	2D	RLineVector2D	RLineVector2D	Inherit from Line2D representation; width implied from ROI line width
-Rectangle	2D	RLinePoints2D	RLinePoints2D	Inherit AlignedRectangle2D representation [NOTE: Ambigouous; AlignedRectangle2D needs dedicated representation?]
-Rectangle	2D	RLineVector2D	RLineVector2D	Inherit AlignedRectangle2D representation [NOTE: Ambigouous; AlignedRectangle2D needs dedicated representation?]
-Rectangle	2D	RAlignedHalfAxes2D	NA	Inherited from AlignedEllipse
-Rectangle	2D	RHalfAxes2D	RHalfAxes2D	Inherited from Ellipse
-Rectangle	2D	RRectangle1	RRectangle1	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
-Rectangle	2D	RRectangle2	RRectangle2	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
-AlignedCuboid	3D	RLinePoints3D	RLinePoints3D	First corner and opposing corner
-AlignedCuboid	3D	RLineVector3D	RLineVector3D	First corner and opposing corner (relative to P1)
-AlignedCuboid	3D	RAlignedHalfAxes3D	RAlignedHalfAxes3D	Inherited from AlignedEllipsoid
-Cuboid	3D	RLinePoints3D	RLinePoints3D	Inherit from Line3D representation; width implied from ROI line width
-Cuboid	3D	RLineVector3D	RLineVector3D	Inherit from Line3D representation; width implied from ROI line width
-Cuboid	3D	RLinePoints3D	RLinePoints3D	Inherit AlignedCuboid representation [NOTE: Ambigouous; AlignedCuboid3D needs dedicated representation?]
-Cuboid	3D	RLineVector3D	RLineVector3D	Inherit AlignedCuboid representation [NOTE: Ambigouous; AlignedCuboid3D needs dedicated representation?]
-Cuboid	3D	RAlignedHalfAxes3D	NA	Inherited from AlignedEllipsoid
-Cuboid	3D	RHalfAxes3D	RHalfAxes3D	Inherited from Ellipsoid
-Cuboid	3D	RCuboid1	RCuboid1
-Cuboid	3D	RCuboid2	RCuboid2
-Circle	2D	RPoint2D	RPoint2D	Inherit from Point; radius implied from ROI point radius
-Circle	2D	RCircle1	RCircle1
-Circle	2D	RCircle2	RCircle2
-Circle	2D	RCircle3	RCircle3
-Circle	2D	RCircle4	RCircle4
-Sphere	3D	RPoint3D	RPoint3D	Inherit from Point; radius implied from ROI point radius
-Sphere	3D	RSphere1	RSphere1
-Sphere	3D	RSphere2	RSphere2
-Sphere	3D	RSphere3	RSphere3
-Sphere	3D	RSphere4	RSphere4
-Sphere	3D	RSphere5	RSphere5
-AlignedEllipse	2D	RLinePoints2D	RLinePoints2D	Inherited from AlignedRectangle
-AlignedEllipse	2D	RLineVector2D	RLineVector2D	Inherited from AlignedRectangle
-AlignedEllipse	2D	RAlignedHalfAxes2D	RAlignedHalfAxes2D
-Ellipse	2D	RLinePoints2D	RLinePoints2D	Inherit AlignedRectangle2D representation
-Ellipse	2D	RLineVector2D	RLineVector2D	Inherit AlignedRectangle2D representation
-Ellipse	2D	RAlignedHalfAxes2D	NA	Inherited from AlignedEllipse
-Ellipse	2D	RRectangle1	RRectangle1	Inherited from Rectangle
-Ellipse	2D	RRectangle2	RRectangle2	Inherited from Rectangle
-Ellipse	2D	RHalfAxes2D	RHalfAxes2D
-Ellipse	2D	REllipseCovariance	REllipseCovariance
-AlignedEllipsoid	3D	RLinePoints3D	RLinePoints3D	Inherited from AlignedCuboid
-AlignedEllipsoid	3D	RLineVector3D	RLineVector3D	Inherited from AlignedCuboid
-AlignedEllipsoid	3D	RAlignedHalfAxes3D	RAlignedHalfAxes3D
-Ellipsoid	3D	RLinePoints3D	RLinePoints3D	Inherited from AlignedCuboid
-Ellipsoid	3D	RLineVector3D	RLineVector3D	Inherited from AlignedCuboid
-Ellipsoid	3D	RAlignedHalfAxes3D	NA	Inherited from AlignedEllipsoid
-Ellipsoid	3D	RCuboid1	RCuboid1	Inherited from Cuboid
-Ellipsoid	3D	RCuboid2	RCuboid2	Inherited from Cuboid
-Ellipsoid	3D	RHalfAxes3D	RHalfAxes3D
-PolylineSpline	2D	RPoints2D	RPoints2D
-PolylineSpline	3D	RPoints3D	RPoints3D
-PolygonSpline	2D	RPoints2D	RPoints2D
-PolygonSpline	3D	RPoints3D	RPoints3D
-AlignedCircularCylinder	3D	TODO	TODO
-CircularCylinder	3D	RCircularCylinder1	RCircularCylinder1
-CircularCylinder	3D	RCircularCylinder2	RCircularCylinder2
-CircularCylinder	3D	RCircularCylinder3	RCircularCylinder3
-CircularCylinder	3D	RCircularCylinder4	RCircularCylinder4
-AlignedEllipticCylinder	3D	TODO	TODO
-EllipticCylinder	3D	REllipticCylinder1	REllipticCylinder1
-EllipticCylinder	3D	REllipticCylinder2	REllipticCylinder2
-EllipticCylinder	3D	REllipticCylinder3	REllipticCylinder3
-EllipticCylinder	3D	REllipticCylinder4	REllipticCylinder4
-EllipticCylinder	3D	REllipticCylinder5	REllipticCylinder5
-Arc	2D	RArc2D1	RArc2D1
-Arc	2D	RArc2D2	RArc2D2
-Arc	2D	RArc2D3	RArc2D3
-Arc	3D	RArc3D1	RArc3D1
-Arc	3D	RArc3D2	RArc3D2
-Arc	3D	RArc3D3	RArc3D3
-GreyMask	1D	RGreytMask1D	RGreytMask1D
-BitMask	1D	RBitMask1D	RBitMask1D
-GreyMask	2D	RGreytMask2D	RGreytMask2D
-BitMask	2D	RBitMask2D	RBitMask2D
-GreyMask	3D	RGreyMask3D	RGreyMask3D
-BitMask	3D	RBitMask3D	RBitMask3D
-Mesh	2D	RMesh2D	RMesh2D
-Mesh	3D	RMesh3D	RMesh3D
-AffineTransform	1D	RAffineTransform1D	RAffineTransform1D
-AffineTransform	2D	RAffineTransform2D	RAffineTransform2D
-AffineTransform	3D	RAffineTransform3D	RAffineTransform3D
+Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
+Point	2D	RPoint	2D	true	true	true	
+Point	3D	RPoint	3D	true	true	true	
+Points	2D	RPoints	2D	true	true	true	
+Points	3D	RPoints	3D	true	true	true	
+Line	2D	RLinePoints	2D	true	true	true	
+Line	2D	RLineVector	2D	true	true	false	
+Line	3D	RLinePoints	3D	true	true	true	
+Line	3D	RLineVector	3D	true	true	false	
+Lines	2D	RLinesPoints	2D	true	true	true	
+Lines	2D	RLinesVectors	2D	true	true	false	
+Lines	3D	RLinesPoints	3D	true	true	true	
+Lines	3D	RLinesVectors	3D	true	true	false	
+Polyline	2D	RPolylinePoints	2D	true	true	true	
+Polyline	2D	RPolylineVector	2D	true	true	false	
+Polyline	3D	RPolylinePoints	3D	true	true	true	
+Polyline	3D	RPolylineVector	3D	true	true	false	
+Polygon	2D	RPolylinePoints	2D	true	true	true	
+Polygon	2D	RPolylineVector	2D	true	true	false	
+Polygon	3D	RPolylinePoints	3D	true	true	true	
+Polygon	3D	RPolylineVector	3D	true	true	false	
+AlignedSquare	2D	RAlignedSquare1	2D	true	true	true	
+AlignedSquare	2D	RAlignedSquare2	2D	true	true	false	
+Square	2D	RLinePoints	2D	true	true	true	
+Square	2D	RLineVector	2D	true	true	false	
+AlignedCube	3D	RAlignedCube1	3D	true	true	true	
+AlignedCube	3D	RAlignedCube2	3D	true	true	false	
+Cube	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
+Cube	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
+AlignedRectangle	2D	RLinePoints	2D	true	true	true	First corner and opposing corner
+AlignedRectangle	2D	RLineVector	2D	true	true	false	First corner and opposing corner (relative to P1)
+Rectangle	2D	RRectangle1	2D	true	true	true	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
+Rectangle	2D	RRectangle2	2D	true	true	false	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
+AlignedCuboid	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
+AlignedCuboid	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RCuboid1	3D	true	true	true	
+Cuboid	3D	RCuboid2	3D	true	true	false	
+Circle	2D	RCircle1	2D	true	true	true	
+Circle	2D	RCircle2	2D	true	true	false	
+Circle	2D	RCircle3	2D	true	true	false	
+Circle	2D	RCircle4	2D	true	true	false	
+Sphere	3D	RSphere1	3D	true	true	true	
+Sphere	3D	RSphere2	3D	true	true	false	
+Sphere	3D	RSphere3	3D	true	true	false	
+Sphere	3D	RSphere4	3D	true	true	false	
+Sphere	3D	RSphere5	3D	true	true	false	
+AlignedEllipse	2D	RAlignedHalfAxes	2D	true	true	true	
+Ellipse	2D	RHalfAxes	2D	true	true	true	
+Ellipse	2D	REllipseCovariance	2D	true	true	false	
+AlignedEllipsoid	3D	RAlignedHalfAxes	3D	true	true	true	
+Ellipsoid	3D	RHalfAxes	3D	true	true	true	
+Ellipsoid	3D	REllipsoidCovariance	3D	true	true	false	
+PolylineSpline	2D	RPolylinePoints	2D	true	true	true	
+PolylineSpline	2D	RPolylineVector	2D	true	true	true	
+PolylineSpline	3D	RPolylinePoints	3D	true	true	true	
+PolylineSpline	3D	RPolylineVector	3D	true	true	true	
+PolygonSpline	2D	RPolylinePoints	2D	true	true	true	
+PolygonSpline	2D	RPolylineVector	2D	true	true	true	
+PolygonSpline	3D	RPolylinePoints	3D	true	true	true	
+PolygonSpline	3D	RPolylineVector	3D	true	true	true	
+#AlignedCircularCylinder	3D	TODO	3D	true	TODO	false	
+CircularCylinder	3D	RCircularCylinder1	3D	true	true	true	
+CircularCylinder	3D	RCircularCylinder2	3D	true	true	false	
+CircularCylinder	3D	RCircularCylinder3	3D	true	true	false	
+CircularCylinder	3D	RCircularCylinder4	3D	true	true	false	
+#AlignedEllipticCylinder	3D	TODO	3D	true	TODO	false	
+EllipticCylinder	3D	REllipticCylinder1	3D	true	true	true	
+EllipticCylinder	3D	REllipticCylinder2	3D	true	true	false	
+EllipticCylinder	3D	REllipticCylinder3	3D	true	true	false	
+EllipticCylinder	3D	REllipticCylinder4	3D	true	true	false	
+Arc	2D	RArc1	2D	true	true	true	
+Arc	2D	RArc2	2D	true	true	false	
+Arc	2D	RArc3	2D	true	true	false	
+Arc	3D	RArc1	3D	true	true	true	
+Arc	3D	RArc2	3D	true	true	false	
+Arc	3D	RArc3	3D	true	true	false	
+GreyMask	1D	RGreyMask	1D	true	true	true	
+BitMask	1D	RBitMask	1D	true	true	true	
+GreyMask	2D	RGreyMask	2D	true	true	true	
+BitMask	2D	RBitMask	2D	true	true	true	
+GreyMask	3D	RGreyMask	3D	true	true	true	
+BitMask	3D	RBitMask	3D	true	true	true	
+Mesh	2D	RMesh	2D	true	true	true	
+Mesh	3D	RMesh	3D	true	true	true	
+AffineTransform	1D	RAffineTransform	1D	true	true	true	
+AffineTransform	2D	RAffineTransform	2D	true	true	true	
+AffineTransform	3D	RAffineTransform	3D	true	true	true	
