@@ -35,15 +35,19 @@ AlignedCuboid	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
 AlignedCuboid	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
 Cuboid	3D	RCuboid1	3D	true	true	true	
 Cuboid	3D	RCuboid2	3D	true	true	false	
+Circle	2D	RCircle0	2D	true	true	false	
 Circle	2D	RCircle1	2D	true	true	true	
 Circle	2D	RCircle2	2D	true	true	false	
 Circle	2D	RCircle3	2D	true	true	false	
 Circle	2D	RCircle4	2D	true	true	false	
+Circle	2D	RCircle5	2D	true	true	false	
+Sphere	3D	RSphere0	3D	true	true	false	
 Sphere	3D	RSphere1	3D	true	true	true	
 Sphere	3D	RSphere2	3D	true	true	false	
 Sphere	3D	RSphere3	3D	true	true	false	
 Sphere	3D	RSphere4	3D	true	true	false	
 Sphere	3D	RSphere5	3D	true	true	false	
+Sphere	3D	RSphere6	3D	true	true	false	
 AlignedEllipse	2D	RAlignedHalfAxes	2D	true	true	true	
 Ellipse	2D	RHalfAxes	2D	true	true	true	
 Ellipse	2D	REllipseCovariance	2D	true	true	false	
@@ -83,5 +87,16 @@ BitMask	3D	RBitMask	3D	true	true	true
 Mesh	2D	RMesh	2D	true	true	true	
 Mesh	3D	RMesh	3D	true	true	true	
 AffineTransform	1D	RAffineTransform	1D	true	true	true	
+AffineTransform	1D	RTranslateTransform	1D	true	false	false	
+AffineTransform	1D	RScaleTransform	1D	true	false	false	
 AffineTransform	2D	RAffineTransform	2D	true	true	true	
+AffineTransform	2D	RTranslateTransform	2D	true	false	false	
+AffineTransform	2D	RScaleTransform	2D	true	false	false	
+AffineTransform	2D	RRotateTransform	2D	true	false	false	
 AffineTransform	3D	RAffineTransform	3D	true	true	true	
+AffineTransform	3D	RTranslateTransform	3D	true	false	false	
+AffineTransform	3D	RScaleTransform	3D	true	false	false	
+AffineTransform	3D	RRotateTransform	3D	true	false	false	
+AbstractTransform	1D	RAbstractTransform	1D	true	true	true	
+AbstractTransform	2D	RAbstractTransform	2D	true	true	true	
+AbstractTransform	3D	RAbstractTransform	3D	true	true	true	

@@ -33,15 +33,19 @@ RepID	Representation	Dims	Description
 31	RRectangle2	2D	A rectangle in 2D described by a corner point and two vectors
 32	RCuboid1	3D	A cuboid in 3D described by two adjacent corners and two vectors
 33	RCuboid2	3D	A cuboid in 3D described by a corner and three vectors
+341	RCircle0	2D	A circle in 2D described by a centre point and circumference point
 34	RCircle1	2D	A circle in 2D described by a centre point and 1D radius
 35	RCircle2	2D	A circle in 2D described by a centre point and 2D radius
 36	RCircle3	2D	A circle in 2D described by a circumference point and vector to the centre point
-37	RCircle4	2D	A circle in 2D described by three circumference points
+371	RCircle4	2D	A circle in 2D described by two circumference points [diameter]
+37	RCircle5	2D	A circle in 2D described by three circumference points
+381	RSphere0	3D	A sphere in 3D described by a centre point and surface point
 38	RSphere1	3D	A sphere in 3D described by a centre point and 1D radius
 39	RSphere2	3D	A sphere in 3D described by a centre point and 2D radius
 40	RSphere3	3D	A sphere in 3D described by a centre point and 3D radius
 41	RSphere4	3D	A sphere in 3D described by a surface point and vector to the centre point
-42	RSphere5	3D	A sphere in 3D described by a four surface points
+421	RSphere5	3D	A sphere in 3D described by a two surface points [diameter]
+42	RSphere6	3D	A sphere in 3D described by a four surface points
 43	RAlignedHalfAxes	2D	An ellipse in 2D aligned with the axes described by two half axes
 44	RHalfAxes	2D	An ellipse in 2D described by two half axes
 45	REllipseCovariance	2D	An ellipse in 2D described by a centre point and covariance matrix
@@ -73,3 +77,14 @@ RepID	Representation	Dims	Description
 71	RAffineTransform	1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
 72	RAffineTransform	2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
 73	RAffineTransform	3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform
+74	RTranslateTransform	1D	A translation transformation in 1D
+75	RTranslateTransform	2D	A translation transformation in 2D
+76	RTranslateTransform	3D	A translation transformation in 3D
+77	RScaleTransform	1D	A scaling transformation in 1D
+78	RScaleTransform	2D	A scaling transformation in 2D
+79	RScaleTransform	3D	A scaling transformation in 3D
+80	RRotateTransform	2D	A rotation transformation in 2D
+81	RRotateTransform	3D	A rotation transformation in 3D
+82	RAbstractTransform	1D	An abstract (implementation-defined) transform in 1D
+83	RAbstractTransform	2D	An abstract (implementation-defined) transform in 2D
+84	RAbstractTransform	3D	An abstract (implementation-defined) transform in 3D

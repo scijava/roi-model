@@ -149,28 +149,6 @@ Alignment
 Aligned shape variants are aligned at right-angles to the x and y (2D) or x, y and z (3D) axes.
 
 
-Circle2D
-^^^^^^^^
-
-.. todo::
-   Specify using bounding square.  Inherits all Square2D and AlignedSquare2D representations.
-    Specify using diameter (two points)
-
-.. index:: Sphere3D
-
-Sphere3D
-^^^^^^^^
-
-.. todo::
-   Specify using bounding cube .  Inherits all Cube3D and AlignedCube3D representations.
-    Specify using diameter (two points)
-
-
-.. todo::
-    Specify using reversed radius (vector3D to centre)
-    Specify using diameter (two points)
-    Specify using 4 points around surface (->radius and centre)
-
 
 AlignedEllipse2D
 ^^^^^^^^^^^^^^^^

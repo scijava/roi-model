@@ -154,13 +154,14 @@ class Model:
             line = line.rstrip('\n')
             if (len(line) == 0 or line[0] == '#'):
                 continue
+            print line
             name, dim, memberseq, membername, membertype, memberdesc = line.split('\t')
             if (name == 'Representation'):
                 continue
             representation = self.representation_names[name+':'+dim]
             member = RepresentationMember(memberseq, membername, membertype, memberdesc)
             if memberseq in representation.members:
-                raise Exception("Duplicate representation " + representation.id + " sequence " + memberseq)
+                raise Exception("Duplicate representation " + str(representation.id) + " sequence " + str(memberseq))
             representation.members[memberseq] = member
 
     def load_shape_reps(self):

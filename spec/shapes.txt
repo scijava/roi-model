@@ -46,3 +46,6 @@ ShapeID	Shape	Dims	Description
 46	AffineTransform	1D	Affine transformation of a shape
 47	AffineTransform	2D	Affine transformation of a shape
 48	AffineTransform	3D	Affine transformation of a shape
+49	AbstractTransform	1D	Abstract (implementation-defined) transformation of a shape
+50	AbstractTransform	2D	Abstract (implementation-defined) transformation of a shape
+51	AbstractTransform	3D	Abstract (implementation-defined) transformation of a shape

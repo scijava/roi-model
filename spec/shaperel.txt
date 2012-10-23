@@ -17,8 +17,12 @@ Cuboid	3D	AlignedCuboid	3D
 Cuboid	3D	Ellipsoid	3D
 # radius implied from ROI point radius
 Circle	2D	Point	2D
+# centre and radius implied from bounding square
+Circle	2D	Square	2D
 # radius implied from ROI point radius
 Sphere	3D	Point	3D
+# centre and radius implied from bounding cube
+Sphere	3D	Cube	3D
 AlignedEllipse	2D	AlignedRectangle	2D
 # Also inherits AlignedRectangle implicitly
 Ellipse	2D	AlignedEllipse	2D
@@ -34,3 +38,6 @@ Cube	3D	AlignedCube	3D
 EllipticCylinder	3D	CircularCylinder	3D
 #EllipticCylinder	3D	AlignedEllipticCylinder	3D
 #CircularCylinder	3D	AlignedCircularCylinder	3D
+AbstractTransform	1D	AffineTransform	1D
+AbstractTransform	2D	AffineTransform	2D
+AbstractTransform	3D	AffineTransform	3D
