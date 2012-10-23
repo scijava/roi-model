@@ -41,3 +41,7 @@ EllipticCylinder	3D	CircularCylinder	3D
 AbstractTransform	1D	AffineTransform	1D
 AbstractTransform	2D	AffineTransform	2D
 AbstractTransform	3D	AffineTransform	3D
+Scale	2D	Line	2D
+Scale	3D	Line	3D
+Grid	2D	Rectangle	2D
+Grid	3D	Cuboid	3D

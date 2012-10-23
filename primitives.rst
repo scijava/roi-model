@@ -46,10 +46,10 @@ Binary bitwise operators
 ======== ===== ============
 Operator Value Description
 ======== ===== ============
-∧        0     And
-∨        1     Or
-¬        2     Not
-⊻        3     Exclusive or
+AND      0     And
+OR       1     Or
+NOT      2     Not
+XOR      3     Exclusive or
 ======== ===== ============
 
 

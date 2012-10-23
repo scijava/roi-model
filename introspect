@@ -22,14 +22,15 @@ class Shape:
             self.id = int(self.id)
 
     def check(self):
-        if self.rep_canonical == None:
-            raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
+        if (self.name not in ['Scale', 'Grid', 'Text']):
+            if self.rep_canonical == None:
+                raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
 
-        if self.rep_canonical not in self.rep_in:
-            raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an input representation')
+            if self.rep_canonical not in self.rep_in:
+                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an input representation')
 
-        if self.rep_canonical not in self.rep_out:
-            raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an output representation')
+            if self.rep_canonical not in self.rep_out:
+                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an output representation')
 
         return
 
@@ -135,7 +136,7 @@ class Model:
             if (representation.id == 'RepID'):
                 continue
             if representation.id in self.representation_ids:
-                raise Exception("Duplicate representation ID " + representation.id)
+                raise Exception("Duplicate representation ID " + str(representation.id))
             self.representation_ids[representation.id] = representation
             if representation.name+':'+representation.dim in self.representation_names:
                 raise Exception("Duplicate representation name+dim " + representation.name+':'+representation.dim)

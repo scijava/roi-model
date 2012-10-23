@@ -50,7 +50,7 @@ Sphere	3D	RSphere5	3D	true	true	false
 Sphere	3D	RSphere6	3D	true	true	false	
 AlignedEllipse	2D	RAlignedHalfAxes	2D	true	true	true	
 Ellipse	2D	RHalfAxes	2D	true	true	true	
-Ellipse	2D	REllipseCovariance	2D	true	true	false	
+Ellipse	2D	REllipseCovariance	2D	true	true	false	Mahalanbobis distance used to draw an ellipse using the mean coordinates (P1) and 2 × 2 covariance matrix (COV1)
 AlignedEllipsoid	3D	RAlignedHalfAxes	3D	true	true	true	
 Ellipsoid	3D	RHalfAxes	3D	true	true	true	
 Ellipsoid	3D	REllipsoidCovariance	3D	true	true	false	
@@ -100,3 +100,13 @@ AffineTransform	3D	RRotateTransform	3D	true	false	false
 AbstractTransform	1D	RAbstractTransform	1D	true	true	true	
 AbstractTransform	2D	RAbstractTransform	2D	true	true	true	
 AbstractTransform	3D	RAbstractTransform	3D	true	true	true	
+Text	2D	RText	2D	true	true	true	
+Value	nD	RValue	nD	true	true	true	
+Values	nD	RValues	nD	true	true	true	
+Range	nD	RRange1	nD	true	true	true	
+Range	nD	RRange2	nD	true	true	true	
+Extrude	nD	RExtrude	nD	true	true	true	
+Combine	nD	RCombine	nD	true	true	true	
+Bitwise	1D	RBitwise	1D	true	true	true	
+Bitwise	2D	RBitwise	2D	true	true	true	
+Bitwise	3D	RBitwise	3D	true	true	true	

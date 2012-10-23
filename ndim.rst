@@ -7,115 +7,24 @@ dimensions.  The following primitives work in any "dimension" with a
 discrete or continuous range by permitting the selection of specific
 values, or sub-ranges.
 
-These representations could be represented efficiently using a 1D
-bitmap or Line1D.
+These "nD" shapes (Value, Values, Range) and the extrusion and
+combining shapes (Extrude, Combine), permit the specification of ROIs
+in multiple arbitrary dimensions, and their combination with geometry
+in 1D, 2D and 3D.
 
-Regions within a single dimension
----------------------------------
+Just as all 1D, 2D and 3D geometry can be converted to the respective
+1D, 2D or 3D bitmask or greymask representing the described shape, all
+nD primitives in higher dimensions can be converted to 1D bitmask or
+greymask.  A 1D bitmask for each dimension will allow efficient
+iteration over the higher-order dimensions using the resulting
+bitmaps.
 
-.. index::
-    ValuenD
+By default, a ROI is unconstrained within all dimensions.  The
+addition of constraints restricts it to particular dimensions, or
+subsets thereof.
 
-ValuenD
-^^^^^^^
-
-Constrain region to a single value within a specific dimension.
-
-Representation:
-
-==== ======== ======================
-Name Type     Description
-==== ======== ======================
-S1   ShapeID  Shape
-R1   RepID    Representation
-D1   Index    Dimension
-V1   Value    Value within dimension
-==== ======== ======================
-
-ValuesnD
-^^^^^^^^
-
-Constrain region to multiple values within a specific dimension.
-
-Representation:
-
-==== =========== =======================
-Name Type        Description
-==== =========== =======================
-S1   ShapeID     Shape
-R1   RepID       Representation
-D1   Index       Dimension
-NVAL Count       Number of values
-VALS Value[NVAL] Values within dimension
-==== =========== =======================
-
-RangenD
-^^^^^^^
-
-Constrain region to a range of values within a specific dimension.
-
-Representation1:
-
-Specified as the half-open range [V1, V2).
-
-==== ======== ================================
-Name Type     Description
-==== ======== ================================
-S1   ShapeID  Shape
-R1   RepID    Representation
-D1   Index    Dimension
-V1   Value    Starting value within dimension
-V2   Value    Ending value +1 within dimension
-==== ======== ================================
-
-Representation2:
-
-As an inequality (or equality).
-
-Specified as all values for which the formula "n O1 V1" is true,
-e.g. "n ≤ 5".
-
-==== ======== ================================
-Name Type     Description
-==== ======== ================================
-S1   ShapeID  Shape
-R1   RepID    Representation
-D1   Index    Dimension
-O1   Operator Mathematical operator
-V1   Value    Value for operation
-==== ======== ================================
-
-Regions in multiple dimensions
-------------------------------
-
-Regions in single dimensions may be combined to result in a region in
-multiple dimensions.
-
-ExtrudenD
-^^^^^^^^^
-
-Extrude a shape of arbitrary dimensionality into an additional
-dimension.  There are no limits in the additional dimension; these
-must be set by combining with a range instead.
-
-==== ======== ================================
-Name Type     Description
-==== ======== ================================
-S1   ShapeID  Shape
-R1   RepID    Representation
-D1   Index    Dimension
-S2   ShapeID  Shape to extrude
-==== ======== ================================
-
-CombinenD
-^^^^^^^^^
-
-==== ======== ================================
-Name Type     Description
-==== ======== ================================
-S1   ShapeID  Shape
-R1   RepID    Representation
-S2   ShapeID  First shape to combine
-S3   ShapeID  Second shape to combine
-==== ======== ================================
-
+.. note::
+    RL.  Should we be unconstrained by default, or completely
+    constrained?  Should this behaviour be different for "real"
+    dimensions (xyzt) compared with virtual dimensions such as
+    channels?

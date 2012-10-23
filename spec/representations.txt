@@ -48,17 +48,29 @@ RepID	Representation	Dims	Description
 42	RSphere6	3D	A sphere in 3D described by a four surface points
 43	RAlignedHalfAxes	2D	An ellipse in 2D aligned with the axes described by two half axes
 44	RHalfAxes	2D	An ellipse in 2D described by two half axes
-45	REllipseCovariance	2D	An ellipse in 2D described by a centre point and covariance matrix
+45	REllipseCovariance	2D	An ellipse in 2D described by a centre point and covariance matrix (Mahalanbobis distance)
 46	RAlignedHalfAxes	3D	An ellipsoid in 3D aligned with the axes
 47	RHalfAxes	3D	An ellipsoid in 3D described by three half axes
-48	REllipsoidCovariance	3D	An ellipsoid in 3D described by a centre point and covariance matrix
+48	REllipsoidCovariance	3D	An ellipsoid in 3D described by a centre point and covariance matrix (Mahalanbobis distance)
+# A basic circular cylinder with faces at right angles.
 49	RCircularCylinder1	3D	A circular cylinder in 3D described by the centres of both faces and a radius
+# A basic circular cylinder with faces at right angles.
 50	RCircularCylinder2	3D	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
+# Face angles other than right-angles let chains of cyclinders be used
+# for tubular structures without gaps at the joins.
 51	RCircularCylinder3	3D	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
+# Face angles other than right-angles let chains of cyclinders be used
+# for tubular structures without gaps at the joins.
 52	RCircularCylinder4	3D	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
+# A basic elliptic cylinder with faces at right angles.
 53	REllipticCylinder1	3D	An elliptic cylinder in 3D described by the centres both faces and half axes
+# A basic elliptic cylinder with faces at right angles.
 54	REllipticCylinder2	3D	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
+# Face angles other than right-angles let chains of cyclinders be used
+# for tubular structures without gaps at the joins.
 55	REllipticCylinder3	3D	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
+# Face angles other than right-angles let chains of cyclinders be used
+# for tubular structures without gaps at the joins.
 56	REllipticCylinder4	3D	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
 57	RArc1	2D	An arc in 2D described by a line (points) and vector
 58	RArc2	2D	An arc in 2D described by a line (vector) and a vector
@@ -66,13 +78,31 @@ RepID	Representation	Dims	Description
 60	RArc1	3D	An arc in 3D described by a line (points) and vector
 61	RArc2	3D	An arc in 3D described by a line (vector) and a vector
 62	RArc3	3D	An arc in 3D described by three points; vector inferred from third point
+# The mask is applied to the bounding line.  Dimensions specify the
+# x size of the mask.  DATA is the mask pixel data.
 63	RBitMask	1D	A bitmask in 1D described by bounding line, dimensions and mask data
+# The mask is applied to the bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
 64	RBitMask	2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
+# The mask is applied to the bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
 65	RBitMask	3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
+# The mask is applied to the bounding line.  Dimensions specify the
+# x size of the mask.  DATA is the mask pixel data.
 66	RGreyMask	1D	A greymask in 1D described by bounding line, dimensions and mask data
+# The mask is applied to the bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
 67	RGreyMask	2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
+# The mask is applied to the bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
 68	RGreyMask	3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
+# Vertex references are indexes into the VERTS array.  Vertex-face
+# mapping is implied, and will require the implementor to construct the
+# mapping.
 69	RMesh	2D	A face-vertex mesh in 2D described by face and vertex lists
+# Vertex references are indexes into the VERTS array.  Vertex-face
+# mapping is implied, and will require the implementor to construct the
+# mapping.
 70	RMesh	3D	A face-vertex mesh in 3D described by face and vertex lists
 71	RAffineTransform	1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
 72	RAffineTransform	2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
@@ -88,3 +118,14 @@ RepID	Representation	Dims	Description
 82	RAbstractTransform	1D	An abstract (implementation-defined) transform in 1D
 83	RAbstractTransform	2D	An abstract (implementation-defined) transform in 2D
 84	RAbstractTransform	3D	An abstract (implementation-defined) transform in 3D
+85	RText	2D	Text
+87	RValue	nD	A single value
+88	RValues	nD	A set of values
+89	RRange1	nD	A range of values specified as the half-open range [V1, V2)
+# Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
+90	RRange2	nD	A range of valuea specified as an inequality (or equality)
+91	RExtrude	nD	A shape extruded in an additional dimension
+92	RCombine	nD	A shape combined from shapes in different dimensions
+93	RBitwise	1D	Binary bitwise operation
+94	RBitwise	2D	Binary bitwise operation
+95	RBitwise	3D	Binary bitwise operation
