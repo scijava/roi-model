@@ -369,7 +369,7 @@ class Model:
         for rep in self.representation_ids.values():
             dot.write('\t"{0} ({1})" [shape=rectangle];\n'.format(rep.name, rep.dim))
         for shape in self.shape_ids.values():
-            dot.write('\t"{0} ({1})" [shape=ellipse];\n'.format(shape.name, shape.dim))
+            dot.write('\t"{0} ({1})" [shape=ellipse, style=filled, fillcolor="lightblue"];\n'.format(shape.name, shape.dim))
             for i in shape.inherit:
                 dot.write('\t"{0} ({1})" -> "{2} ({3})";\n'.format(i.name, i.dim, shape.name, shape.dim))
             for r in shape.rep_in:
