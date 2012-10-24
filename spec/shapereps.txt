@@ -1,4 +1,4 @@
-Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
+#Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
 Point	2D	RPoint	2D	true	true	true	
 Point	3D	RPoint	3D	true	true	true	
 Points	2D	RPoints	2D	true	true	true	

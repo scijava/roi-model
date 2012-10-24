@@ -1,4 +1,4 @@
-ShapeID	Shape	Dims	Description
+#ShapeID	Shape	Dims	Description
 0	Point	2D	A single point
 1	Point	3D	A single point
 2	Points	2D	A set of points
@@ -49,7 +49,9 @@ ShapeID	Shape	Dims	Description
 49	AbstractTransform	1D	Abstract (implementation-defined) transformation of a shape
 50	AbstractTransform	2D	Abstract (implementation-defined) transformation of a shape
 51	AbstractTransform	3D	Abstract (implementation-defined) transformation of a shape
-# Text in 3D will need to be based upon a rectangle in 3D (not yet possible without a transform).  Should label alignment be specified directly in the representation, or in higher-level metadata?
+# Text in 3D will need to be based upon a rectangle in 3D (not yet
+# possible without a transform).  Should label alignment be specified
+# directly in the representation, or in higher-level metadata?
 52	Text	2D	Text (label)
 # Constrain region to a single value within a specific dimension.
 53	Value	nD	A value in an arbitrary dimension
@@ -60,8 +62,9 @@ ShapeID	Shape	Dims	Description
 # There are no limits in the additional dimension; these must be set
 # by combining with a range instead.
 56	Extrude	nD	Extrude a shape of arbitrary dimensionality into an additional dimension.
+# The result is a shape combining all subset dimensions.
 # It is illegal to have a common dimension between the two shapes.
-57	Combine	nD	Combine shapes of differing dimensionality to form a shape combining all subset dimensions.
+57	Combine	nD	Combine shapes of differing dimensionality
 58	Scale	2D	A scale bar between two points
 59	Scale	3D	A scale bar between two points
 60	Grid	2D	A scale bar between two points

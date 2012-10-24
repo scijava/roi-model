@@ -1,4 +1,4 @@
-RepID	Representation	Dims	Description
+#RepID	Representation	Dims	Description
 0	RPoint	1D	A single point in 1D
 1	RPoint	2D	A single point in 2D
 2	RPoint	3D	A single point in 3D
@@ -56,20 +56,20 @@ RepID	Representation	Dims	Description
 49	RCircularCylinder1	3D	A circular cylinder in 3D described by the centres of both faces and a radius
 # A basic circular cylinder with faces at right angles.
 50	RCircularCylinder2	3D	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
-# Face angles other than right-angles let chains of cyclinders be used
+# Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
 51	RCircularCylinder3	3D	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
-# Face angles other than right-angles let chains of cyclinders be used
+# Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
 52	RCircularCylinder4	3D	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
 # A basic elliptic cylinder with faces at right angles.
 53	REllipticCylinder1	3D	An elliptic cylinder in 3D described by the centres both faces and half axes
 # A basic elliptic cylinder with faces at right angles.
 54	REllipticCylinder2	3D	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
-# Face angles other than right-angles let chains of cyclinders be used
+# Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
 55	REllipticCylinder3	3D	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
-# Face angles other than right-angles let chains of cyclinders be used
+# Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
 56	REllipticCylinder4	3D	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
 57	RArc1	2D	An arc in 2D described by a line (points) and vector

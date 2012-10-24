@@ -25,5 +25,3 @@ Specification
    :hidden:
 
    roi
-   gen/shapes
-   gen/representations

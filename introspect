@@ -17,6 +17,8 @@ class Shape:
         self.rep_in = set()
         self.rep_out = set()
         self.rep_canonical = None
+        self.comment = ''
+        self.inherit_comment = dict()
 
         if (self.id != 'ShapeID'):
             self.id = int(self.id)
@@ -53,10 +55,63 @@ class Shape:
                 s.__reps(reps, used)
         return
 
+    def inherited(self):
+        used = set()
+        self.__inherited(used)
+        used.remove(self)
+        return used
+
+    def __inherited(self, used):
+        used.add(self)
+        for s in self.inherit:
+            if (s not in used):
+                used.add(s)
+                s.__inherited(used)
+
+    # If we inherit a shape, we can use of all its in representations.
+    def has_rep_in(self, rep):
+        found = 0
+        if rep in self.rep_in:
+            found = 1
+        else:
+            for s in self.inherited():
+                if s.__has_rep_in(rep):
+                    found = 2
+                    break
+        return found
+
+    def __has_rep_in(self, rep):
+        found = 0
+        if rep in self.rep_in:
+            found = 1
+        return found
+
+    # If we inherit a shape, we can't necessarily use its out
+    # representations (need to look up if that's possible using its in
+    # representations directly).  i.e. we check if it inherits us (in
+    # reverse)
+    def has_rep_out(self, rep):
+        found = 0
+        if rep in self.rep_out:
+            found = 1
+        else:
+            for s in self.inherited():
+                if self in s.inherit and s.__has_rep_in(rep):
+                    found = 2
+                    break
+        return found
+
+    def __has_rep_out(self, rep):
+        found = 0
+        if rep in self.rep_out:
+            found = 1
+        return found
+
 class Representation:
     def __init__(self, text):
         self.id, self.name, self.dim, self.desc = text.split('\t')
         self.members = dict()
+        self.comment = ''
 
         if (self.id != 'RepID'):
             self.id = int(self.id)
@@ -86,6 +141,7 @@ class RepresentationMember:
         self.name = name
         self.type = type
         self.desc = desc
+        self.comment = ''
 
         self.seq = int(self.seq)
 
@@ -108,13 +164,19 @@ class Model:
 
     def load_shapes(self):
         # Load shapes
+        comment = ''
         for line in open ('spec/shapes.txt', 'rt'):
             line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
                 continue
             shape = Shape(line)
-            if (shape.id == 'ShapeID'):
-                continue
+            if (len(comment) > 0):
+                shape.comment = comment
+                comment = ''
             if shape.id in self.shape_ids:
                 raise Exception("Duplicate shape ID " + shape.id)
             self.shape_ids[shape.id] = shape
@@ -127,14 +189,20 @@ class Model:
             print shape.id, shape.name, shape.dim
 
     def load_reps(self):
+        comment = ''
         # Load representations
         for line in open ('spec/representations.txt', 'rt'):
             line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
                 continue
             representation = Representation(line)
-            if (representation.id == 'RepID'):
-                continue
+            if (len(comment) > 0):
+                representation.comment = comment
+                comment = ''
             if representation.id in self.representation_ids:
                 raise Exception("Duplicate representation ID " + str(representation.id))
             self.representation_ids[representation.id] = representation
@@ -151,16 +219,22 @@ class Model:
 
     def load_rep_members(self):
         # Load representation members
+        comment = ''
         for line in open ('spec/representationmembers.txt', 'rt'):
             line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
                 continue
             print line
             name, dim, memberseq, membername, membertype, memberdesc = line.split('\t')
-            if (name == 'Representation'):
-                continue
             representation = self.representation_names[name+':'+dim]
             member = RepresentationMember(memberseq, membername, membertype, memberdesc)
+            if (len(comment) > 0):
+                member.comment = comment
+                comment = ''
             if memberseq in representation.members:
                 raise Exception("Duplicate representation " + str(representation.id) + " sequence " + str(memberseq))
             representation.members[memberseq] = member
@@ -185,9 +259,14 @@ class Model:
 
     def load_shape_rels(self):
         # Load shape relations
+        comment = ''
         for line in open ('spec/shaperel.txt', 'rt'):
             line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
                 continue
             shape, dim, inherit, inheritdim = line.split('\t')
             if (shape == 'Shape'):
@@ -195,6 +274,9 @@ class Model:
             s = self.shape_names[shape+':'+dim]
             si = self.shape_names[inherit+':'+inheritdim]
             s.inherit.add(si)
+            if (len(comment) > 0):
+                s.inherit_comment[inherit] = comment
+                comment = ''
 
     def check(self):
         for shape in self.shape_ids.values():
@@ -244,13 +326,36 @@ class Model:
 
         shapes = model.shape_ids.keys()
         shapes.sort()
-        shaperst = open('gen/shapes.rst', 'w')
-        print 'Writing gen/shapes.rst'
+        shaperst = open('shapes.rst', 'w')
+        print 'Writing shapes.rst'
+        header = """Shapes
+======
+
+Overview
+--------
+
+.. tabularcolumns:: |r|l|l|p{3in}|
+.. csv-table:: Shapes
+    :header-rows: 1
+    :file: gen/shapes.txt
+    :delim: tab
+    :widths: 2, 5, 2, 10
+
+Definitions
+-----------
+
+Note that in the following tables, a ‘\•’ indicates a representation
+implemented *directly* by a shape, while ‘*(\•)*’ indicates a
+representation implemented *indirectly* through inheriting another
+shape's representations for in (or vice-versa for out).
+
+"""
+        shaperst.write(header)
         for id in shapes:
             shape = model.shape_ids[id]
-            filename = 'shape-' + shape.name + '-' + shape.dim + '.txt'
-            shapetab = open('gen/' + filename, 'w')
-            print 'Writing '+'gen/' + filename
+            filename = 'gen/shape-' + shape.name + '-' + shape.dim + '.txt'
+            shapetab = open(filename, 'w')
+            print 'Writing '+ filename
             shapetab.write('Representation\tDim\tIn\tOut\tInherited from\n')
             reps = shape.reps()
             replist = list(reps.keys())
@@ -263,8 +368,8 @@ class Model:
                 if (canonical):
                     name = '**' + name + '**'
                 repins = [x.name for x in shape.rep_in]
-                rin = ('', '\•')[r in shape.rep_in]
-                rout = ('', '\•')[r in shape.rep_out]
+                rin = ('', '\•', '*(\•)*')[shape.has_rep_in(r)]
+                rout = ('', '\•', '*(\•)*')[shape.has_rep_out(r)]
                 ishapes = [x.name + ' (' + x.dim + ')' for x in reps[r]]
                 ishapes.sort()
                 # Make this shape name bold
@@ -278,7 +383,6 @@ class Model:
                                rin + '\t' + rout + '\t' + inherit + '\n')
             shapetab.close()
             
-
             template = """
 .. index::
     {0} ({1})
@@ -290,18 +394,54 @@ class Model:
 
 {2}.
 
-.. tabularcolumns:: |l|l|l|l|p{{3in}}|
+{3}
+
+.. tabularcolumns:: |l|l|c|c|p{{3in}}|
 .. csv-table:: {0} representations ({1})
     :header-rows: 1
-    :file: {3}
+    :file: {4}
     :delim: tab
     :widths: 5, 2, 2, 2, 10
 
 """
-            shaperst.write(template.format(shape.name, shape.dim, shape.desc, filename))
+            shaperst.write(template.format(shape.name, shape.dim, shape.desc, shape.comment, filename))
             if (shape.rep_canonical):
-                shaperst.write('Canonical form is ' + shape.rep_canonical.name + ' (' + shape.rep_canonical.dim + ').\n')
+                shaperst.write('Canonical form is ' + shape.rep_canonical.name + ' (' + shape.rep_canonical.dim + ').\n\n')
 
+            # Sphinx definition
+            clist = list(shape.inherit_comment.keys())
+            clist.sort()
+            for c in clist:
+                comment = shape.inherit_comment[c]
+                if (len(comment) > 0):
+                    lines = comment.split('\n')
+                    shaperst.write(c + '\n')
+                    for line in lines:
+                        shaperst.write('    ' + line + '\n')
+
+        footer = """Relationships
+-------------
+
+The following figure illustrates the relationships detailed in the
+above tables.  Ellipses are shapes, while representations are
+rectangles.  Black arrows indicate inheritance of shape
+representations, while red and blue arrows indicate the
+representations possible to provide as input to and obtain as output
+from a shape, respectively.
+
+.. only:: html
+
+    .. image:: gen/inherit.svg
+        :width: 100%
+	:alt: Graph of object relationships
+
+.. only:: latex
+
+    .. image:: gen/inherit.pdf
+        :width: 100%
+"""
+
+        shaperst.write(footer)
         shaperst.close()
         return
 
@@ -310,14 +450,31 @@ class Model:
 
         reps = model.representation_ids.keys()
         reps.sort()
-        reprst = open('gen/representations.rst', 'w')
-        print 'Writing gen/representations.rst'
+        reprst = open('representations.rst', 'w')
+        print 'Writing representations.rst'
+        header="""Shape representations
+=====================
 
+Overview
+--------
+
+.. tabularcolumns:: |r|l|l|p{3.5in}|
+.. csv-table:: Representations
+    :header-rows: 1
+    :file: gen/representations.txt
+    :delim: tab
+    :widths: 2, 5, 2, 10
+
+Definitions
+-----------
+
+"""
+        reprst.write(header)
         for id in reps:
             rep = model.representation_ids[id]
-            filename = 'rep-' + rep.name + '-' + rep.dim + '.txt'
-            mtab = open('gen/' + filename, 'w')
-            print 'Writing '+'gen/' + filename
+            filename = 'gen/rep-' + rep.name + '-' + rep.dim + '.txt'
+            mtab = open(filename, 'w')
+            print 'Writing ' + filename
             mtab.write('SeqNo\tName\tType\tDescription\n')
             members = rep.members
             mlist = list(members.keys())
@@ -325,7 +482,6 @@ class Model:
 
             for m in mlist:
                 mval = members[m]
-
                 mtab.write(str(mval.seq) + '\t' + mval.name + '\t' + mval.type + '\t' + mval.desc + '\n')
             mtab.close()
 
@@ -340,16 +496,33 @@ class Model:
 
 {2}.
 
+{3}
+
 .. tabularcolumns:: |r|l|l|p{{2in}}|
 .. csv-table:: {0} members ({1})
     :header-rows: 1
-    :file: {3}
+    :file: {4}
     :delim: tab
     :widths: 2, 2, 5, 10
 
 """
 
-            reprst.write(template.format(rep.name, rep.dim, rep.desc, filename))
+            reprst.write(template.format(rep.name, rep.dim, rep.desc, rep.comment, filename))
+
+            template = """
+{0}
+    {1}
+
+"""
+
+            # Sphinx definition
+            for m in mlist:
+                mval = members[m]
+                if (len(mval.comment) > 0):
+                    lines = mval.comment.split('\n')
+                    reprst.write(mval.name + '\n')
+                    for line in lines:
+                        reprst.write('    ' + line + '\n')
 
         reprst.close()
         return

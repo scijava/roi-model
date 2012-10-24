@@ -1,4 +1,4 @@
-Shape	ShapeDim	InheritShape	InheritShapeDim
+#Shape	ShapeDim	InheritShape	InheritShapeDim
 Lines	2D	Line	2D
 Lines	3D	Line	3D
 AlignedRectangle	2D	AlignedEllipse	2D
