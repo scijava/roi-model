@@ -29,28 +29,28 @@ Basic primitives
 Basic operators
 ---------------
 
-======== ===== ========================
-Operator Value Description
-======== ===== ========================
-=        0     Equals
-≠        1     Not equals
-<        2     Less than
-≤        3     Less than or equal to
->        4     Greater than
-≥        5     Greater than or equal to
+===== ======== ========================
+Value Operator Value Description
+===== ======== ========================
+0     =        Equals
+1     ≠        Not equals
+2     <        Less than
+3     ≤        Less than or equal to
+4     >        Greater than
+5     ≥        Greater than or equal to
 ======== ===== ========================
 
 Binary bitwise operators
 ------------------------
 
-======== ===== ============
-Operator Value Description
-======== ===== ============
-AND      0     And
-OR       1     Or
-NOT      2     Not
-XOR      3     Exclusive or
-======== ===== ============
+===== ======== ==================
+Value Operator Value Description
+===== ======== ==================
+0     AND      0     And
+1     OR       1     Or
+2     NOT      2     Not
+3     XOR      3     Exclusive or
+===== ======== ==================
 
 
 All shape primitives are described in terms of the above fundamental

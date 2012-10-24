@@ -5,8 +5,8 @@ ROI Specification [DRAFT]
 
 .. only:: html
 
-    .. image:: images/logos.png
-        :width: 40%
+    .. image:: images/scijava.png
+        :width: 20%
 
     Contents:
 
