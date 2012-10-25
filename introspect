@@ -246,8 +246,6 @@ class Model:
             if (len(line) == 0 or line[0] == '#'):
                 continue
             shape, dim, rep, repdim, repin, repout, repcanonical, details = line.split('\t')
-            if (shape == 'Shape'):
-                continue
             s = self.shape_names[shape+':'+dim]
             srep = self.representation_names[rep+':'+repdim]
             if (repin == 'true'):
@@ -269,8 +267,6 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             shape, dim, inherit, inheritdim = line.split('\t')
-            if (shape == 'Shape'):
-                continue
             s = self.shape_names[shape+':'+dim]
             si = self.shape_names[inherit+':'+inheritdim]
             s.inherit.add(si)
