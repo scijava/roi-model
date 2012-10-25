@@ -24,17 +24,17 @@ Sphere	3D	Point	3D
 #Sphere	3D	Cube	3D
 #AlignedEllipse	2D	AlignedRectangle	2D
 # Also inherits AlignedRectangle implicitly
-Ellipse	2D	AlignedEllipse	2D
+#Ellipse	2D	AlignedEllipse	2D
 #Ellipse	2D	Rectangle	2D
-Ellipse	2D	Circle	2D
+#Ellipse	2D	Circle	2D
 #AlignedEllipsoid	3D	AlignedCuboid	3D
-Ellipsoid	3D	AlignedEllipsoid	3D
+#Ellipsoid	3D	AlignedEllipsoid	3D
 # Also inherits AlignedCuboid implicitly
 Ellipsoid	3D	Cuboid	3D
 Ellipsoid	3D	Sphere	3D
 #Square	2D	AlignedSquare	2D
 #Cube	3D	AlignedCube	3D
-EllipticCylinder	3D	CircularCylinder	3D
+#EllipticCylinder	3D	CircularCylinder	3D
 #EllipticCylinder	3D	AlignedEllipticCylinder	3D
 #CircularCylinder	3D	AlignedCircularCylinder	3D
 AbstractTransform	1D	AffineTransform	1D

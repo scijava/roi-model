@@ -6,20 +6,11 @@
 4	Polyline	3D	A set of connected points
 5	Polygon	3D	A "polygon" (closed polyline) [does this make sense to have in 3D?]
 6	Cuboid	3D	A cuboid
-22	Circle	2D	A circle
+7	Cylinder	3D	An elliptic cylinder
 23	Sphere	3D	A sphere
-24	AlignedEllipse	2D	An ellipse aligned with all axes
-25	Ellipse	2D	An ellipse
-26	AlignedEllipsoid	3D	An ellipsoid aligned with all axes
 27	Ellipsoid	3D	An ellipsoid
-28	PolylineSpline	2D	A set of connected splines (open)
 29	PolylineSpline	3D	A set of connected splines (open)
-30	PolygonSpline	2D	A set of connected splines (closed)
 31	PolygonSpline	3D	A set of connected splines (closed)
-#32	AlignedCircularCylinder	3D	A circular cylinder aligned with all axes
-33	CircularCylinder	3D	A circular cylinder
-#34	AlignedEllipticCylinder	3D	An elliptic cylinder aligned with all axes
-35	EllipticCylinder	3D	An elliptic cylinder
 36	Arc	2D	An arc
 37	Arc	3D	An arc
 38	BitMask	1D	A mask with one bit values
