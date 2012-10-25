@@ -1,52 +1,58 @@
 #ShapeID	Shape	Dims	Description
+
+## 3D geometric forms with no intrinsic volume
+
 0	Point	3D	A single point
 1	Points	3D	A set of points
 2	Line	3D	A single line
 3	Lines	3D	A set of lines
-4	Polyline	3D	A set of connected points
-5	Polygon	3D	A "polygon" (closed polyline) [does this make sense to have in 3D?]
-6	Cuboid	3D	A cuboid
-7	Cylinder	3D	An elliptic cylinder
-23	Sphere	3D	A sphere
-27	Ellipsoid	3D	An ellipsoid
-29	PolylineSpline	3D	A set of connected splines (open)
-31	PolygonSpline	3D	A set of connected splines (closed)
-36	Arc	2D	An arc
-37	Arc	3D	An arc
-38	BitMask	1D	A mask with one bit values
-39	BitMask	2D	A mask with one bit values
-40	BitMask	3D	A mask with one bit values
-41	GreyMask	1D	A mask with multiple grey levels
-42	GreyMask	2D	A mask with multiple grey levels
-43	GreyMask	3D	A mask with multiple grey levels
-44	Mesh	2D	A mesh
-45	Mesh	3D	A mesh
-46	AffineTransform	1D	Affine transformation of a shape
-47	AffineTransform	2D	Affine transformation of a shape
-48	AffineTransform	3D	Affine transformation of a shape
-49	AbstractTransform	1D	Abstract (implementation-defined) transformation of a shape
-50	AbstractTransform	2D	Abstract (implementation-defined) transformation of a shape
-51	AbstractTransform	3D	Abstract (implementation-defined) transformation of a shape
+4	Polyline	3D	A set of connected points (open)
+5	Polygon	3D	A set of connected points (closed)
+6	PolylineSpline	3D	A set of connected splines (open)
+7	PolygonSpline	3D	A set of connected splines (closed)
+8	Arc	3D	An arc
+
+## 3D geometric forms with intrinsic volume
+
+10	Cuboid	3D	A cuboid
+11	Ellipsoid	3D	An ellipsoid
+12	Cylinder	3D	An elliptic cylinder
+13	Mesh	3D	A mesh
+
+## 3D pixel data
+
+30	BitMask	3D	A mask with one bit values
+31	GreyMask	3D	A mask with multiple grey levels
+
+## 3D transformations and operations
+
+40	AffineTransform	3D	Affine transformation of a shape
+41	AbstractTransform	3D	Abstract (implementation-defined) transformation of a shape
+42	Bitwise	3D	Binary bitwise operation
+
+## nD constraints
+
+# Constrain region to a single value within a specific dimension.
+50	Value	nD	A value in an arbitrary dimension
+# Constrain region to multiple values within a specific dimension.
+51	Values	nD	A set of values in an arbitrary dimension
+# Constrain region to a range of values within a specific dimension.
+52	Range	nD	A range of values in an arbitrary dimension
+# There are no limits in the additional dimension; these must be set
+# by combining with a range instead.
+
+## nD transformations and shape operations
+
+60	Extrude	nD	Extrude a shape of arbitrary dimensionality into an additional dimension.
+# The result is a shape combining all subset dimensions.
+# It is illegal to have a common dimension between the two shapes.
+61	Combine	nD	Combine shapes of differing dimensionality
+
+## Annotations
+
 # Text in 3D will need to be based upon a rectangle in 3D (not yet
 # possible without a transform).  Should label alignment be specified
 # directly in the representation, or in higher-level metadata?
-52	Text	2D	Text (label)
-# Constrain region to a single value within a specific dimension.
-53	Value	nD	A value in an arbitrary dimension
-# Constrain region to multiple values within a specific dimension.
-54	Values	nD	A set of values in an arbitrary dimension
-# Constrain region to a range of values within a specific dimension.
-55	Range	nD	A range of values in an arbitrary dimension
-# There are no limits in the additional dimension; these must be set
-# by combining with a range instead.
-56	Extrude	nD	Extrude a shape of arbitrary dimensionality into an additional dimension.
-# The result is a shape combining all subset dimensions.
-# It is illegal to have a common dimension between the two shapes.
-57	Combine	nD	Combine shapes of differing dimensionality
-58	Scale	2D	A scale bar between two points
-59	Scale	3D	A scale bar between two points
-60	Grid	2D	A scale bar between two points
-61	Grid	3D	A scale bar between two points
-62	Bitwise	1D	Binary bitwise operation
-63	Bitwise	2D	Binary bitwise operation
-64	Bitwise	3D	Binary bitwise operation
+100	Text	3D	Text (label)
+101	Scale	3D	A scale bar between two points
+102	Grid	3D	A scale grid in a defined volume
