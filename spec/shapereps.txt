@@ -1,38 +1,48 @@
 #Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
-Point	2D	RPoint	2D	true	true	true	
+Point	3D	RPoint	1D	true	true	false	
+Point	3D	RPoint	2D	true	true	false	
 Point	3D	RPoint	3D	true	true	true	
-Points	2D	RPoints	2D	true	true	true	
+Points	3D	RPoints	1D	true	true	false	
+Points	3D	RPoints	2D	true	true	false	
 Points	3D	RPoints	3D	true	true	true	
-Line	2D	RLinePoints	2D	true	true	true	
-Line	2D	RLineVector	2D	true	true	false	
+Line	3D	RLinePoints	1D	true	true	false	
+Line	3D	RLineVector	1D	true	true	false	
+Line	3D	RLinePoints	2D	true	true	false	
+Line	3D	RLineVector	2D	true	true	false	
 Line	3D	RLinePoints	3D	true	true	true	
 Line	3D	RLineVector	3D	true	true	false	
-Lines	2D	RLinesPoints	2D	true	true	true	
-Lines	2D	RLinesVectors	2D	true	true	false	
+Lines	3D	RLinesPoints	1D	true	true	false	
+Lines	3D	RLinesVectors	1D	true	true	false	
+Lines	3D	RLinesPoints	2D	true	true	false	
+Lines	3D	RLinesVectors	2D	true	true	false	
 Lines	3D	RLinesPoints	3D	true	true	true	
 Lines	3D	RLinesVectors	3D	true	true	false	
-Polyline	2D	RPolylinePoints	2D	true	true	true	
-Polyline	2D	RPolylineVector	2D	true	true	false	
+Polyline	3D	RPolylinePoints	1D	true	true	false	
+Polyline	3D	RPolylineVector	1D	true	true	false	
+Polyline	3D	RPolylinePoints	2D	true	true	false	
+Polyline	3D	RPolylineVector	2D	true	true	false	
 Polyline	3D	RPolylinePoints	3D	true	true	true	
 Polyline	3D	RPolylineVector	3D	true	true	false	
-Polygon	2D	RPolylinePoints	2D	true	true	true	
-Polygon	2D	RPolylineVector	2D	true	true	false	
+Polygon	3D	RPolylinePoints	1D	true	true	false	
+Polygon	3D	RPolylineVector	1D	true	true	false	
+Polygon	3D	RPolylinePoints	2D	true	true	false	
+Polygon	3D	RPolylineVector	2D	true	true	false	
 Polygon	3D	RPolylinePoints	3D	true	true	true	
 Polygon	3D	RPolylineVector	3D	true	true	false	
-AlignedSquare	2D	RAlignedSquare1	2D	true	true	true	
-AlignedSquare	2D	RAlignedSquare2	2D	true	true	false	
-Square	2D	RLinePoints	2D	true	true	true	
-Square	2D	RLineVector	2D	true	true	false	
-AlignedCube	3D	RAlignedCube1	3D	true	true	true	
-AlignedCube	3D	RAlignedCube2	3D	true	true	false	
-Cube	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
-Cube	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
-AlignedRectangle	2D	RLinePoints	2D	true	true	true	First corner and opposing corner
-AlignedRectangle	2D	RLineVector	2D	true	true	false	First corner and opposing corner (relative to P1)
-Rectangle	2D	RRectangle1	2D	true	true	true	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
-Rectangle	2D	RRectangle2	2D	true	true	false	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
-AlignedCuboid	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
-AlignedCuboid	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RAlignedSquare1	2D	true	true	false	
+Cuboid	3D	RAlignedSquare2	2D	true	true	false	
+Cuboid	3D	RSquare1	2D	true	true	false	
+Cuboid	3D	RSquare2	2D	true	true	false	
+Cuboid	3D	RAlignedCube1	3D	true	true	false	
+Cuboid	3D	RAlignedCube2	3D	true	true	false	
+Cuboid	3D	RCube1	3D	true	true	true	First corner and opposing corner
+Cuboid	3D	RCube2	3D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RAlignedRectangle1	2D	true	true	true	First corner and opposing corner
+Cuboid	3D	RAlignedRectangle2	2D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RRectangle1	2D	true	true	true	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
+Cuboid	3D	RRectangle2	2D	true	true	false	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
+Cuboid	3D	RAlignedCuboid1	3D	true	true	true	First corner and opposing corner
+Cuboid	3D	RAlignedCuboid2	3D	true	true	false	First corner and opposing corner (relative to P1)
 Cuboid	3D	RCuboid1	3D	true	true	true	
 Cuboid	3D	RCuboid2	3D	true	true	false	
 Circle	2D	RCircle0	2D	true	true	false	

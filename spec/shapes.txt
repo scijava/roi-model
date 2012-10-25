@@ -1,24 +1,11 @@
 #ShapeID	Shape	Dims	Description
-0	Point	2D	A single point
-1	Point	3D	A single point
-2	Points	2D	A set of points
-3	Points	3D	A set of points
-4	Line	2D	A single line
-5	Line	3D	A single line
-6	Lines	2D	A set of lines
-7	Lines	3D	A set of lines
-8	Polyline	2D	A set of connected points
-9	Polyline	3D	A set of connected points
-10	Polygon	2D	A polygon (closed polyline)
-11	Polygon	3D	A "polygon" (closed polyline) [does this make sense to have in 3D?]
-14	AlignedSquare	2D	A square aligned with all axes
-15	Square	2D	A square
-16	AlignedCube	3D	A cube aligned with all axes
-17	Cube	3D	A cube
-18	AlignedRectangle	2D	A rectangle aligned with all axes
-19	Rectangle	2D	A rectangle
-20	AlignedCuboid	3D	A cuboid aligned with all axes
-21	Cuboid	3D	A cuboid
+0	Point	3D	A single point
+1	Points	3D	A set of points
+2	Line	3D	A single line
+3	Lines	3D	A set of lines
+4	Polyline	3D	A set of connected points
+5	Polygon	3D	A "polygon" (closed polyline) [does this make sense to have in 3D?]
+6	Cuboid	3D	A cuboid
 22	Circle	2D	A circle
 23	Sphere	3D	A sphere
 24	AlignedEllipse	2D	An ellipse aligned with all axes
