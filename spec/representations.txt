@@ -17,18 +17,32 @@
 15	RLineVector	1D	A line described by a point and a vector
 16	RLineVector	2D	A line described by a point and a vector
 17	RLineVector	3D	A line described by a point and a vector
+181	RLinesPoints	1D	A list of lines described by two points in 1D
 18	RLinesPoints	2D	A list of lines described by two points in 2D
 19	RLinesPoints	3D	A list of lines described by two points in 3D
+201	RLinesVectors	1D	A list of lines described by a point and a vector in 1D; can be used to represent a vector field
 20	RLinesVectors	2D	A list of lines described by a point and a vector in 2D; can be used to represent a vector field
 21	RLinesVectors	3D	A list of lines described by a point and a vector in 3D; can be used to represent a vector field
+221	RPolylinePoints	1D	A list of points in a polyline in 1D [could use RPoints1D directly]
 22	RPolylinePoints	2D	A list of points in a polyline in 2D [could use RPoints2D directly]
 23	RPolylinePoints	3D	A list of points in a polyline in 3D [could use RPoints3D directly]
+241	RPolylineVector	1D	A list of points in a polyline represented by a starting point and list of vectors in 1D
 24	RPolylineVector	2D	A list of points in a polyline represented by a starting point and list of vectors in 2D
 25	RPolylineVector	3D	A list of points in a polyline represented by a starting point and list of vectors in 3D
 26	RAlignedSquare1	2D	A square in 2D aligned with the axes described by a corner point and adjacent corner
 27	RAlignedSquare2	2D	A square in 2D aligned with the axes described by a corner point and vector to an adjacent corner
 28	RAlignedCube1	3D	A cube in 3D aligned with the axes described by a corner point and adjacent corner
 29	RAlignedCube2	3D	A cube in 3D aligned with the axes described by a corner point and vector to an adjacent corner
+
+291	RAlignedRectangle1	2D	An aligned rectangle described by two points in 2D
+293	RAlignedRectangle2	2D	An aligned rectangle described by a point and a vector
+292	RAlignedCuboid1	3D	An aligned cuboid described by two points in 3D
+294	RAlignedCuboid2	3D	An aligned cuboid described by a point and a vector
+295	RCube1	3D	An aligned cuboid described by two points in 3D
+296	RCube2	3D	An aligned cuboid described by a point and a vector
+297	RSquare1	2D	An aligned cuboid described by two points in 3D
+298	RSquare2	2D	An aligned cuboid described by a point and a vector
+
 30	RRectangle1	2D	A rectangle in 2D described by two corner points and a vector
 31	RRectangle2	2D	A rectangle in 2D described by a corner point and two vectors
 32	RCuboid1	3D	A cuboid in 3D described by two adjacent corners and two vectors

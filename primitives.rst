@@ -38,7 +38,7 @@ Value Operator Value Description
 3     ≤        Less than or equal to
 4     >        Greater than
 5     ≥        Greater than or equal to
-======== ===== ========================
+===== ======== ========================
 
 Binary bitwise operators
 ------------------------

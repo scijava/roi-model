@@ -13,7 +13,8 @@ import subprocess
 class Shape:
     def __init__(self, text):
         self.id, self.name, self.dim, self.desc = text.split('\t')
-        self.inherit = set()
+        self.inherit_in = set()
+        self.inherit_out = set()
         self.rep_in = set()
         self.rep_out = set()
         self.rep_canonical = None
@@ -25,6 +26,7 @@ class Shape:
 
     def check(self):
         if (self.name not in ['Scale', 'Grid', 'Text']):
+
             if self.rep_canonical == None:
                 raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
 
@@ -43,6 +45,18 @@ class Shape:
 
         return reps
 
+    def reps_in(self):
+        used = self.rep_in
+        for s in self.inherited_in():
+            used |= s.rep_in
+        return used
+
+    def reps_out(self):
+        used = self.rep_out
+        for s in self.inherited_out():
+            used |= s.rep_out
+        return used
+
     def __reps(self, reps, used):
         for r in self.rep_in | self.rep_out:
             if (r in reps):
@@ -50,23 +64,36 @@ class Shape:
             else:
                 reps[r] = set([self])
         used.add(self)
-        for s in self.inherit:
+        for s in self.inherit_in | self.inherit_out:
             if (s not in used):
                 s.__reps(reps, used)
         return
 
-    def inherited(self):
+    def inherited_in(self):
         used = set()
-        self.__inherited(used)
+        self.__inherited_in(used)
         used.remove(self)
         return used
 
-    def __inherited(self, used):
+    def __inherited_in(self, used):
         used.add(self)
-        for s in self.inherit:
+        for s in self.inherit_in:
             if (s not in used):
                 used.add(s)
-                s.__inherited(used)
+                s.__inherited_in(used)
+
+    def inherited_out(self):
+        used = set()
+        self.__inherited_out(used)
+        used.remove(self)
+        return used
+
+    def __inherited_out(self, used):
+        used.add(self)
+        for s in self.inherit_out:
+            if (s not in used):
+                used.add(s)
+                s.__inherited_out(used)
 
     # If we inherit a shape, we can use of all its in representations.
     def has_rep_in(self, rep):
@@ -74,7 +101,7 @@ class Shape:
         if rep in self.rep_in:
             found = 1
         else:
-            for s in self.inherited():
+            for s in self.inherited_in():
                 if s.__has_rep_in(rep):
                     found = 2
                     break
@@ -95,8 +122,8 @@ class Shape:
         if rep in self.rep_out:
             found = 1
         else:
-            for s in self.inherited():
-                if self in s.inherit and s.__has_rep_in(rep):
+            for s in self.inherited_out():
+                if self in s.inherit_out and s.__has_rep_in(rep):
                     found = 2
                     break
         return found
@@ -266,10 +293,13 @@ class Model:
                 if (len(line) > 1 and line[1] == ' '):
                     comment += line[2:] + '\n'
                 continue
-            shape, dim, inherit, inheritdim = line.split('\t')
+            shape, dim, inherit, inheritdim, shapein, shapeout = line.split('\t')
             s = self.shape_names[shape+':'+dim]
             si = self.shape_names[inherit+':'+inheritdim]
-            s.inherit.add(si)
+            if (shapein == 'true'):
+                s.inherit_in.add(si)
+            if (shapeout == 'true'):
+                s.inherit_out.add(si)
             if (len(comment) > 0):
                 s.inherit_comment[inherit] = comment
                 comment = ''
@@ -539,11 +569,13 @@ Definitions
             dot.write('\t"{0} ({1})" [shape=rectangle];\n'.format(rep.name, rep.dim))
         for shape in self.shape_ids.values():
             dot.write('\t"{0} ({1})" [shape=ellipse, style=filled, fillcolor="lightblue"];\n'.format(shape.name, shape.dim))
-            for i in shape.inherit:
-                dot.write('\t"{0} ({1})" -> "{2} ({3})";\n'.format(i.name, i.dim, shape.name, shape.dim))
-            for r in shape.rep_in:
+#            for i in shape.inherit_in:
+#                dot.write('\t"{0} ({1})" -> "{2} ({3})";\n'.format(i.name, i.dim, shape.name, shape.dim))
+#            for i in shape.inherit_out:
+#                dot.write('\t"{0} ({1})" -> "{2} ({3})";\n'.format(shape.name, shape.dim, i.name, i.dim))
+            for r in shape.reps_in():
                 dot.write('\t"{0} ({1})" -> "{2} ({3})" [color=red];\n'.format(r.name, r.dim, shape.name, shape.dim))
-            for r in shape.rep_out:
+            for r in shape.reps_out():
                 dot.write('\t"{0} ({1})" -> "{2} ({3})" [color=blue];\n'.format(shape.name, shape.dim, r.name, r.dim))
         dot.write('}\n')
         dot.close()

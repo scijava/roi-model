@@ -1,112 +1,122 @@
 #Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
-Point	2D	RPoint	2D	true	true	true	
+Point	3D	RPoint	1D	true	true	false	
+Point	3D	RPoint	2D	true	true	false	
 Point	3D	RPoint	3D	true	true	true	
-Points	2D	RPoints	2D	true	true	true	
+Points	3D	RPoints	1D	true	true	false	
+Points	3D	RPoints	2D	true	true	false	
 Points	3D	RPoints	3D	true	true	true	
-Line	2D	RLinePoints	2D	true	true	true	
-Line	2D	RLineVector	2D	true	true	false	
+Line	3D	RLinePoints	1D	true	true	false	
+Line	3D	RLineVector	1D	true	true	false	
+Line	3D	RLinePoints	2D	true	true	false	
+Line	3D	RLineVector	2D	true	true	false	
 Line	3D	RLinePoints	3D	true	true	true	
 Line	3D	RLineVector	3D	true	true	false	
-Lines	2D	RLinesPoints	2D	true	true	true	
-Lines	2D	RLinesVectors	2D	true	true	false	
+Lines	3D	RLinesPoints	1D	true	true	false	
+Lines	3D	RLinesVectors	1D	true	true	false	
+Lines	3D	RLinesPoints	2D	true	true	false	
+Lines	3D	RLinesVectors	2D	true	true	false	
 Lines	3D	RLinesPoints	3D	true	true	true	
 Lines	3D	RLinesVectors	3D	true	true	false	
-Polyline	2D	RPolylinePoints	2D	true	true	true	
-Polyline	2D	RPolylineVector	2D	true	true	false	
+Polyline	3D	RPolylinePoints	1D	true	true	false	
+Polyline	3D	RPolylineVector	1D	true	true	false	
+Polyline	3D	RPolylinePoints	2D	true	true	false	
+Polyline	3D	RPolylineVector	2D	true	true	false	
 Polyline	3D	RPolylinePoints	3D	true	true	true	
 Polyline	3D	RPolylineVector	3D	true	true	false	
-Polygon	2D	RPolylinePoints	2D	true	true	true	
-Polygon	2D	RPolylineVector	2D	true	true	false	
+Polygon	3D	RPolylinePoints	1D	true	true	false	
+Polygon	3D	RPolylineVector	1D	true	true	false	
+Polygon	3D	RPolylinePoints	2D	true	true	false	
+Polygon	3D	RPolylineVector	2D	true	true	false	
 Polygon	3D	RPolylinePoints	3D	true	true	true	
 Polygon	3D	RPolylineVector	3D	true	true	false	
-AlignedSquare	2D	RAlignedSquare1	2D	true	true	true	
-AlignedSquare	2D	RAlignedSquare2	2D	true	true	false	
-Square	2D	RLinePoints	2D	true	true	true	
-Square	2D	RLineVector	2D	true	true	false	
-AlignedCube	3D	RAlignedCube1	3D	true	true	true	
-AlignedCube	3D	RAlignedCube2	3D	true	true	false	
-Cube	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
-Cube	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
-AlignedRectangle	2D	RLinePoints	2D	true	true	true	First corner and opposing corner
-AlignedRectangle	2D	RLineVector	2D	true	true	false	First corner and opposing corner (relative to P1)
-Rectangle	2D	RRectangle1	2D	true	true	true	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
-Rectangle	2D	RRectangle2	2D	true	true	false	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
-AlignedCuboid	3D	RLinePoints	3D	true	true	true	First corner and opposing corner
-AlignedCuboid	3D	RLineVector	3D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RAlignedSquare1	2D	true	true	false	
+Cuboid	3D	RAlignedSquare2	2D	true	true	false	
+Cuboid	3D	RSquare1	2D	true	true	false	
+Cuboid	3D	RSquare2	2D	true	true	false	
+Cuboid	3D	RAlignedCube1	3D	true	true	false	
+Cuboid	3D	RAlignedCube2	3D	true	true	false	
+Cuboid	3D	RCube1	3D	true	true	true	First corner and opposing corner
+Cuboid	3D	RCube2	3D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RAlignedRectangle1	2D	true	true	true	First corner and opposing corner
+Cuboid	3D	RAlignedRectangle2	2D	true	true	false	First corner and opposing corner (relative to P1)
+Cuboid	3D	RRectangle1	2D	true	true	true	First corner, adjacent corner and distance to corner opposing P1 (relative to P2)
+Cuboid	3D	RRectangle2	2D	true	true	false	First corner, distance to adjacent corner (relative to P1), distance to corner opposing P1 (relative to P2)
+Cuboid	3D	RAlignedCuboid1	3D	true	true	true	First corner and opposing corner
+Cuboid	3D	RAlignedCuboid2	3D	true	true	false	First corner and opposing corner (relative to P1)
 Cuboid	3D	RCuboid1	3D	true	true	true	
 Cuboid	3D	RCuboid2	3D	true	true	false	
-Circle	2D	RCircle0	2D	true	true	false	
-Circle	2D	RCircle1	2D	true	true	true	
-Circle	2D	RCircle2	2D	true	true	false	
-Circle	2D	RCircle3	2D	true	true	false	
-Circle	2D	RCircle4	2D	true	true	false	
-Circle	2D	RCircle5	2D	true	true	false	
-Sphere	3D	RSphere0	3D	true	true	false	
-Sphere	3D	RSphere1	3D	true	true	true	
-Sphere	3D	RSphere2	3D	true	true	false	
-Sphere	3D	RSphere3	3D	true	true	false	
-Sphere	3D	RSphere4	3D	true	true	false	
-Sphere	3D	RSphere5	3D	true	true	false	
-Sphere	3D	RSphere6	3D	true	true	false	
-AlignedEllipse	2D	RAlignedHalfAxes	2D	true	true	true	
-Ellipse	2D	RHalfAxes	2D	true	true	true	
-Ellipse	2D	REllipseCovariance	2D	true	true	false	Mahalanbobis distance used to draw an ellipse using the mean coordinates (P1) and 2 × 2 covariance matrix (COV1)
-AlignedEllipsoid	3D	RAlignedHalfAxes	3D	true	true	true	
+Ellipsoid	3D	RSphere0	3D	true	true	false	
+Ellipsoid	3D	RSphere1	3D	true	true	false	
+Ellipsoid	3D	RSphere2	3D	true	true	false	
+Ellipsoid	3D	RSphere3	3D	true	true	false	
+Ellipsoid	3D	RSphere4	3D	true	true	false	
+Ellipsoid	3D	RSphere5	3D	true	true	false	
+Ellipsoid	3D	RSphere6	3D	true	true	false	
+Ellipsoid	3D	RAlignedHalfAxes	3D	true	true	true	
 Ellipsoid	3D	RHalfAxes	3D	true	true	true	
 Ellipsoid	3D	REllipsoidCovariance	3D	true	true	false	
-PolylineSpline	2D	RPolylinePoints	2D	true	true	true	
-PolylineSpline	2D	RPolylineVector	2D	true	true	true	
+PolylineSpline	3D	RPolylinePoints	2D	true	true	true	
+PolylineSpline	3D	RPolylineVector	2D	true	true	true	
 PolylineSpline	3D	RPolylinePoints	3D	true	true	true	
 PolylineSpline	3D	RPolylineVector	3D	true	true	true	
-PolygonSpline	2D	RPolylinePoints	2D	true	true	true	
-PolygonSpline	2D	RPolylineVector	2D	true	true	true	
+PolygonSpline	3D	RPolylinePoints	2D	true	true	true	
+PolygonSpline	3D	RPolylineVector	2D	true	true	true	
 PolygonSpline	3D	RPolylinePoints	3D	true	true	true	
 PolygonSpline	3D	RPolylineVector	3D	true	true	true	
 #AlignedCircularCylinder	3D	TODO	3D	true	TODO	false	
-CircularCylinder	3D	RCircularCylinder1	3D	true	true	true	
-CircularCylinder	3D	RCircularCylinder2	3D	true	true	false	
-CircularCylinder	3D	RCircularCylinder3	3D	true	true	false	
-CircularCylinder	3D	RCircularCylinder4	3D	true	true	false	
 #AlignedEllipticCylinder	3D	TODO	3D	true	TODO	false	
-EllipticCylinder	3D	REllipticCylinder1	3D	true	true	true	
-EllipticCylinder	3D	REllipticCylinder2	3D	true	true	false	
-EllipticCylinder	3D	REllipticCylinder3	3D	true	true	false	
-EllipticCylinder	3D	REllipticCylinder4	3D	true	true	false	
-Arc	2D	RArc1	2D	true	true	true	
-Arc	2D	RArc2	2D	true	true	false	
-Arc	2D	RArc3	2D	true	true	false	
+Cylinder	3D	RCircle0	2D	true	true	false	
+Cylinder	3D	RCircle1	2D	true	true	true	
+Cylinder	3D	RCircle2	2D	true	true	false	
+Cylinder	3D	RCircle3	2D	true	true	false	
+Cylinder	3D	RCircle4	2D	true	true	false	
+Cylinder	3D	RCircle5	2D	true	true	false	
+Cylinder	3D	RAlignedHalfAxes	2D	true	true	true	
+Cylinder	3D	RHalfAxes	2D	true	true	true	
+Cylinder	3D	REllipseCovariance	2D	true	true	false	Mahalanbobis distance used to draw an ellipse using the mean coordinates (P1) and 2 × 2 covariance matrix (COV1)
+Cylinder	3D	RCircularCylinder1	3D	true	true	true	
+Cylinder	3D	RCircularCylinder2	3D	true	true	false	
+Cylinder	3D	RCircularCylinder3	3D	true	true	false	
+Cylinder	3D	RCircularCylinder4	3D	true	true	false	
+Cylinder	3D	REllipticCylinder1	3D	true	true	true	
+Cylinder	3D	REllipticCylinder2	3D	true	true	false	
+Cylinder	3D	REllipticCylinder3	3D	true	true	false	
+Cylinder	3D	REllipticCylinder4	3D	true	true	false	
+Arc	3D	RArc1	2D	true	true	true	
+Arc	3D	RArc2	2D	true	true	false	
+Arc	3D	RArc3	2D	true	true	false	
 Arc	3D	RArc1	3D	true	true	true	
 Arc	3D	RArc2	3D	true	true	false	
 Arc	3D	RArc3	3D	true	true	false	
-GreyMask	1D	RGreyMask	1D	true	true	true	
-BitMask	1D	RBitMask	1D	true	true	true	
-GreyMask	2D	RGreyMask	2D	true	true	true	
-BitMask	2D	RBitMask	2D	true	true	true	
+GreyMask	3D	RGreyMask	1D	true	true	true	
+BitMask	3D	RBitMask	1D	true	true	true	
+GreyMask	3D	RGreyMask	2D	true	true	true	
+BitMask	3D	RBitMask	2D	true	true	true	
 GreyMask	3D	RGreyMask	3D	true	true	true	
 BitMask	3D	RBitMask	3D	true	true	true	
-Mesh	2D	RMesh	2D	true	true	true	
+Mesh	3D	RMesh	2D	true	true	true	
 Mesh	3D	RMesh	3D	true	true	true	
-AffineTransform	1D	RAffineTransform	1D	true	true	true	
-AffineTransform	1D	RTranslateTransform	1D	true	false	false	
-AffineTransform	1D	RScaleTransform	1D	true	false	false	
-AffineTransform	2D	RAffineTransform	2D	true	true	true	
-AffineTransform	2D	RTranslateTransform	2D	true	false	false	
-AffineTransform	2D	RScaleTransform	2D	true	false	false	
-AffineTransform	2D	RRotateTransform	2D	true	false	false	
+AffineTransform	3D	RAffineTransform	1D	true	true	true	
+AffineTransform	3D	RTranslateTransform	1D	true	false	false	
+AffineTransform	3D	RScaleTransform	1D	true	false	false	
+AffineTransform	3D	RAffineTransform	2D	true	true	true	
+AffineTransform	3D	RTranslateTransform	2D	true	false	false	
+AffineTransform	3D	RScaleTransform	2D	true	false	false	
+AffineTransform	3D	RRotateTransform	2D	true	false	false	
 AffineTransform	3D	RAffineTransform	3D	true	true	true	
 AffineTransform	3D	RTranslateTransform	3D	true	false	false	
 AffineTransform	3D	RScaleTransform	3D	true	false	false	
 AffineTransform	3D	RRotateTransform	3D	true	false	false	
-AbstractTransform	1D	RAbstractTransform	1D	true	true	true	
-AbstractTransform	2D	RAbstractTransform	2D	true	true	true	
+AbstractTransform	3D	RAbstractTransform	1D	true	true	true	
+AbstractTransform	3D	RAbstractTransform	2D	true	true	true	
 AbstractTransform	3D	RAbstractTransform	3D	true	true	true	
-Text	2D	RText	2D	true	true	true	
+Text	3D	RText	2D	true	true	true	
 Value	nD	RValue	nD	true	true	true	
 Values	nD	RValues	nD	true	true	true	
 Range	nD	RRange1	nD	true	true	true	
 Range	nD	RRange2	nD	true	true	true	
 Extrude	nD	RExtrude	nD	true	true	true	
 Combine	nD	RCombine	nD	true	true	true	
-Bitwise	1D	RBitwise	1D	true	true	true	
-Bitwise	2D	RBitwise	2D	true	true	true	
+Bitwise	3D	RBitwise	1D	true	true	true	
+Bitwise	3D	RBitwise	2D	true	true	true	
 Bitwise	3D	RBitwise	3D	true	true	true	
