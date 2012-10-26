@@ -1,0 +1,12 @@
+#Primitive	SeqNo	Type	Name	Description
+String	0	NCHAR	Count	Number of octets
+String	1	uint8[NCHAR]	CHARS	Array of octets (UTF-8)
+# Per-shape state also includes: shape- and representation- specific data
+Shape	0	NCHAR	Count	Number of octets
+Shape	1	SID	ShapeID	Shape identifier
+# Also used for re-serialisation; may be converted to canonical form internally
+Shape	2	RID	RepID	Representation identifier
+# Internal
+# Shape	3	NDIM	Count	Number of dimensions
+# Shape	4	DIMS	Index[NDIM]	Object dimensionality (dimension numbers in use)
+# Shape	5	PROPS	Props	Shape properties (point size, line width, text font/size etc.)
