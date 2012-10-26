@@ -1,4 +1,4 @@
-#Primitive	SeqNo	Type	Name	Description
+#Primitive	SeqNo	Name	Type	Description
 String	0	NCHAR	Count	Number of octets
 String	1	uint8[NCHAR]	CHARS	Array of octets (UTF-8)
 # Per-shape state also includes: shape- and representation- specific data

@@ -45,7 +45,7 @@ genstamp:
 	./introspect
 
 clean:
-	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst
+	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst java c++
 
 html: gen latexpdf
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html

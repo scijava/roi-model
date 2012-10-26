@@ -84,6 +84,28 @@ labels are for drawing only.
 Shape serialisation
 -------------------
 
+All shape primitives are described in terms of the above fundamental
+primitives.  This means that all shape descriptions are serialisable
+as a list of integer and double-precision floating point values.  The
+specifics of this are implementation-defined.  Example formats:
+
+- Plain text, as a list of values
+- XML, as element content or a string attribute
+- Binary data stream, using big-endian/network byte order
+
+This also means that for compatible shape types, the shape type may be
+changed while retaining the following data unchanged (e.g. polyline to
+polygon spline with the same point list).
+
+.. note::
+    **Roger Leigh** All 2D shape primitives could be oriented in 3D or
+    using a unit Vector3D, which would allow all 2D shapes to be used
+    as surfaces in 3D.  They would additionally require a depth in
+    order to be meaningful (or assume a depth of one z slice).
+
+    Or, 2D shapes should specify the pair of x/y/z axes they are
+    using, and will be extruded along the third axis.
+
 Key considerations:
 
 - A shape exists in a set of dimensions e.g. xy, xyz, xyt.  The shape

@@ -18,6 +18,8 @@ ROI Specification [DRAFT]
    initial
    3dconversion
    primitives
+   enums
+   compounds
    geometry
    ndim
    compound
