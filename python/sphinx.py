@@ -287,7 +287,7 @@ shape's representations for in (or vice-versa for out).
                         ishapes[i] = '**' + ishapes[i] + '** [self]'
                 inherit = ', '.join(ishapes)
 
-                shapetab.write(self.model.repref(r.name, r.name, r.dim) + '\t' + r.dim + '\t' +
+                shapetab.write(self.repref(r.name, r.name, r.dim) + '\t' + r.dim + '\t' +
                                rin + '\t' + rout + '\t' + inherit + '\n')
             shapetab.close()
             
@@ -466,3 +466,13 @@ Definitions
         print('Generating gen/inherit.pdf')
         subprocess.call(['sh', '-c', 'ccomps -x gen/inherit.dot | dot | gvpack -g | neato -n2 -Tpdf > gen/inherit.pdf'])
         return
+
+    def dump(self):
+        self.dump_primitivelist()
+        self.dump_enums()
+        self.dump_compounds()
+        self.dump_shapelist()
+        self.dump_replist()
+        self.dump_shapereps()
+        self.dump_repmembers()
+        self.dump_relgraph()

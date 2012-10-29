@@ -14,19 +14,15 @@ sys.path.insert(0, os.path.abspath('python'))
 
 import model
 import sphinx
+import cxx
+import java
 
 if __name__ == "__main__":
     model = model.Model()
     sphinx = sphinx.Sphinx(model)
+    cxx = cxx.Cxx(model)
+    java = java.Java(model)
 
-    sphinx.dump_primitivelist()
-    sphinx.dump_enums()
-    sphinx.dump_compounds()
-    sphinx.dump_shapelist()
-    sphinx.dump_replist()
-    sphinx.dump_shapereps()
-    sphinx.dump_repmembers()
-    sphinx.dump_relgraph()
-
-    model.dump_java()
-    model.dump_cxx()
+    sphinx.dump()
+    cxx.dump()
+    java.dump()
