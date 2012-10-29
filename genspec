@@ -13,17 +13,20 @@ import os
 sys.path.insert(0, os.path.abspath('python'))
 
 import model
+import sphinx
 
 if __name__ == "__main__":
     model = model.Model()
+    sphinx = sphinx.Sphinx(model)
 
-    model.dump_primitivelist()
-    model.dump_enums()
-    model.dump_compounds()
-    model.dump_shapelist()
-    model.dump_replist()
-    model.dump_shapereps()
-    model.dump_repmembers()
-    model.dump_relgraph()
+    sphinx.dump_primitivelist()
+    sphinx.dump_enums()
+    sphinx.dump_compounds()
+    sphinx.dump_shapelist()
+    sphinx.dump_replist()
+    sphinx.dump_shapereps()
+    sphinx.dump_repmembers()
+    sphinx.dump_relgraph()
+
     model.dump_java()
     model.dump_cxx()

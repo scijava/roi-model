@@ -43,7 +43,7 @@ help:
 
 gen: genstamp
 genstamp:
-	./introspect
+	./genspec
 
 clean:
 	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst java c++
