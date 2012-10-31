@@ -48,7 +48,7 @@ genstamp:
 clean:
 	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst java c++
 
-fullhtml: gen latexpdfhtml
+fullhtml: gen latexpdf html
 html: gen
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo

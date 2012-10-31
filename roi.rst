@@ -26,6 +26,7 @@ ROI Specification [DRAFT]
    affine
    shapes
    representations
+   masks.rst
    layers
    linkage
    storage
