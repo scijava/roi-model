@@ -35,11 +35,39 @@ The following points are taken from the meeting notes.
 - Persistence and drawing are separate problems.
 
 - Transforms
+    - Abililty to attach transforms
     - Non-affine transforms.
-        - Need examples to understand the problem better.
+        - Need examples to understand the problem better
     - Store transforms with ROI?
+    - Apply multiple transforms to a ROI in sequence; nested list of transforms
+    - Modelling spaces and objects in space; maybe define transforms
+      separately and reuse them
+    - Tree of transformations and operations
+
+- Union ROIs
+    - Only works in transform domain / "view space"
+    - Union of hypervolumes.  [How to represent different shapes at different times?]
 
 - Needs to be able to scale up to millions-billions of ROIs
 
 - Specific ROI types
     - Include checkerboard (uneven integers)
+    - Hierarchy of ROIs; compound list
+
+- Rendering:
+    - jHotDraw and other drawing toolkit independence
+    - Need objects to be manipulable
+    - List of control points
+
+- Editing:
+    - Needed to manipulate shapes
+
+- Tree of operations
+    - compiler/interpreter
+    - obtain a "result"
+
+- Grouping
+
+- Comparison of models:
+    - OME: ROI is union of shapes
+    - ImgLib: Group is union of ROIs
