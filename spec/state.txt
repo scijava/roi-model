@@ -1,0 +1,4 @@
+Property	Type	Description
+LINECOL	Colour	Line (and surface) colour
+FILLCOL	Colour	Fill colour
+TEXTCOL	Colour	Text colour

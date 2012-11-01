@@ -16,6 +16,7 @@ ROI Specification [DRAFT]
    introduction
    requirements
    initial
+   current
    3dconversion
    primitives
    enums
@@ -27,6 +28,7 @@ ROI Specification [DRAFT]
    shapes
    representations
    masks.rst
+   state.rst
    layers
    linkage
    storage

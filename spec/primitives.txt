@@ -6,6 +6,7 @@ Index	uint32	uint32_t	int	Index into an array
 Value	double	double	double	Numerical value
 Operator	uint8	enum	enum	Mathematical operator
 BLogic	uint8	enum	enum	Bitwise binary logical operator
+Colour	double[4]	double[4]	double[4]	Colour in RGBA (0,1) range
 Vertex1D	double	double	scijava.roi.types.Point1D	Vertex in 1D
 Vertex2D	double[2]	glm::detail::tvec2<double>	scijava.roi.types.Point2D	Vertex in 2D
 Vertex3D	double[3]	glm::detail::tvec2<double>	scijava.roi.types.Point3D	Vertex in 3D
