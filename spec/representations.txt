@@ -139,7 +139,7 @@
 # Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
 90	RRange2	nD	A range of values specified as an inequality (or equality)
 91	RExtrude	nD	A shape extruded in an additional dimension
-92	RCombine	nD	A shape combined from shapes in different dimensions
-93	RBitwise	1D	Binary bitwise operation
-94	RBitwise	2D	Binary bitwise operation
-95	RBitwise	3D	Binary bitwise operation
+93	RSet	nD	A set of shapes
+94	RBitwise	1D	Binary bitwise operation
+95	RBitwise	2D	Binary bitwise operation
+96	RBitwise	3D	Binary bitwise operation

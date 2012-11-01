@@ -48,6 +48,17 @@
 # It is illegal to have a common dimension between the two shapes.
 61	Combine	nD	Combine shapes of differing dimensionality
 
+## Grouping
+
+# All operations operate individually upon the contained shapes.  This
+# implies that transforms are performed upon each shape, with rotation
+# centres in the centre of each shape.
+70	Set	nD	A set of shapes
+# All operations operate on the grouped objects as a whole.  This
+# implies that transforms are performed upon the group, with a single
+# rotation centre in the centre of the group.
+71	Group	nD	A group of shapes
+
 ## Annotations
 
 # Text in 3D will need to be based upon a rectangle in 3D (not yet

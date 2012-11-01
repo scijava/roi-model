@@ -241,8 +241,10 @@ RRange2	nD	1	O1	Operator	Mathematical operator
 RRange2	nD	2	V1	Value	Value for operation
 RExtrude	nD	0	D1	Index	Dimension
 RExtrude	nD	1	SHAPE	Shape	Shape
-RCombine	nD	0	S1	Shape	Dimension
-RCombine	nD	1	S2	Shape	Dimension
+
+RSet	nD	0	NSHAPES	Count	Number of shapes
+RSet	nD	1	SHAPES	Shape[NSHAPES]	List of shapes
+
 RBitwise	1D	0	O1	BLogic	Bitwise logic operator
 RBitwise	1D	1	M1	RBitMask1D	Mask 1
 RBitwise	1D	2	M2	RBitMask1D	Mask 2
