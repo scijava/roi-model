@@ -115,8 +115,8 @@ Value	nD	RValue	nD	true	true	true
 Values	nD	RValues	nD	true	true	true	
 Range	nD	RRange1	nD	true	true	true	
 Range	nD	RRange2	nD	true	true	true	
-Extrude	nD	RExtrude	nD	true	true	true	
-Combine	nD	RSet	nD	true	true	true	
+ExtrudeDim	nD	RExtrude	nD	true	true	true	
+CombineDim	nD	RSet	nD	true	true	true	
 Set	nD	RSet	nD	true	true	true	
 Group	nD	RSet	nD	true	true	true	
 Bitwise	3D	RBitwise	1D	true	true	true	

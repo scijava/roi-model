@@ -1,0 +1,21 @@
+Property	Type	Description
+LINECOL	Colour	Line (and surface) colour
+FILLCOL	Colour	Fill colour
+TEXTCOL	Colour	Text colour
+
+DRAWWIDTHIN	double	Width for drawing (point radius, half line width)
+DRAWWIDTHOUT	double	Width for drawing (point radius, half line width)
+DRAWWIDTH	double	Width for drawing (=DRAWWIDTHIN + DRAWWIDTHOUT)
+DRAWSTYLE	enum
+FILLSTYLE	enum
+
+POINTSTYLE	Shape	Shape to use for drawing points
+LINESTYLE	RVectors1D	Line style (alternating fill/clear pattern)
+
+TEXTFONT	String	Font description (format?  freetype-style fontdesc?)
+
+DIMORDER	Index[]	Dimension order
+TRANSFORM	Affine3D	Affine transformation
+
+BOUNDS	RAlignedCuboid1	Bounding cuboid
+
