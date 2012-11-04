@@ -94,6 +94,18 @@ higher-resolution mask prior to conversion to a greymask or
 lower-resolution bitmask.  This includes intersection, set difference,
 etc.
 
+.. only:: html
+
+    .. image:: images/greymap2.svg
+        :width: 60%
+	:alt: Bitmasks and greymasks
+
+.. only:: latex
+
+    .. image:: images/greymap2.pdf
+        :width: 80%
+
+
 .. note::
     **Roger**
           Consider a union of two shapes which do not touch, but which
