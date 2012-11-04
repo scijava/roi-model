@@ -28,7 +28,7 @@ ROI   Description
 11    Arrow, doubleheaded
 12    Angle
 13-24 Points
-25   Bitmask
+25    Bitmask
 ===== ===========================
 
 
