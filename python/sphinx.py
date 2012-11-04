@@ -339,6 +339,17 @@ from a shape, respectively.
 
 .. only:: html
 
+    .. image:: gen/inherit-simple.svg
+        :width: 100%
+	:alt: Graph of canonical object relationships
+
+.. only:: latex
+
+    .. image:: gen/inherit-simple.pdf
+        :width: 100%
+
+.. only:: html
+
     .. image:: gen/inherit.svg
         :width: 100%
 	:alt: Graph of object relationships
@@ -467,6 +478,30 @@ Definitions
         subprocess.call(['sh', '-c', 'ccomps -x gen/inherit.dot | dot | gvpack -g | neato -n2 -Tpdf > gen/inherit.pdf'])
         return
 
+    def dump_relgraph_simple(self):
+        self.prepare_gen()
+
+        dot = open('gen/inherit-simple.dot', 'w')
+        print('Writing gen/inherit-simple.dot')
+        dot.write('digraph inheritance {\n')
+        dot.write('\tnslimit=20;\n')
+        dot.write('\tmargin=0;\n')
+        reps = set()
+        for shape in self.model.shape_ids.values():
+            dot.write('\t"{0} ({1})" [shape=ellipse, style=filled, fillcolor="lightblue"];\n'.format(shape.name, shape.dim))
+            if shape.rep_canonical != None:
+                reps.add(shape.rep_canonical);
+                dot.write('\t"{0} ({1})" -> "{2} ({3})" [color=blue];\n'.format(shape.name, shape.dim, shape.rep_canonical.name, shape.rep_canonical.dim))
+        for rep in reps:
+            dot.write('\t"{0} ({1})" [shape=rectangle];\n'.format(rep.name, rep.dim))
+        dot.write('}\n')
+        dot.close()
+        print('Generating gen/inherit-simple.svg')
+        subprocess.call(['sh', '-c', 'ccomps -x gen/inherit-simple.dot | dot | gvpack -g | neato -n2 -Tsvg > gen/inherit-simple.svg'])
+        print('Generating gen/inherit-simple.pdf')
+        subprocess.call(['sh', '-c', 'ccomps -x gen/inherit-simple.dot | dot | gvpack -g | neato -n2 -Tpdf > gen/inherit-simple.pdf'])
+        return
+
     def dump(self):
         self.dump_primitivelist()
         self.dump_enums()
@@ -476,3 +511,4 @@ Definitions
         self.dump_shapereps()
         self.dump_repmembers()
         self.dump_relgraph()
+        self.dump_relgraph_simple()
