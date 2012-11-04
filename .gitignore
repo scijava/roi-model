@@ -1,0 +1,10 @@
+_build
+gen
+shapes.rst
+representations.rst
+primitives.rst
+enums.rst
+compounds.rst
+c++
+java
+*~
