@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 %\usepackage{beamerthemesplit}
-\usecolortheme{wolverine}
+\usecolortheme{crane}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{verbatim}
@@ -13,7 +13,7 @@
 \lstset{language=C++,basicstyle=\ttfamily}
 \lstset{extendedchars=false,showstringspaces=false}
 
-\title{ROI Model Overview}
+\title{ROI Model Draft Overview}
 \author{Roger Leigh}
 \date{6th November 2012\\University of Dundee}
 
@@ -37,6 +37,17 @@
 \tableofcontents
 }
 
+\frame{
+  \frametitle{What is a ROI?}
+  \LARGE
+  \begin{description}
+  \item[ROI] Region of interest.  A subset of samples within an image.
+    This is specified by the boundary or surface of the object.
+  \item[Shape] Geometric shape or mask.  A shape is a geometric
+    primitive or bitmask.  A ROI is composed of one or more shapes.
+  \end{description}
+}
+
 \section{Existing models}
 
 \frame{
@@ -58,6 +69,56 @@
 \begin{center}
 \includegraphics[width=0.7\textwidth]{../reference/icy/rois}
 \end{center}
+}
+
+\section{Model draft}
+
+\frame{
+\frametitle{The draft specification}
+\begin{itemize}
+\item This is a work in progress
+\item Everything is changeable, nothing is fixed
+\item In git
+  \begin{itemize}
+  \item \url{git://github.com/scijava/roi-model.git}
+  \end{itemize}
+\item Specification text
+  \begin{itemize}
+  \item Sphinx markup
+  \item \texttt{*.rst}
+  \end{itemize}
+\item Storage/interface definitions
+  \begin{itemize}
+  \item Tab-separated tabular data
+  \item \texttt{spec/*.txt}
+  \end{itemize}
+\item Code/specification generator
+  \begin{itemize}
+  \item \texttt{genspec}, \texttt{python/*.py}
+  \end{itemize}
+\item Java/C++/other reference implementations (TBD)
+\end{itemize}
+}
+
+\frame{
+\frametitle{The draft specification}
+\begin{itemize}
+  \item This specification addresses:
+    \begin{itemize}
+      \item Describing ROIs
+      \item Serialising ROIs for storage and exchange
+      \item Converting ROIs to iterable entities
+      \item Drawing ROIs
+      \item Editing ROIs
+    \end{itemize}
+  \item This specification \emph{does not} address:
+    \begin{itemize}
+      \item ROI-ROI links for tracking, and other high-level ROI
+        inter-relationships.
+      \item A directed graph of ROI-ROI links would be a potential
+        solution.
+    \end{itemize}
+\end{itemize}
 }
 
 
@@ -114,6 +175,8 @@
 \end{center}
 }
 
+\subsection{Shapes and representations}
+
 \frame{
 \frametitle{A region of interest}
 \begin{center}
@@ -134,6 +197,7 @@
   \begin{itemize}
   \item A ROI is fully described by a shape ID, representation ID and
     the representation data (points, vectors, etc.)
+  \item Could be packed binary, text, XML, etc.
   \end{itemize}
 \end{itemize}
 \end{center}
@@ -167,6 +231,10 @@
     }
     \parbox[t]{0.45\textwidth}{
       \begin{itemize}
+      \item User-definable 3D forms
+        \begin{itemize}
+          \item Custom
+        \end{itemize}
       \item 3D pixel data
         \begin{itemize}
         \item BitMask
@@ -259,6 +327,8 @@ RHalfAxes         & 3D   & 0   & P1  & Vertex3D     & Centre point \\
 \end{tabular}
 \end{frame}
 
+\subsection{Shape serialisation}
+
 \frame{
 \frametitle{Shape serialisation example: sphere centre and radius}
 \begin{center}
@@ -290,10 +360,12 @@ Total size: 68 bytes.
 \end{center}
 }
 
+\subsection{Shape relationships}
+
 \frame{
   \frametitle{Shapes and canonical representations}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{../gen/inherit-simple}
+    \includegraphics[width=0.7\textwidth]{../gen/inherit-simple}
   \end{center}
 }
 
@@ -305,6 +377,8 @@ Total size: 68 bytes.
     \frametitle{Shapes and all representations}
   }
 }
+
+\subsection{Nested/stacked shapes and transformations}
 
 \begin{frame}[fragile]
   \frametitle{Shapes and transformations can stack}
@@ -329,38 +403,97 @@ AffineTransform {
 \end{verbatim}
   \end{center}
 \end{frame}
-%
-%\frame{
-%  \frametitle{ImageJ macro: batch max intensity projections from stacks}
-%  \scriptsize
-%  \verbatiminput{maxproj.ijm}
-%}
 
 \section{Masks}
 
 \frame{
+\begin{itemize}
+  \item Conversion of shape to bitmasks and greymasks
+\end{itemize}
   \frametitle{Bitmasks and greymasks}
   \centering
-  \includegraphics[width=\textwidth]{../images/greymap}
+  \includegraphics[width=0.8\textwidth]{../images/greymap}
+\begin{itemize}
+  \item Optimal storage for bitmasks?
+  \item Alignment of masks with the image pixel grid?
+\end{itemize}
 }
 
 \frame{
   \frametitle{Set operations on bitmasks}
   \centering
-  \includegraphics[width=0.8\textwidth]{../images/greymap2}
+  \includegraphics[width=0.75\textwidth]{../images/greymap2}
   \\
   \bigskip
   The resulting masks can be converted to a lower resolution greymask or
   bitmask.
 }
 
-\section{Needed work}
+
+\section{Drawing}
+
+\frame{
+  \frametitle{Drawing}
+  \begin{itemize}
+    \item Needs to be toolkit-independent
+    \item All shapes draw using their canonical representation; one
+      codepath for each shape type.
+    \item Shapes reduce to:
+      \begin{itemize}
+        \item Bitmask
+        \item Greymask
+        \item Mesh
+      \end{itemize}
+    \item Viewers can all view masks or meshes in 2D or 3D
+    \item OpenGL viewers can render meshes in 2D or 3D
+    \item jHotDraw can render vectors where possible; unsupported
+      complex types can be rendered in terms of simpler primitives
+    \item There may be potentical loss of precision when converting;
+      these forms are for visualisation only, not analysis.
+  \end{itemize}
+}
+
+\section{Editing}
+
+\frame{
+  \frametitle{Editing}
+  \begin{itemize}
+    \item Edit in terms of the underlying shape representation
+    \item Use the canonical representation where the original
+      representation is not usable
+    \item Edit in pixel, physical or other coordinate system
+    \item Editing nodes and constraints specified by representation
+    \item Possible to view the ROI as a treeview of nested shapes, and
+      edit the properties of nodes in the view
+  \end{itemize}
+}
+
+\section{Further discussion}
+
+\frame{
+  \frametitle{Outstanding questions}
+  \begin{itemize}
+    \item Grouping: what is a ``ROI'' cf. ``Shape'' or group/set of shapes?  What is the boundary between a shape and a ROI?
+    \item Rounded rectangles.  Support as primitive or compound shape?
+      \begin{itemize}
+      \item Danger of infringing \emph{Apple's Community registered
+        design No. 0000181607-0001}!
+      \end{itemize}
+    \item Efficient mask storage: labellings, etc.  Logic behind the
+      different mechanisms?  Convenience?
+    \item Shape properties: what is currently in the different models?
+    \item Dimension conventions: are shapes present in all
+      absent/unspecified dimensions?
+    \item Properties of state machine for evaluating ROIs
+  \end{itemize}
+}
 
 \frame{
   \frametitle{Needed work}
   \begin{itemize}
   \item Agree on list of shape primitives
   \item Agree on list of representation primitives
+  \item Agree on most appropriate canonical shape representations
   \item For each shape type, specify:
     \begin{itemize}
     \item Mask conversion rules
