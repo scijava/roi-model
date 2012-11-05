@@ -106,6 +106,9 @@ polygon spline with the same point list).
     Or, 2D shapes should specify the pair of x/y/z axes they are
     using, and will be extruded along the third axis.
 
+.. note::
+    ** Sébastien ** Versioning is of concern to people doing analysis.
+
 Key considerations:
 
 - A shape exists in a set of dimensions e.g. xy, xyz, xyt.  The shape
@@ -123,7 +126,10 @@ Shape ID and Representation ID.  The shape specifies the geometric
 shape type.  The representation specifies both the primitives required
 for serialisation, and can also be used for versioning the
 shape--i.e. it also specifies the behaviour for conversion to greymaps
-and bitmaps.
+and bitmaps.  The behaviour could change in a backward-compatible
+manner by introducing new Shapes and/or Representations to supersede
+existing forms, while retaining the unchanged old forms.
+
 
 .. index::
     Shape

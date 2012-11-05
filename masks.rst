@@ -4,15 +4,26 @@ Masks
 Specification
 -------------
 
-Bitmasks may be specified directly, e.g. by segmenting an image.  They
-may also be derived from any shape, since every shape is reducible to
-a bitmask.
+Bitmasks may be specified directly, e.g. by segmenting an image.
+Bitmasks may also be derived from any shape, since every shape is
+reducible to a bitmask.
 
 Greymasks (masks with multiple greylevels) may also be specified
 directly.  They may also be derived from any shape.  Shapes may
 provide direct conversion to a greymask, or alternatively via a
 high-resolution bitmask, which is then converted into a greymask.
 This process is illustrated in the following figure.
+
+Masks have aligned and unaligned variants.  The difference is not in
+the mask data, but in the alignment of the bounding box with the axes.
+Neither guarantee a 1:1 mapping with the pixel grid; this would
+require a manual conversion step.  This might also be be better
+supported with a pixel-aligned bounding box type.  Resizing to the
+pixel grid might be best performed via thresholding an intermediate
+greymask.
+
+Any shape transformations must be performed prior to conversion to an
+aligned mask, otherwise the mask alignment may be lost.
 
 .. note::
     **Roger**
@@ -31,6 +42,10 @@ This process is illustrated in the following figure.
         greymask.  Both could have default widths and allow the user
         to override them.  Convert via a shape e.g. implicitly convert
         line to cuboid and point to sphere?
+
+	The current mask representations store the mask data directly
+	in the shape.  We might wish to support alternative forms of
+	storage, e.g. IFD (as a sprite sheet), labellings, etc.
 
 A circle, drawn a 6×6 pixel grid may be converted directly as a 6×6
 pixel bitmap.  Alternatively, the grid may be subdivided further so
@@ -75,6 +90,15 @@ Grid size Grid bits Greylevel bits Greylevels
         masks at a minimum would be useful.  Larger sizes would have
         greater precision, but quite a large overhead: a 16 bit
         greymask requires 8KiB/pixel!
+
+Point and line conversion
+-------------------------
+
+Would it make sense to have the ability to convert point and line
+shapes to cylinder/sphere or cuboid shapes, respectively?  Useful for
+rendering, and potentially also useful for analysis.  Default point
+size and line width for converting to a mask?  Points may be expected
+to only be one pixel in size; what about lines?
 
 Set operations
 --------------

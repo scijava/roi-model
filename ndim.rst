@@ -28,3 +28,9 @@ subsets thereof.
     constrained?  Should this behaviour be different for "real"
     dimensions (xyzt) compared with virtual dimensions such as
     channels?
+
+    Should we constrain the ROI to a single timepoint when tracking?
+
+    Should x/y/z be blocked for nD operations?  I.e. don't allow the
+    nD shapes to specify regions in 3D space, and restrict them to
+    non-physical dimensions.

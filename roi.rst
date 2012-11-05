@@ -28,6 +28,7 @@ ROI Specification [DRAFT]
    shapes
    representations
    masks.rst
+   transform.rst
    state.rst
    layers
    linkage
