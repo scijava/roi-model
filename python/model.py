@@ -1,5 +1,7 @@
 # coding=UTF-8
 
+# TODO: Display comment lines from all spec tables in generated output.
+
 class Primitive:
     def __init__(self, text):
         self.name, self.bintype, self.cxxtype, self.javatype, self.desc = text.split('\t')

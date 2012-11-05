@@ -61,6 +61,13 @@ Implementors should treat these sizes as minimium requirements.
     :file: gen/primitives-java.txt
     :delim: tab
 
+.. tabularcolumns:: |l|l|p{3in}|
+.. csv-table:: Shape state/attributes
+    :header-rows: 1
+    :file: spec/shapestate.txt
+    :delim: tab
+    :widths: 5, 2, 10
+
 .. note::
     **Barry DeZonia** Support different coordinate spaces as needed
     (int, long, double).  Should be possible to iterate some regions.
