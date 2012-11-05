@@ -88,11 +88,15 @@ Arc	3D	RArc3	2D	true	true	false
 Arc	3D	RArc1	3D	true	true	true	
 Arc	3D	RArc2	3D	true	true	false	
 Arc	3D	RArc3	3D	true	true	false	
-GreyMask	3D	RGreyMask	1D	true	true	true	
-BitMask	3D	RBitMask	1D	true	true	true	
+GreyMask	3D	RAlignedGreyMask	1D	true	true	true	
+BitMask	3D	RAlignedBitMask	1D	true	true	true	
+GreyMask	3D	RAlignedGreyMask	2D	true	true	true	
 GreyMask	3D	RGreyMask	2D	true	true	true	
+BitMask	3D	RAlignedBitMask	2D	true	true	true	
 BitMask	3D	RBitMask	2D	true	true	true	
+GreyMask	3D	RAlignedGreyMask	3D	true	true	true	
 GreyMask	3D	RGreyMask	3D	true	true	true	
+BitMask	3D	RAlignedBitMask	3D	true	true	true	
 BitMask	3D	RBitMask	3D	true	true	true	
 Mesh	3D	RMesh	2D	true	true	true	
 Mesh	3D	RMesh	3D	true	true	true	
@@ -122,3 +126,4 @@ Group	nD	RSet	nD	true	true	true
 Bitwise	3D	RBitwise	1D	true	true	true	
 Bitwise	3D	RBitwise	2D	true	true	true	
 Bitwise	3D	RBitwise	3D	true	true	true	
+Custom	3D	RCustom	3D	true	true	true	

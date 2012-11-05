@@ -21,7 +21,22 @@
 
 ## 3D pixel data
 
+# A bitmask may be aligned with the axes (with an aligned bounding
+# box) or unaligned (with an unaligned bounding box).  In order to
+# iterate over the mask with a 1:1 correspondence between mask and
+# underlying image pixel data, it must be converted to an aligned
+# form.  Additionally, it must be converted to an aligned form with
+# the samples aligned with the pixel grid.
+
 30	BitMask	3D	A mask with one bit values
+
+# A greymask may be aligned with the axes (with an aligned bounding
+# box) or unaligned (with an unaligned bounding box).  In order to
+# iterate over the mask with a 1:1 correspondence between mask and
+# underlying image pixel data, it must be converted to an aligned
+# form.  Additionally, it must be converted to an aligned form with
+# the samples aligned with the pixel grid.
+
 31	GreyMask	3D	A mask with multiple grey levels
 
 ## 3D transformations and operations
@@ -66,4 +81,29 @@
 # directly in the representation, or in higher-level metadata?
 100	Text	3D	Text (label)
 101	Scale	3D	A scale bar between two points
+# TODO: Specify grid spacing
 102	Grid	3D	A scale grid in a defined volume
+
+## Custom (user-definable) shapes
+
+# The custom shape type, unlike other shapes, does not define any
+# intrinsic behaviour.  This is entirely the responsibility of the
+# user.  The typename of the shape is specified by the user, which
+# provides an extension mechanism by allowing this type to be used to
+# specify an arbitrary number of shape types.
+#
+# The shape contains four sets of shapes for measurement, results,
+# editing and visualisation.  The intent here is that the shapes
+# required for the user to visualise the ROI are contained in the
+# VISUAL set.  This will permit the ROI to be transported to other
+# systems, and allow visualisation without any knowledge of the
+# specific ROI type.  The other types are optional, and may be used as
+# the user sees fit.  MEASUREMENTS is intended to store any points or
+# other informations used when defining the ROI (which are not already
+# contained in the VISUAL set).  RESULTS is intended to store any
+# measurements which are not directly derivable from the other sets.
+# EDIT is intended for storing label offsets, construction lines, and
+# any other information used for editing which is not contained in
+# the MEASUREMENTS or VISUAL sets.
+
+200	Custom	3D	A custom (user-definable) 3D shape

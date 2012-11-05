@@ -1,4 +1,5 @@
 #RepID	Representation	Dims	Description
+#Add representations for unit vectors?  RUnitVector?
 0	RPoint	1D	A single point in 1D
 1	RPoint	2D	A single point in 2D
 2	RPoint	3D	A single point in 3D
@@ -92,24 +93,39 @@
 60	RArc1	3D	An arc in 3D described by a line (points) and vector
 61	RArc2	3D	An arc in 3D described by a line (vector) and a vector
 62	RArc3	3D	An arc in 3D described by three points; vector inferred from third point
+
 # The mask is applied to the bounding line.  Dimensions specify the
 # x size of the mask.  DATA is the mask pixel data.
-63	RBitMask	1D	A bitmask in 1D described by bounding line, dimensions and mask data
-# The mask is applied to the bounding rectangle.  Dimensions specify the
+100	RAlignedBitMask	1D	A bitmask in 1D described by aligned bounding line, dimensions and mask data
+# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-64	RBitMask	2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
-# The mask is applied to the bounding cuboid.  Dimensions specify the
+101	RAlignedBitMask	2D	A bitmask in 2D described by aligned bounding rectangle, dimensions and mask data
+# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-65	RBitMask	3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
-# The mask is applied to the bounding line.  Dimensions specify the
+102	RAlignedBitMask	3D	A bitmask in 3D described by aligned bounding cuboid, dimensions and mask data
+# The mask is applied to the aligned bounding line.  Dimensions specify the
 # x size of the mask.  DATA is the mask pixel data.
-66	RGreyMask	1D	A greymask in 1D described by bounding line, dimensions and mask data
+103	RAlignedGreyMask	1D	A greymask in 1D described by aligned bounding line, dimensions and mask data
+# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+104	RAlignedGreyMask	2D	A greymask in 2D described by aligned bounding rectangle, dimensions and mask data
+# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+105	RAlignedGreyMask	3D	A greymask in 3D described by aligned bounding cuboid, dimensions and mask data
+
+
 # The mask is applied to the bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-67	RGreyMask	2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
+106	RBitMask	2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
 # The mask is applied to the bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-68	RGreyMask	3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
+107	RBitMask	3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
+# The mask is applied to the bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+108	RGreyMask	2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
+# The mask is applied to the bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+109	RGreyMask	3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
 # Vertex references are indexes into the VERTS array.  Vertex-face
 # mapping is implied, and will require the implementor to construct the
 # mapping.
@@ -143,3 +159,4 @@
 94	RBitwise	1D	Binary bitwise operation
 95	RBitwise	2D	Binary bitwise operation
 96	RBitwise	3D	Binary bitwise operation
+200	RCustom	3D	Custom (user-definable) representation

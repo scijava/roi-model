@@ -167,22 +167,34 @@ RArc1	3D	1	V1	Vector3D	Arc end
 RArc2	3D	0	P1	RLineVector3D	Centre point and arc start
 RArc2	3D	1	V1	Vector3D	Arc end
 RArc3	3D	0	P1	Vertex3D[3]	Centre point, arc start and arc end (vector inferred)
-RBitMask	1D	0	B1	RLinePoints2D	Bounding line
-RBitMask	1D	1	DIM1	Vector1D	Mask dimensions (x)
-RBitMask	1D	2	DATA	bool[x]	Mask data
-RBitMask	2D	0	B1	RLinePoints2D	Bounding box
+RAlignedBitMask	1D	0	B1	RLinePoints1D	Bounding line
+RAlignedBitMask	1D	1	DIM1	Vector1D	Mask dimensions (x)
+RAlignedBitMask	1D	2	DATA	bool[x]	Mask data
+RAlignedBitMask	2D	0	B1	RLinePoints2D	Bounding box
+RAlignedBitMask	2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+RAlignedBitMask	2D	2	DATA	bool[x,y]	Mask data
+RAlignedBitMask	3D	0	B1	RLinePoints3D	Bounding box
+RAlignedBitMask	3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+RAlignedBitMask	3D	2	DATA	bool[x,y,z]	Mask data
+RAlignedGreyMask	1D	0	B1	RLinePoints1D	Bounding line
+RAlignedGreyMask	1D	1	DIM1	Vector1D	Mask dimensions (x)
+RAlignedGreyMask	1D	2	DATA	double[x]	Mask data
+RAlignedGreyMask	2D	0	B1	RLinePoints2D	Bounding box
+RAlignedGreyMask	2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+RAlignedGreyMask	2D	2	DATA	double[x,y]	Mask data
+RAlignedGreyMask	3D	0	B1	RLinePoints3D	Bounding box
+RAlignedGreyMask	3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+RAlignedGreyMask	3D	2	DATA	double[x,y,z]	Mask data
+RBitMask	2D	0	B1	RRectangle2	Bounding box
 RBitMask	2D	1	DIM1	Vector2D	Mask dimensions (x,y)
 RBitMask	2D	2	DATA	bool[x,y]	Mask data
-RBitMask	3D	0	B1	RLinePoints3D	Bounding box
+RBitMask	3D	0	B1	RCuboid2	Bounding box
 RBitMask	3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
 RBitMask	3D	2	DATA	bool[x,y,z]	Mask data
-RGreyMask	1D	0	B1	RLinePoints1D	Bounding line
-RGreyMask	1D	1	DIM1	Vector1D	Mask dimensions (x)
-RGreyMask	1D	2	DATA	double[x]	Mask data
-RGreyMask	2D	0	B1	RLinePoints2D	Bounding box
+RGreyMask	2D	0	B1	RRectangle2	Bounding box
 RGreyMask	2D	1	DIM1	Vector2D	Mask dimensions (x,y)
 RGreyMask	2D	2	DATA	double[x,y]	Mask data
-RGreyMask	3D	0	B1	RLinePoints3D	Bounding box
+RGreyMask	3D	0	B1	RCuboid2	Bounding box
 RGreyMask	3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
 RGreyMask	3D	2	DATA	double[x,y,z]	Mask data
 RMesh	2D	0	NFACE	Count	Number of faces
@@ -254,3 +266,8 @@ RBitwise	2D	2	M2	RBitMask2D	Mask 2
 RBitwise	3D	0	O1	BLogic	Bitwise logic operator
 RBitwise	3D	1	M1	RBitMask3D	Mask 1
 RBitwise	3D	2	M2	RBitMask3D	Mask 2
+RCustom	3D	0	TYPE	String	Name of the custom type
+RCustom	3D	1	MEASUREMENTS	RSet	Set of shapes describing how the ROI was measured
+RCustom	3D	2	RESULTS	RSet	Set of shapes for describing measurement results
+RCustom	3D	3	EDIT	RSet	Set of shapes describing how to edit the ROI
+RCustom	3D	4	VISUAL	RSet	Set of shapes describing how to visualise (render) the ROI for visualisation

@@ -1,21 +1,19 @@
 Property	Type	Description
+DIMORDER	Index[]	Dimension order
+TRANSFORM	Affine3D	Affine transformation
+BOUNDS	RAlignedCuboid1	Bounding cuboid
 LINECOL	Colour	Line (and surface) colour
 FILLCOL	Colour	Fill colour
 TEXTCOL	Colour	Text colour
-
-DRAWWIDTHIN	double	Width for drawing (point radius, half line width)
-DRAWWIDTHOUT	double	Width for drawing (point radius, half line width)
-DRAWWIDTH	double	Width for drawing (=DRAWWIDTHIN + DRAWWIDTHOUT)
+DRAWWIDTH	double	Width for drawing
+DRAWPLACEMENT	double	Line width is centred (0), fully inside (-1) or fully outside (1) or in between
 DRAWSTYLE	enum
-FILLSTYLE	enum
-
-POINTSTYLE	Shape	Shape to use for drawing points
-LINESTYLE	RVectors1D	Line style (alternating fill/clear pattern)
-
+FILLSTYLE	enum	Style to use for filling shapes (could be impemented internally in the form of a Grid Shape+transform)
+POINTSTYLE	enum	Style to use for drawing points (could be implemented internally in the form of a Shape)
+LINESTYLE	enum	Line style (alternating fill/clear pattern) (could be impemented internally in the form of RVectors1D)
+LINESTARTMARKER	enum	Line end marker (arrowhead, etc.) (could be implemented internally in the form of a Shape)
+LINEENDMARKER	enum	Line end marker (arrowhead, etc.) (could be implemented internally in the form of a Shape)
+MARKERSIZE	double	Size of points and line start/end markers; scales marker
 TEXTFONT	String	Font description (format?  freetype-style fontdesc?)
-
-DIMORDER	Index[]	Dimension order
-TRANSFORM	Affine3D	Affine transformation
-
-BOUNDS	RAlignedCuboid1	Bounding cuboid
-
+TEXTPLACEMENT	double[2]	Text placement in bounding box (-1,+1) for x and y limits, (0,0) being centred
+TEXTSIZE	double	Font size
