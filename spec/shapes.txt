@@ -107,3 +107,5 @@
 # the MEASUREMENTS or VISUAL sets.
 
 200	Custom	3D	A custom (user-definable) 3D shape
+
+201	Property	nD	A custom (user-definable) shape property

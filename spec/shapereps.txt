@@ -127,3 +127,5 @@ Bitwise	3D	RBitwise	1D	true	true	true
 Bitwise	3D	RBitwise	2D	true	true	true	
 Bitwise	3D	RBitwise	3D	true	true	true	
 Custom	3D	RCustom	3D	true	true	true	
+Property	nD	RProperty	nD	true	true	false	
+Property	nD	RProperties	nD	true	true	true	

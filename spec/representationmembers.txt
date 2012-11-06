@@ -271,3 +271,8 @@ RCustom	3D	1	MEASUREMENTS	RSet	Set of shapes describing how the ROI was measured
 RCustom	3D	2	RESULTS	RSet	Set of shapes for describing measurement results
 RCustom	3D	3	EDIT	RSet	Set of shapes describing how to edit the ROI
 RCustom	3D	4	VISUAL	RSet	Set of shapes describing how to visualise (render) the ROI for visualisation
+
+RProperty	nD	0	KEY	String	Property name
+RProperty	nD	1	VALUE	Representation	Property value (includes type information)
+RProperties	nD	0	NPROP	Count	Number of properties
+RProperties	nD	1	PROPS	RProperty[NPROP]	List of properties
