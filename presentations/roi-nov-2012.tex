@@ -277,6 +277,10 @@
       \item Set
       \item Group
       \end{itemize}
+    \item nD Metadata
+      \begin{itemize}
+      \item Property
+      \end{itemize}
     \end{itemize}
   \end{center}
 }
@@ -317,6 +321,7 @@ RSphere4          & 3D   & 0   & P1  & Vertex3D     & Point on surface \\
 RSphere5          & 3D   & 0   & P1  & Vertex3D[2]  & Two surface points \\
 \cmidrule{3-6}
 RSphere6          & 3D   & 0   & P1  & Vertex3D[4]  & Four surface points \\
+\cmidrule{3-6}
 RAlignedHalfAxes  & 3D   & 0   & P1  & Vertex3D     & Centre point \\
                   &      & 1   & V1  & Vector3D     & Half axes (x,y,z) \\
 \cmidrule{3-6}
@@ -476,15 +481,15 @@ AffineTransform {
     \item Grouping: what is a ``ROI'' cf. ``Shape'' or group/set of shapes?  What is the boundary between a shape and a ROI?
     \item Rounded rectangles.  Support as primitive or compound shape?
       \begin{itemize}
-      \item Danger of infringing \emph{Apple's Community registered
+      \item Danger of infringing \emph{registered
         design No. 0000181607-0001}!
       \end{itemize}
     \item Efficient mask storage: labellings, etc.  Logic behind the
       different mechanisms?  Convenience?
     \item Shape properties: what is currently in the different models?
+    \item State machine properties for evaluating ROIs
     \item Dimension conventions: are shapes present in all
       absent/unspecified dimensions?
-    \item Properties of state machine for evaluating ROIs
   \end{itemize}
 }
 
