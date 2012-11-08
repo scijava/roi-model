@@ -276,6 +276,7 @@ class Model:
         self.load_reps()
         self.load_rep_members()
         self.load_shape_reps()
+        self.load_shape_canonical_reps()
         self.load_shape_rels()
         self.check()
 
@@ -445,15 +446,26 @@ class Model:
             line = line.rstrip('\n')
             if (len(line) == 0 or line[0] == '#'):
                 continue
-            shape, dim, rep, repdim, repin, repout, repcanonical, details = line.split('\t')
+            shape, dim, rep, repdim, repin, repout, details = line.split('\t')
             s = self.shape_names[shape+':'+dim]
             srep = self.representation_names[rep+':'+repdim]
             if (repin == 'true'):
                 s.rep_in.add(srep)
             if (repout == 'true'):
                 s.rep_out.add(srep)
-            if (repcanonical == 'true'):
-                s.rep_canonical = srep
+
+    def load_shape_canonical_reps(self):
+        # Load shape representations
+        for line in open ('spec/shapecanonreps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            shape, dim, rep, repdim = line.split('\t')
+            s = self.shape_names[shape+':'+dim]
+            srep = self.representation_names[rep+':'+repdim]
+            if s.rep_canonical != None:
+                raise Exception("Duplicate canonical representation for " + s.name+':'+s.dim)
+            s.rep_canonical = srep
 
     def load_shape_rels(self):
         # Load shape relations
