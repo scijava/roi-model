@@ -29,6 +29,7 @@ ROI   Description
 12    Angle
 13-24 Points
 25    Bitmask
+26    Text
 ===== ===========================
 
 
@@ -63,4 +64,33 @@ ROI   Description
  4    Line
  5    Closed polyline
  6    Text
+ 7    Bitmask
+===== ===========================
+
+Volocity
+--------
+
+.. image:: reference/volocity/volocity1.png
+    :width: 100%
+
+.. image:: reference/volocity/volocity2.png
+    :width: 100%
+
+.. image:: reference/volocity/volocity3.png
+    :width: 100%
+
+.. image:: reference/volocity/volocity4.png
+    :width: 100%
+
+===== ===========================
+ROI   Description
+===== ===========================
+ 1    Rectangle
+ 2    Freehand polyline
+ 3    Circle
+ 4    Lasso
+ 5    Stamp
+ 6    Line
+ 7    Point
+ 8    3D mask / mesh
 ===== ===========================
