@@ -212,18 +212,15 @@ class Representation:
 
     def dump_cxx_header(self, stream):
         name = self.name[1:] + self.dim
-        print(name)
 
         slen = 14 + len(name) + 1
         nlen = max([len(x.name) for x in self.members.values()])
         tlen = max([len(x.type) for x in self.members.values()])
-        print(nlen, '-', tlen)
 
         ctor=''
         members = ''
         mlist = list(self.members.keys())
         mlist.sort()
-        print(mlist)
         for i in mlist:
             m = self.members[i]
             if (i > 0):

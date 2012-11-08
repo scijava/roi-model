@@ -87,7 +87,6 @@ Implementors should treat these sizes as minimium requirements.
                 lname = self.enumref(primitive.name, primitive.name)
             elif primitive.type() == 'compound':
                 lname = self.compoundref(primitive.name, primitive.name)
-            print('test ' + primitive.name + ' is ' + primitive.type() + ' ' + lname)
             cxxtype = primitive.cxxtype
             if cxxtype == 'enum':
                 cxxtype = self.enumref(primitive.name, primitive.name)
