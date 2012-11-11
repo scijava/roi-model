@@ -15,7 +15,7 @@
 
 \title{ROI Model Draft Overview}
 \author{Roger Leigh}
-\date{6th November 2012\\University of Dundee}
+\date{12th November 2012\\University of Dundee}
 
 \begin{document}
 
@@ -43,7 +43,7 @@
   \begin{description}
   \item[ROI] Region of interest.  A subset of samples within an image.
     This is specified by the boundary or surface of the object.
-  \item[Shape] Geometric shape or mask.  A shape is a geometric
+  \item[PhysicalShape] Geometric shape or mask.  A shape is a geometric
     primitive or bitmask.  A ROI is composed of one or more shapes.
   \end{description}
 }
@@ -85,12 +85,12 @@
 \end{center}
 }
 
-\frame{
-\frametitle{Existing models: Volocity}
-\begin{center}
-\includegraphics[width=\textwidth]{../reference/volocity/volocity3}
-\end{center}
-}
+% \frame{
+% \frametitle{Existing models: Volocity}
+% \begin{center}
+% \includegraphics[width=\textwidth]{../reference/volocity/volocity3}
+% \end{center}
+% }
 
 \frame{
 \frametitle{Existing models: Volocity}
@@ -150,7 +150,7 @@
 }
 
 
-\section{Shapes}
+\section{PhysicalShapes}
 
 \subsection{Example: A sphere}
 
@@ -203,17 +203,16 @@
 \end{center}
 }
 
-\subsection{Shapes and representations}
+\subsection{Physical shapes and representations}
 
 \frame{
 \frametitle{A region of interest}
 \begin{center}
 \begin{itemize}
-\item Shape
+\item PhysicalShape
   \begin{itemize}
     \item 3D geometric form
-    \item 2D shapes are described by a 1 pixel thick 3D shape
-    \item nD values or range
+    \item 2D shapes are described by a 3D shape (0 pixels thick?)
   \end{itemize}
 \item Representation
   \begin{itemize}
@@ -221,6 +220,7 @@
   \item A shape may have one or more representations
   \item One representation is the default or canonical representation for each shape
   \end{itemize}
+\item {nD constraints}
 \item Serialisation
   \begin{itemize}
   \item A ROI is fully described by a shape ID, representation ID and
@@ -232,7 +232,7 @@
 }
 
 \frame{
-  \frametitle{Shape types: 3D primitives}
+  \frametitle{PhysicalShape types: 3D primitives}
   \begin{center}
     \parbox[t]{0.45\textwidth}{
       \begin{itemize}
@@ -281,12 +281,17 @@
         \item Grid
         \end{itemize}
       \end{itemize}
+    \item nD Grouping
+      \begin{itemize}
+      \item Set
+      \item Group
+      \end{itemize}
     }
   \end{center}
 }
 
 \frame{
-  \frametitle{Shape types: nD primitives}
+  \frametitle{PhysicalShape types: nD primitives}
   \begin{center}
     \begin{itemize}
     \item nD constraints
@@ -299,11 +304,6 @@
       \begin{itemize}
       \item ExtrudeDim
       \item CombineDim
-      \end{itemize}
-    \item nD Grouping
-      \begin{itemize}
-      \item Set
-      \item Group
       \end{itemize}
     \item nD Metadata
       \begin{itemize}
@@ -360,22 +360,24 @@ RHalfAxes         & 3D   & 0   & P1  & Vertex3D     & Centre point \\
 \end{tabular}
 \end{frame}
 
-\subsection{Shape serialisation}
+\subsection{ROI serialisation}
 
 \frame{
-\frametitle{Shape serialisation example: sphere centre and radius}
+\frametitle{ROI serialisation example: sphere centre and radius}
 \begin{center}
 \includegraphics[width=\textwidth]{../images/3DspherePVR1.png}
 \end{center}
 }
 
 \frame{
-\frametitle{Shape serialisation example: sphere centre and radius}
+\frametitle{ROI serialisation example: sphere centre and radius}
 \begin{center}
 \begin{tabular}{lllS[table-format=2.5]l}
 \textit{Name} & \textit{Type}    & \textit{Fundamental} & {\textit{Value}}  & \textit{Description} \\
 \toprule
-SID & ShapeID  & uint16      & 11       & Ellipsoid  \\
+LEN & Count    & uint32      & 72    & Packet length \\ 
+\cmidrule{3-5}
+SID & PhysicalShapeID  & uint16      & 11       & Ellipsoid  \\
 \cmidrule{3-5}
 RID & RepID    & uint16      & 40       & RSphere3 \\
 \cmidrule{3-5}
@@ -383,20 +385,21 @@ P1  & Vertex3D & double      & 16.0     & x \\
     &          & double      & 16.0     & y \\
     &          & double      &  8.0     & z \\
 \cmidrule{3-5}
-V1  & Vector3D & double      &  1.71653 & x \\
-    &          & double      &  9.28585 & y \\
-    &          & double      & 11.39716 & z
+V1  & Vector3D & double      &  2.71653 & x \\
+    &          & double      & -9.28585 & y \\
+    &          & double      &  3.39716 & z
 \end{tabular}
 \\
 \bigskip
-Total size: 68 bytes.
+Total size: 72 bytes. \\
+Packet length includes LEN
 \end{center}
 }
 
-\subsection{Shape relationships}
+\subsection{PhysicalShape relationships}
 
 \frame{
-  \frametitle{Shapes and canonical representations}
+  \frametitle{PhysicalShapes and canonical representations}
   \begin{center}
     \includegraphics[width=0.7\textwidth]{../gen/inherit-simple}
   \end{center}
@@ -407,31 +410,35 @@ Total size: 68 bytes.
     \vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[width=0.98\paperwidth]{../gen/inherit}\hfil}\vfil}
   }
   \frame{
-    \frametitle{Shapes and all representations}
+    \frametitle{PhysicalShapes and all representations}
   }
 }
 
 \subsection{Nested/stacked shapes and transformations}
 
 \begin{frame}[fragile]
-  \frametitle{Shapes and transformations can stack}
+  \frametitle{PhysicalShapes and transformations can stack}
   \begin{center}
+\small
 \begin{verbatim}
-AffineTransform {
-    Transform1
-    Group {
-        AffineTransform {
-            Transform2   
-            Set {
-                Shape1,
-                Shape2
-                AffineTransform {
-                    Transform3
-                    Shape3
+ROI {
+    AffineTransform {
+        Transform1
+        Group {
+            AffineTransform {
+                Transform2   
+                Set {
+                    PhysicalShape1,
+                    PhysicalShape2
+                    AffineTransform {
+                        Transform3
+                        PhysicalShape3
+                    }
                 }
             }
         }
     }
+    DimensionalConstraints
 }
 \end{verbatim}
   \end{center}
@@ -440,16 +447,17 @@ AffineTransform {
 \section{Masks}
 
 \frame{
-\begin{itemize}
-  \item Conversion of shape to bitmasks and greymasks
-\end{itemize}
   \frametitle{Bitmasks and greymasks}
+  \begin{itemize}
+  \item Conversion of shape to bitmasks and greymasks
+  \end{itemize}
   \centering
   \includegraphics[width=0.8\textwidth]{../images/greymap}
-\begin{itemize}
+  \begin{itemize}
   \item Optimal storage for bitmasks?
   \item Alignment of masks with the image pixel grid?
-\end{itemize}
+  \item Pixel inclusion criteria?
+  \end{itemize}
 }
 
 \frame{
@@ -462,6 +470,16 @@ AffineTransform {
   bitmask.
 }
 
+\frame{
+  \frametitle{Bitmasks and Dimensional Constraints}
+  \begin{itemize}
+  \item Dimensional constraints reduce to BitMask1D
+  \item Permits iteration in nD
+  \end{itemize}
+  \centering
+  \includegraphics[width=0.8\textwidth]{../images/greymap3}
+}
+
 
 \section{Drawing}
 
@@ -471,7 +489,7 @@ AffineTransform {
     \item Needs to be toolkit-independent
     \item All shapes draw using their canonical representation; one
       codepath for each shape type.
-    \item Shapes reduce to:
+    \item PhysicalShapes reduce to:
       \begin{itemize}
         \item Bitmask
         \item Greymask
@@ -506,7 +524,8 @@ AffineTransform {
 \frame{
   \frametitle{Outstanding questions}
   \begin{itemize}
-    \item Grouping: what is a ``ROI'' cf. ``Shape'' or group/set of shapes?  What is the boundary between a shape and a ROI?
+    \item Grouping: what is a ``ROI'' cf. ``PhysicalShape'' or group/set of shapes?  What is the boundary between a shape and a ROI?
+    \item 3D + (n-3)D vs nD
     \item Rounded rectangles.  Support as primitive or compound shape?
       \begin{itemize}
       \item Danger of infringing \emph{registered
@@ -514,7 +533,7 @@ AffineTransform {
       \end{itemize}
     \item Efficient mask storage: labellings, etc.  Logic behind the
       different mechanisms?  Convenience?
-    \item Shape properties: what is currently in the different models?
+    \item PhysicalShape properties: what is currently in the different models?
     \item State machine properties for evaluating ROIs
     \item Dimension conventions: are shapes present in all
       absent/unspecified dimensions?
@@ -556,6 +575,18 @@ AffineTransform {
     \item OME, Edinburgh / Harvard Medical School
       \begin{itemize}
       \item Sébastien Besson
+      \end{itemize}
+    \end{itemize}
+  }
+  \parbox[t]{0.45\textwidth}{
+    \begin{itemize}
+    \item OME / Glencoe Software%
+      \begin{itemize}
+      \item Josh Moore
+      \end{itemize}
+    \item LOCI
+      \begin{itemize}
+      \item Curtis Rueden
       \end{itemize}
     \end{itemize}
   }
