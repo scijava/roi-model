@@ -17,13 +17,7 @@ Mesh	3D	RMesh	3D
 AffineTransform	3D	RAffineTransform	3D
 AbstractTransform	3D	RAbstractTransform	3D
 Text	3D	RText	2D
-Value	nD	RValue	nD
-Values	nD	RValues	nD
-Range	nD	RRange1	nD
-ExtrudeDim	nD	RExtrude	nD
-CombineDim	nD	RSet	nD
-Set	nD	RSet	nD
-Group	nD	RSet	nD
+Set	3D	RShapeSet	3D
 Bitwise	3D	RBitwise	3D
 Custom	3D	RCustom	3D
 Property	nD	RProperties	nD

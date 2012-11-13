@@ -1,0 +1,10 @@
+#Interface	Inherits
+Object
+Serialisable	Object
+PhysicalShape	Object
+DimensionalConstraint	Object
+BitMaskConv	Shape
+GreyMaskConv	Shape
+MeshConv	Shape
+jHotDrawConv	Shape
+

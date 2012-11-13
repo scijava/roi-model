@@ -1,0 +1,17 @@
+## nD constraints
+
+# Constrain region to a single value within a specific dimension.
+1	Value	nD	A value in an arbitrary dimension
+# Constrain region to multiple values within a specific dimension.
+2	Values	nD	A set of values in an arbitrary dimension
+# Constrain region to a range of values within a specific dimension.
+3	Range	nD	A range of values in an arbitrary dimension
+# There are no limits in the additional dimension; these must be set
+# by combining with a range instead.
+
+## nD transformations and shape operations
+
+10	ExtrudeDim	nD	Extrude a shape of arbitrary dimensionality into an additional dimension.
+# The result is a shape combining all subset dimensions.
+# It is illegal to have a common dimension between the two shapes.
+11	CombineDim	nD	Combine shapes of differing dimensionality

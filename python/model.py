@@ -2,10 +2,15 @@
 
 # TODO: Display comment lines from all spec tables in generated output.
 
-class Primitive:
-    def __init__(self, text):
-        self.name, self.bintype, self.cxxtype, self.javatype, self.desc = text.split('\t')
+class PrimitiveBase(object):
+    def __init__(self):
         self.comment = ''
+        self.name = ''
+
+class Primitive(PrimitiveBase):
+    def __init__(self, text):
+        super(self.__class__, self).__init__()
+        self.name, self.bintype, self.cxxtype, self.javatype, self.desc = text.split('\t')
 
     def check(self):
         return
@@ -58,7 +63,7 @@ class CompoundMember:
     def check(self):
         return
 
-class Shape:
+class ShapeBase(object):
     def __init__(self, text):
         self.id, self.name, self.dim, self.desc = text.split('\t')
         self.inherit_in = set()
@@ -71,20 +76,6 @@ class Shape:
 
         if (self.id != 'ShapeID'):
             self.id = int(self.id)
-
-    def check(self):
-        if (self.name not in ['Scale', 'Grid', 'Text']):
-
-            if self.rep_canonical == None:
-                raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
-
-            if self.rep_canonical not in self.rep_in:
-                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an input representation')
-
-            if self.rep_canonical not in self.rep_out:
-                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an output representation')
-
-        return
 
     def reps(self):
         used = set()
@@ -182,6 +173,31 @@ class Shape:
             found = 1
         return found
 
+class Shape(ShapeBase):
+    def __init__(self, text):
+        super(self.__class__, self).__init__(text)
+
+    def check(self):
+        if (self.name not in ['Scale', 'Grid', 'Text']):
+
+            if self.rep_canonical == None:
+                raise Exception('Shape ' + str(self.id) + ' has no canonical representation')
+
+            if self.rep_canonical not in self.rep_in:
+                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an input representation')
+
+            if self.rep_canonical not in self.rep_out:
+                raise Exception('Shape ' + str(self.id) + ' does not have the canonical representation as an output representation')
+
+        return
+
+class DimConstraint(ShapeBase):
+    def __init__(self, text):
+        super(self.__class__, self).__init__(text)
+
+    def check(self):
+        return
+
 class Representation:
     def __init__(self, text):
         self.id, self.name, self.dim, self.desc = text.split('\t')
@@ -263,6 +279,8 @@ class Model:
         self.compound_names = dict()
         self.shape_ids = dict()
         self.shape_names = dict()
+        self.dimconstraint_ids = dict()
+        self.dimconstraint_names = dict()
         self.representation_ids = dict()
         self.representation_names = dict()
 
@@ -270,15 +288,18 @@ class Model:
         self.load_enums()
         self.load_compounds()
         self.load_shapes()
+        self.load_dimconstraints()
         self.load_reps()
         self.load_rep_members()
         self.load_shape_reps()
         self.load_shape_canonical_reps()
         self.load_shape_rels()
+        self.load_dimconstraint_reps()
+        self.load_dimconstraint_canonical_reps()
+        self.load_dimconstraint_rels()
         self.check()
 
     def load_primitives(self):
-        # Load shapes
         comment = ''
         for line in open ('spec/primitives.txt', 'rt'):
             line = line.rstrip('\n')
@@ -302,7 +323,6 @@ class Model:
 
 
     def load_enums(self):
-        # Load shapes
         comment = ''
         for line in open ('spec/enums.txt', 'rt'):
             line = line.rstrip('\n')
@@ -336,7 +356,6 @@ class Model:
             print(enum.name)
 
     def load_compounds(self):
-        # Load shapes
         comment = ''
         for line in open ('spec/compounds.txt', 'rt'):
             line = line.rstrip('\n')
@@ -391,6 +410,28 @@ class Model:
             if shape.name+':'+shape.dim in self.shape_names:
                 raise Exception("Duplicate shape " + shape.name+':'+shape.dim)
             self.shape_names[shape.name+':'+shape.dim] = shape
+
+    def load_dimconstraints(self):
+        # Load dimconstraints
+        comment = ''
+        for line in open ('spec/dimconstrainttypes.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
+                continue
+            dimconstraint = DimConstraint(line)
+            if (len(comment) > 0):
+                dimconstraint.comment = comment
+                comment = ''
+            if dimconstraint.id in self.dimconstraint_ids:
+                raise Exception("Duplicate dimconstraint ID " + dimconstraint.id)
+            self.dimconstraint_ids[dimconstraint.id] = dimconstraint
+            if dimconstraint.name+':'+dimconstraint.dim in self.dimconstraint_names:
+                raise Exception("Duplicate dimconstraint " + dimconstraint.name+':'+dimconstraint.dim)
+            self.dimconstraint_names[dimconstraint.name+':'+dimconstraint.dim] = dimconstraint
 
     def load_reps(self):
         comment = ''
@@ -451,6 +492,20 @@ class Model:
             if (repout == 'true'):
                 s.rep_out.add(srep)
 
+    def load_dimconstraint_reps(self):
+        # Load dimconstraint representations
+        for line in open ('spec/dimconstraintreps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            dimconstraint, dim, rep, repdim, repin, repout, details = line.split('\t')
+            s = self.dimconstraint_names[dimconstraint+':'+dim]
+            srep = self.representation_names[rep+':'+repdim]
+            if (repin == 'true'):
+                s.rep_in.add(srep)
+            if (repout == 'true'):
+                s.rep_out.add(srep)
+
     def load_shape_canonical_reps(self):
         # Load shape representations
         for line in open ('spec/shapecanonreps.txt', 'rt'):
@@ -459,6 +514,19 @@ class Model:
                 continue
             shape, dim, rep, repdim = line.split('\t')
             s = self.shape_names[shape+':'+dim]
+            srep = self.representation_names[rep+':'+repdim]
+            if s.rep_canonical != None:
+                raise Exception("Duplicate canonical representation for " + s.name+':'+s.dim)
+            s.rep_canonical = srep
+
+    def load_dimconstraint_canonical_reps(self):
+        # Load dimconstraint representations
+        for line in open ('spec/dimconstraintcanonreps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            dimconstraint, dim, rep, repdim = line.split('\t')
+            s = self.dimconstraint_names[dimconstraint+':'+dim]
             srep = self.representation_names[rep+':'+repdim]
             if s.rep_canonical != None:
                 raise Exception("Duplicate canonical representation for " + s.name+':'+s.dim)
@@ -481,6 +549,28 @@ class Model:
             if (shapein == 'true'):
                 s.inherit_in.add(si)
             if (shapeout == 'true'):
+                s.inherit_out.add(si)
+            if (len(comment) > 0):
+                s.inherit_comment[inherit] = comment
+                comment = ''
+
+    def load_dimconstraint_rels(self):
+        # Load dimconstraint relations
+        comment = ''
+        for line in open ('spec/dimconstraintrel.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
+                continue
+            dimconstraint, dim, inherit, inheritdim, dimconstraintin, dimconstraintout = line.split('\t')
+            s = self.dimconstraint_names[dimconstraint+':'+dim]
+            si = self.dimconstraint_names[inherit+':'+inheritdim]
+            if (dimconstraintin == 'true'):
+                s.inherit_in.add(si)
+            if (dimconstraintout == 'true'):
                 s.inherit_out.add(si)
             if (len(comment) > 0):
                 s.inherit_comment[inherit] = comment

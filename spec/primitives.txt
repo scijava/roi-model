@@ -1,5 +1,6 @@
 #Primitive	BinType	C++Type	JavaType	Description
 ShapeID	uint16	uint16_t	short	Numeric shape identifier
+DimConstraintID	uint16	uint16_t	short	Numeric dimensional constraint identifier
 RepID	uint16	uint16_t	short	Numeric shape representation identifier
 Count	uint32	int32_t	int	Number of objects
 Index	uint32	uint32_t	int	Index into an array

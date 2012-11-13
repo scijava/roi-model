@@ -115,14 +115,7 @@ AbstractTransform	3D	RAbstractTransform	1D	true	true
 AbstractTransform	3D	RAbstractTransform	2D	true	true	
 AbstractTransform	3D	RAbstractTransform	3D	true	true	
 Text	3D	RText	2D	true	true	
-Value	nD	RValue	nD	true	true	
-Values	nD	RValues	nD	true	true	
-Range	nD	RRange1	nD	true	true	
-Range	nD	RRange2	nD	true	true	
-ExtrudeDim	nD	RExtrude	nD	true	true	
-CombineDim	nD	RSet	nD	true	true	
-Set	nD	RSet	nD	true	true	
-Group	nD	RSet	nD	true	true	
+Set	3D	RShapeSet	3D	true	true	
 Bitwise	3D	RBitwise	1D	true	true	
 Bitwise	3D	RBitwise	2D	true	true	
 Bitwise	3D	RBitwise	3D	true	true	

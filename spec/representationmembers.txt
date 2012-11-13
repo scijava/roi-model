@@ -254,8 +254,8 @@ RRange2	nD	2	V1	Value	Value for operation
 RExtrude	nD	0	D1	Index	Dimension
 RExtrude	nD	1	SHAPE	Shape	Shape
 
-RSet	nD	0	NSHAPES	Count	Number of shapes
-RSet	nD	1	SHAPES	Shape[NSHAPES]	List of shapes
+RShapeSet	3D	0	NSHAPES	Count	Number of shapes
+RShapeSet	3D	1	SHAPES	Shape[NSHAPES]	List of shapes
 
 RBitwise	1D	0	O1	BLogic	Bitwise logic operator
 RBitwise	1D	1	M1	RBitMask1D	Mask 1
@@ -276,3 +276,9 @@ RProperty	nD	0	KEY	String	Property name
 RProperty	nD	1	VALUE	Representation	Property value (includes type information)
 RProperties	nD	0	NPROP	Count	Number of properties
 RProperties	nD	1	PROPS	RProperty[NPROP]	List of properties
+
+# Placeholder.
+RDimConstraint	nD	0	INVALID	Invalid	Placeholder for type
+
+RDimConstraintSet	nD	0	NSHAPES	Count	Number of shapes
+RDimConstraintSet	nD	1	SHAPES	RDimConstraint[NSHAPES]	List of shapes

@@ -45,34 +45,12 @@
 41	AbstractTransform	3D	Abstract (implementation-defined) transformation of a shape
 42	Bitwise	3D	Binary bitwise operation
 
-## nD constraints
-
-# Constrain region to a single value within a specific dimension.
-50	Value	nD	A value in an arbitrary dimension
-# Constrain region to multiple values within a specific dimension.
-51	Values	nD	A set of values in an arbitrary dimension
-# Constrain region to a range of values within a specific dimension.
-52	Range	nD	A range of values in an arbitrary dimension
-# There are no limits in the additional dimension; these must be set
-# by combining with a range instead.
-
-## nD transformations and shape operations
-
-60	ExtrudeDim	nD	Extrude a shape of arbitrary dimensionality into an additional dimension.
-# The result is a shape combining all subset dimensions.
-# It is illegal to have a common dimension between the two shapes.
-61	CombineDim	nD	Combine shapes of differing dimensionality
-
 ## Grouping
 
 # All operations operate individually upon the contained shapes.  This
 # implies that transforms are performed upon each shape, with rotation
 # centres in the centre of each shape.
-70	Set	nD	A set of shapes
-# All operations operate on the grouped objects as a whole.  This
-# implies that transforms are performed upon the group, with a single
-# rotation centre in the centre of the group.
-71	Group	nD	A group of shapes
+70	Set	3D	A set of shapes
 
 ## Annotations
 

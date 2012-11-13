@@ -155,10 +155,17 @@
 # Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
 90	RRange2	nD	A range of values specified as an inequality (or equality)
 91	RExtrude	nD	A shape extruded in an additional dimension
-93	RSet	nD	A set of shapes
+93	RShapeSet	3D	A set of shapes
 94	RBitwise	1D	Binary bitwise operation
 95	RBitwise	2D	Binary bitwise operation
 96	RBitwise	3D	Binary bitwise operation
+
+#150	RROI	nD	A region of interest (top-level container of physical shape and nD constraints)
+#151	RROISet	nD	A set of ROIs
+
+120	RDimConstraint	nD	A dimensional constraint
+121	RDimConstraintSet	nD	A set of dimensional constraints
+
 200	RCustom	3D	Custom (user-definable) representation
 
 # We could use an RShape representation here so that we could set a shape as a property.
