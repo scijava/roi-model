@@ -1,2 +1,0 @@
-#Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
-Property	nD	RProperties	nD

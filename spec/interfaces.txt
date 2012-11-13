@@ -1,10 +1,21 @@
-#Interface	Inherits
-Object
-Serialisable	Object
-PhysicalShape	Object
-DimensionalConstraint	Object
-BitMaskConv	Shape
-GreyMaskConv	Shape
-MeshConv	Shape
-jHotDrawConv	Shape
+#Interface	Inherits	Description
 
+Serialisable		Object can be serialised and deserialised
+MeasureLength		Get length of object
+MeasureArea		Get area and perimeter of object
+MeasureVolume		Get volume and surface area of object
+
+Iterable	Shape
+RandomAccessible	Shape
+RealRandomAccessible	RandomAccessible	Shape
+
+scijava.roi.ROISet	Serialisable	Set of ROIs
+scijava.roi.ROI	Serialisable,Iterable,RealRandomAccessible	Region of interest
+scijava.roi.shape.PhysicalShape	Serialisable,RealRandomAccessible	Abstract shape
+scijava.roi.shape.Representation	Serialisable,RealRandomAccessible	Abstract shape representation
+scijava.roi.shape.DimConstraint	Serialisable,RandomAccessible Abstract shape dimensional constraints
+
+BitMask	Shape	S
+GreyMask	Shape
+Mesh	Shape
+jHotDraw	Shape

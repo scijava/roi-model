@@ -1,0 +1,22 @@
+#Primitive	JavaType
+scijava.roi.types.TypeID	short
+scijava.roi.types.Count	int
+scijava.roi.types.Index	int
+scijava.roi.types.Value	double
+scijava.roi.types.Operator	enum
+scijava.roi.types.BLogic	enum
+scijava.roi.types.Color	double[4]
+scijava.roi.types.Vertex1D	scijava.roi.types.Point1D
+scijava.roi.types.Vertex2D	scijava.roi.types.Point2D
+scijava.roi.types.Vertex3D	scijava.roi.types.Point3D
+scijava.roi.types.VertexnD	scijava.roi.types.PointnD
+scijava.roi.types.Vector1D	scijava.roi.types.Vector1D
+scijava.roi.types.Vector2D	scijava.roi.types.Vector2D
+scijava.roi.types.Vector3D	scijava.roi.types.Vector3D
+scijava.roi.types.VectornD	scijava.roi.types.VectornD
+scijava.roi.types.Affine1D	scijava.roi.types.Matrix2D
+scijava.roi.types.Affine2D	scijava.roi.types.Matrix3D
+scijava.roi.types.Affine3D	scijava.roi.types.Matrix4D
+scijava.roi.types.AffinenD	scijava.roi.types.MatrixnD
+scijava.roi.types.String	String
+

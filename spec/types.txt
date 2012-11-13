@@ -289,7 +289,7 @@ scijava.roi.shape.Grid	A scale grid in a defined volume
 
 scijava.roi.shape.Custom	A custom (user-definable) 3D shape
 
-scijava.roi.shape.Property	A custom (user-definable) shape property
+scijava.roi.object.Property	A custom (user-definable) object property
 
 ### nD
 
