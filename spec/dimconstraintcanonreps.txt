@@ -1,6 +1,0 @@
-#Shape	ShapeDim	Representation	RepDim	In	Out	Canonical	Details
-Value	nD	RValue	nD
-Values	nD	RValues	nD
-Range	nD	RRange1	nD
-ExtrudeDim	nD	RExtrude	nD
-DimConstraintSet	nD	RDimConstraintSet	nD
