@@ -2,26 +2,31 @@
 
 # TODO: Display comment lines from all spec tables in generated output.
 
+import glob
+import re
+
 class PrimitiveBase(object):
     def __init__(self):
         self.comment = ''
         self.name = ''
+        self.desc = ''
 
 class Primitive(PrimitiveBase):
-    def __init__(self, text):
+    def __init__(self, name):
         super(self.__class__, self).__init__()
-        self.name, self.bintype, self.cxxtype, self.javatype, self.desc = text.split('\t')
+        self.types = dict()
+        self.name = name
 
     def check(self):
         return
 
-    def type(self):
-        type = 'simple'
-        if self.bintype == 'compound':
-            type = 'compound'
-        if self.cxxtype == 'enum' or self.javatype == 'enum':
-            type = 'enum'
-        return type
+    # def type(self):
+    #     type = 'simple'
+    #     if self.bintype == 'compound':
+    #         type = 'compound'
+    #     if self.cxxtype == 'enum' or self.javatype == 'enum':
+    #         type = 'enum'
+    #     return type
 
 class Enum:
     def __init__(self, name):
@@ -301,26 +306,40 @@ class Model:
 
     def load_primitives(self):
         comment = ''
-        for line in open ('spec/primitives.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0):
-                continue
-            if (line[0] == '#'):
-                if (len(line) > 1 and line[1] == ' '):
-                    comment += line[2:] + '\n'
-                continue
-            primitive = Primitive(line)
-            if (len(comment) > 0):
-                primitive.comment = comment
-                comment = ''
-            if primitive.name in self.primitive_names:
-                raise Exception("Duplicate primitive " + primitive.name+':'+primitive.dim)
-            self.primitive_names[primitive.name] = primitive
+        for file in ['spec/types.txt'] + glob.glob('spec/types-*.txt'):
+            print "Reading " + file
+            find = re.search('^spec/types-(.*).txt$', file)
+            lang = 'raw'
+            if find:
+                lang = find.group(1)
+            print "Language " + lang
+            for line in open (file, 'rt'):
+                line = line.rstrip('\n')
+                if (len(line) == 0):
+                    continue
+                if (line[0] == '#'):
+                    if (len(line) > 1 and line[1] == ' '):
+                        comment += line[2:] + '\n'
+                    continue
+                name, typename = line.split('\t')
+                primitive = None
+                if lang == 'raw':
+                    primitive = Primitive(name)
+                    if (len(comment) > 0):
+                        primitive.comment = comment
+                        comment = ''
+                    if primitive.name in self.primitive_names:
+                        raise Exception("Duplicate primitive: " + primitive.name)
+                    self.primitive_names[primitive.name] = primitive
+                else:
+                    if name not in self.primitive_names.keys()
+                        raise Exception("Primitive not found: " + primitive.name)
+                    primitive = self.primitive_names[name]
+                primitive.types[lang] = typename
 
         # TODO: Sort
         for primitive in self.primitive_names.values():
             print(primitive.name)
-
 
     def load_enums(self):
         comment = ''
@@ -333,7 +352,11 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             print(line)
+
             primitive, name, number, symbol, desc = line.split('\t')
+
+            if primitive not in self.primitive_names.keys():
+                raise Exception("Primitive not found: " + primitive)
 
             enum = None
             if primitive in self.enum_names:
