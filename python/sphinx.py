@@ -29,6 +29,7 @@ class Sphinx:
     def dump_primitivelist(self):
         self.prepare_gen()
 
+# TODO: This must be generic for all languages.
         fr = open('primitives.rst','w')
 
         f = open('gen/primitives.txt','w')

@@ -292,16 +292,16 @@ class Model:
         self.load_primitives()
         self.load_enums()
         self.load_compounds()
-        self.load_shapes()
-        self.load_dimconstraints()
-        self.load_reps()
-        self.load_rep_members()
-        self.load_shape_reps()
-        self.load_shape_canonical_reps()
-        self.load_shape_rels()
-        self.load_dimconstraint_reps()
-        self.load_dimconstraint_canonical_reps()
-        self.load_dimconstraint_rels()
+#        self.load_shapes()
+#        self.load_dimconstraints()
+#        self.load_reps()
+#        self.load_rep_members()
+#        self.load_shape_reps()
+#        self.load_shape_canonical_reps()
+#        self.load_shape_rels()
+#        self.load_dimconstraint_reps()
+#        self.load_dimconstraint_canonical_reps()
+#        self.load_dimconstraint_rels()
         self.check()
 
     def load_primitives(self):
@@ -332,7 +332,7 @@ class Model:
                         raise Exception("Duplicate primitive: " + primitive.name)
                     self.primitive_names[primitive.name] = primitive
                 else:
-                    if name not in self.primitive_names.keys()
+                    if name not in self.primitive_names.keys():
                         raise Exception("Primitive not found: " + primitive.name)
                     primitive = self.primitive_names[name]
                 primitive.types[lang] = typename
@@ -389,7 +389,7 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             print(line)
-            primitive, seqno, type, name, desc = line.split('\t')
+            primitive, seqno, name, type, desc = line.split('\t')
 
             compound = None
             if primitive in self.compound_names:

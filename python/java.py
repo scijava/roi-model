@@ -64,6 +64,9 @@ class Method(TypeBase):
 class Java:
     def __init__(self, model):
         self.model = model
+        self.classes = dict()
+        self.interfaces = dict()
+        self.enum = dict()
 
     def dump(self):
         print('Generating Java reference implementation')

@@ -118,7 +118,7 @@ RAlignedHalfAxes2D	1	V1	Vector2D	Half axes (x,y)
 RHalfAxes2D	0	P1	Vertex2D	Centre point
 RHalfAxes2D	1	V1	Vector2D	Half axes (xy)
 # Is the dimensionality of the half axes correct here?
-RHalfAxes2D	2	V1	Vector1D	Half axes (x)
+RHalfAxes2D	2	V2	Vector1D	Half axes (x)
 REllipseCovariance2D	0	P1	Vertex2D	Centre point (mean)
 REllipseCovariance2D	1	COV1	double[2][2]	2 × 2 covariance matrix
 RAlignedHalfAxes3D	0	P1	Vertex3D	Centre point
