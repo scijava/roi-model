@@ -16,6 +16,7 @@ class Primitive(PrimitiveBase):
         super(self.__class__, self).__init__()
         self.types = dict()
         self.name = name
+        self.typeid = -1
 
     def check(self):
         return
@@ -64,6 +65,16 @@ class CompoundMember:
         self.name = name
         self.desc = description
         self.comment = ''
+
+    def check(self):
+        return
+
+class Interface(PrimitiveBase):
+    def __init__(self, name, desc):
+        super(self.__class__, self).__init__()
+        self.name = name
+        self.desc = desc
+        self.inherits = list()
 
     def check(self):
         return
@@ -282,6 +293,7 @@ class Model:
         self.primitive_names = dict()
         self.enum_names = dict()
         self.compound_names = dict()
+        self.interface_names = dict()
         self.shape_ids = dict()
         self.shape_names = dict()
         self.dimconstraint_ids = dict()
@@ -289,9 +301,11 @@ class Model:
         self.representation_ids = dict()
         self.representation_names = dict()
 
-        self.load_primitives()
+        self.load_types()
+        self.load_typeids()
         self.load_enums()
         self.load_compounds()
+        self.load_interfaces()
 #        self.load_shapes()
 #        self.load_dimconstraints()
 #        self.load_reps()
@@ -304,7 +318,7 @@ class Model:
 #        self.load_dimconstraint_rels()
         self.check()
 
-    def load_primitives(self):
+    def load_types(self):
         comment = ''
         for file in ['spec/types.txt'] + glob.glob('spec/types-*.txt'):
             print "Reading " + file
@@ -333,13 +347,37 @@ class Model:
                     self.primitive_names[primitive.name] = primitive
                 else:
                     if name not in self.primitive_names.keys():
-                        raise Exception("Primitive not found: " + primitive.name)
+                        raise Exception("Primitive not found: " + name)
                     primitive = self.primitive_names[name]
                 primitive.types[lang] = typename
 
         # TODO: Sort
         for primitive in self.primitive_names.values():
             print(primitive.name)
+
+    def load_typeids(self):
+        comment = ''
+        for line in open ('spec/typeids.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
+                continue
+            typeid, typename = line.split('\t')
+            if typename not in self.primitive_names.keys():
+                raise Exception("Primitive not found: " + typename)
+            primitive = self.primitive_names[typename]
+
+            if primitive.typeid != -1:
+                raise Exception("Primitive has duplicate typeid: " + typename)
+
+            primitive.typeid = typeid
+
+        # TODO: Sort
+        for primitive in self.primitive_names.values():
+            print(primitive.name + ' = ' + str(primitive.typeid))
 
     def load_enums(self):
         comment = ''
@@ -410,6 +448,48 @@ class Model:
         # TODO: Sort
         for compound in self.compound_names.values():
             print(compound.name)
+
+    def load_interfaces(self):
+        comment = ''
+        for line in open ('spec/interfaces.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
+                continue
+            print(line)
+            name, inherits, desc = line.split('\t')
+
+            interface = Interface(name, desc)
+
+            if (len(comment) > 0):
+                interface.comment = comment
+                comment = ''
+
+            if (inherits != ''):
+                inherits = inherits.split(',')
+                for iname in inherits:
+                    iface = None
+                    if iname in self.interface_names:
+                        iface = self.interface_names[iname]
+                    else:
+                        raise Exception("Invalid interface: " + iname)
+                    interface.inherits.append(iface)
+
+            if (len(comment) > 0):
+                interface.comment = comment
+                comment = ''
+
+            if interface.name in self.interface_names:
+                raise Exception("Duplicate interface: " + interface.name)
+
+            self.interface_names[interface.name] = interface
+
+        # TODO: Sort
+        for interface in self.interface_names.values():
+            print(interface.name)
 
 
     def load_shapes(self):

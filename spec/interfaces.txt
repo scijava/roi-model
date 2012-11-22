@@ -1,21 +1,21 @@
 #Interface	Inherits	Description
 
-Serialisable		Object can be serialised and deserialised
-MeasureLength		Get length of object
-MeasureArea		Get area and perimeter of object
-MeasureVolume		Get volume and surface area of object
+scijava.roi.Serialisable		Object can be serialised and deserialised
+scijava.roi.MeasureLength		Get length of object
+scijava.roi.MeasureArea		Get area and perimeter of object
+scijava.roi.MeasureVolume		Get volume and surface area of object
 
-Iterable	Shape
-RandomAccessible	Shape
-RealRandomAccessible	RandomAccessible	Shape
+scijava.roi.Iterable		
+scijava.roi.RandomAccessible		
+scijava.roi.RealRandomAccessible	scijava.roi.RandomAccessible	
 
-scijava.roi.ROISet	Serialisable	Set of ROIs
-scijava.roi.ROI	Serialisable,Iterable,RealRandomAccessible	Region of interest
-scijava.roi.shape.PhysicalShape	Serialisable,RealRandomAccessible	Abstract shape
-scijava.roi.shape.Representation	Serialisable,RealRandomAccessible	Abstract shape representation
-scijava.roi.shape.DimConstraint	Serialisable,RandomAccessible Abstract shape dimensional constraints
+scijava.roi.ROISet	scijava.roi.Serialisable	Set of ROIs
+scijava.roi.ROI	scijava.roi.Serialisable,scijava.roi.Iterable,scijava.roi.RealRandomAccessible	Region of interest
+scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible	Abstract shape
+scijava.roi.shape.Representation	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible	Abstract shape representation
+scijava.roi.shape.DimConstraint	scijava.roi.Serialisable,scijava.roi.RandomAccessible	Abstract shape dimensional constraints
 
-BitMask	Shape	S
-GreyMask	Shape
-Mesh	Shape
-jHotDraw	Shape
+#BitMask		
+#GreyMask	Shape
+#Mesh	Shape
+#jHotDraw	Shape

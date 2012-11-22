@@ -510,12 +510,13 @@ Definitions
         return
 
     def dump(self):
-        self.dump_primitivelist()
-        self.dump_enums()
-        self.dump_compounds()
-        self.dump_shapelist()
-        self.dump_replist()
-        self.dump_shapereps()
-        self.dump_repmembers()
-        self.dump_relgraph()
-        self.dump_relgraph_simple()
+        ()
+        # self.dump_primitivelist()
+        # self.dump_enums()
+        # self.dump_compounds()
+        # self.dump_shapelist()
+        # self.dump_replist()
+        # self.dump_shapereps()
+        # self.dump_repmembers()
+        # self.dump_relgraph()
+        # self.dump_relgraph_simple()
