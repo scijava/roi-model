@@ -20,7 +20,6 @@ scijava.roi.shape.Text	scijava.roi.types.Text2D
 scijava.roi.shape.Set	scijava.roi.types.ShapeSet3D
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise3D
 scijava.roi.shape.Custom	scijava.roi.types.Custom3D
-scijava.roi.shape.Property	scijava.roi.types.PropertiesnD
 scijava.roi.dimconstraint.Value	scijava.roi.types.ValuenD
 scijava.roi.dimconstraint.Values	scijava.roi.types.ValuesnD
 scijava.roi.dimconstraint.Range	scijava.roi.types.Range1nD

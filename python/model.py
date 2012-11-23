@@ -357,6 +357,9 @@ class Model:
 
     def load_typeids(self):
         comment = ''
+
+        used = set()
+
         for line in open ('spec/typeids.txt', 'rt'):
             line = line.rstrip('\n')
             if (len(line) == 0):
@@ -366,12 +369,17 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             typeid, typename = line.split('\t')
+            typeid = int(typeid)
             if typename not in self.primitive_names.keys():
                 raise Exception("Primitive not found: " + typename)
             primitive = self.primitive_names[typename]
 
             if primitive.typeid != -1:
                 raise Exception("Primitive has duplicate typeid: " + typename)
+
+            if typeid in used:
+                raise Exception("Duplicate typeid: " + str(typeid))
+            used.add(typeid)
 
             primitive.typeid = typeid
 

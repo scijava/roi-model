@@ -116,14 +116,14 @@ scijava.roi.shape.AffineTransform	scijava.roi.types.RotateTransform3D	true	false
 scijava.roi.shape.AbstractTransform	scijava.roi.types.AbstractTransform1D	true	true
 scijava.roi.shape.AbstractTransform	scijava.roi.types.AbstractTransform2D	true	true
 scijava.roi.shape.AbstractTransform	scijava.roi.types.AbstractTransform3D	true	true
-scijava.roi.shape.Text	scijava.roi.types.Text2D	true	true
 scijava.roi.shape.Set	scijava.roi.types.ShapeSet3D	true	true
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise1D	true	true
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise2D	true	true
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise3D	true	true
 scijava.roi.shape.Custom	scijava.roi.types.Custom3D	true	true
-scijava.roi.shape.Scale	scijava.roi.shape.Line
-scijava.roi.shape.Gridx	scijava.roi.shape.Cuboid
+scijava.roi.annotation.Text	scijava.roi.types.Text2D	true	true
+scijava.roi.annotation.Scale	scijava.roi.shape.Line
+scijava.roi.annotation.Grid	scijava.roi.shape.Cuboid
 scijava.roi.object.Property	scijava.roi.types.PropertynD	true	true
 scijava.roi.object.Property	scijava.roi.types.PropertiesnD	true	true
 scijava.roi.dimconstraint.Value	scijava.roi.types.ValuenD	true	true

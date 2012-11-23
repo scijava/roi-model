@@ -1,15 +1,51 @@
 #Name	Description
 
-## Primitives
+## Primitive numeric types
+
+scijava.roi.types.Null	Null type (used to indicate the absence of optional type)
 
 scijava.roi.types.TypeID	Numeric shape identifier
+
+scijava.roi.types.UInt8	Unsigned 8-bit integer
+scijava.roi.types.UInt16	Unsigned 16-bit integer
+scijava.roi.types.UInt32	Unsigned 32-bit integer
+scijava.roi.types.UInt64	Unsigned 64-bit integer
+#scijava.roi.types.UInt128	Unsigned 128-bit integer (placeholder)
+
+scijava.roi.types.Int8	Signed 8-bit integer
+scijava.roi.types.Int16	Signed 16-bit integer
+scijava.roi.types.Int32	Signed 32-bit integer
+scijava.roi.types.Int64	Signed 64-bit integer
+#scijava.roi.types.Int128	Signed 128-bit integer (placeholder)
+
+scijava.roi.types.Float32	Single precision floating point number
+scijava.roi.types.Float64	Double precision floating point number
+#scijava.roi.types.Float128	Quadruple precision floating point number (placeholder)
+
+## Primitive compound types
+
+scijava.roi.types.String	Text string
+
+# double[4] = 32 bytes; a more compact representation could be used
+scijava.roi.types.Color	Color in RGBA (0,1) range
+
+## Enumerated types
+
+scijava.roi.types.Operator	Mathematical operator
+scijava.roi.types.BLogic	Bitwise binary logical operator
+
 scijava.roi.types.Count	Number of objects
 scijava.roi.types.Index	Index into an array
 scijava.roi.types.Value	Numerical value
-scijava.roi.types.Operator	Mathematical operator
-scijava.roi.types.BLogic	Bitwise binary logical operator
-scijava.roi.types.Color	Color in RGBA (0,1) range
-scijava.roi.types.String	Text string
+
+## Generic containers
+
+scijava.roi.types.Pair	Pair of values (for map and graph containers)
+scijava.roi.types.Array	Fixed length ordered array
+scijava.roi.types.Set	Fixed length unordered set
+scijava.roi.types.Map	Fixed length unordered map
+scijava.roi.types.DirectedGraph	Fixed length directed graph
+
 
 ## Representations
 
@@ -165,7 +201,6 @@ scijava.roi.types.RotateTransform3D	A rotation transformation in 3D
 scijava.roi.types.AbstractTransform1D	An abstract (implementation-defined) transform in 1D
 scijava.roi.types.AbstractTransform2D	An abstract (implementation-defined) transform in 2D
 scijava.roi.types.AbstractTransform3D	An abstract (implementation-defined) transform in 3D
-scijava.roi.types.Text	Text
 scijava.roi.types.ValuenD	A single value
 scijava.roi.types.ValuesnD	A set of values
 scijava.roi.types.Range1nD	A range of values specified as the half-open range [V1, V2)
@@ -250,10 +285,10 @@ scijava.roi.shape.Set	A set of shapes
 # Text in 3D will need to be based upon a rectangle in 3D (not yet
 # possible without a transform).  Should label alignment be specified
 # directly in the representation, or in higher-level metadata?
-scijava.roi.shape.Text	Text (label)
-scijava.roi.shape.Scale	A scale bar between two points
+scijava.roi.annotation.Text	Text (label)
+scijava.roi.annotation.Scale	A scale bar between two points
 # TODO: Specify grid spacing
-scijava.roi.shape.Grid	A scale grid in a defined volume
+scijava.roi.annotation.Grid	A scale grid in a defined volume
 
 ## Custom (user-definable) shapes
 

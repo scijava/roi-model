@@ -1,297 +1,309 @@
 #Primitive	SeqNo	Name	Type	Description
-String	0	NCHAR	Count	Number of octets
-String	1	uint8[NCHAR]	CHARS	Array of octets (UTF-8)
+scijava.roi.types.String	0	NCHAR	Count	Number of octets
+scijava.roi.types.String	1	uint8[NCHAR]	CHARS	Array of octets (UTF-8)
+
+scijava.roi.types.Color	0	R	scijava.roi.types.Float64	Red value (0,1)
+scijava.roi.types.Color	1	G	scijava.roi.types.Float64	Green value (0,1)
+scijava.roi.types.Color	2	B	scijava.roi.types.Float64	Blue value (0,1)
+scijava.roi.types.Color	3	A	scijava.roi.types.Float64	Alpha value (0,1)
+
+scijava.roi.types.Pair	LTYPE	LTYPE	scijava.roi.types.TypeID	Left hand type
+scijava.roi.types.Pair	RTYPE	RTYPE	scijava.roi.types.TypeID	Right hand type
+scijava.roi.types.Pair	0	LEFT	LTYPE	Left hand value
+scijava.roi.types.Pair	1	RIGHT	LTYPE	Right hand value
+
+scijava.roi.types.Array	TYPE	TYPE	scijava.roi.types.TypeID	Type stored in container
+scijava.roi.types.Array	0	NELEM	scijava.roi.types.Count	Number of elements
+scijava.roi.types.Array	1	ELEM	TYPE[NELEM]	Elements
+
+scijava.roi.types.Set	TYPE	TYPE	scijava.roi.types.TypeID	Type stored in container
+scijava.roi.types.Set	0	NELEM	scijava.roi.types.Count	Number of elements
+scijava.roi.types.Set	1	ELEM	TYPE[NELEM]	Elements
+
+scijava.roi.types.Map	KTYPE	KTYPE	scijava.roi.types.TypeID	Key type stored in container
+scijava.roi.types.Map	VTYPE	VTYPE	scijava.roi.types.TypeID	Value type stored in container
+scijava.roi.types.Map	0	ELEM	scijava.roi.types.Array<scijava.roi.types.Pair<KTYPE,VTYPE>>	Array of key-value pairs
+
+scijava.roi.types.DirectedGraph	NTYPE	NTYPE	scijava.roi.types.TypeID	Node type stored in container
+scijava.roi.types.DirectedGraph	ETYPE	ETYPE	scijava.roi.types.TypeID	Edge type stored in container
+scijava.roi.types.DirectedGraph	0	VERTS	scijava.roi.types.Array<NTYPE>	Nodes
+scijava.roi.types.DirectedGraph	1	EDGES	scijava.roi.types.Array<scijava.roi.types.Pair<ETYPE,scijava.roi.types.Pair<Index,Index>>	Edges, including out and in vertex numbers
+
 # Per-shape state also includes: shape- and representation- specific data
-Shape	0	NCHAR	Count	Number of octets
-Shape	1	SID	ShapeID	Shape identifier
+scijava.roi.types.Shape	0	NCHAR	Count	Number of octets
+scijava.roi.types.Shape	1	SID	ShapeID	Shape identifier
 # Also used for re-serialisation; may be converted to canonical form internally
-Shape	2	RID	RepID	Representation identifier
+scijava.roi.types.Shape	2	RID	RepID	Representation identifier
 
 # Internal
 # Shape	3	NDIM	Count	Number of dimensions
 # Shape	4	DIMS	Index[NDIM]	Object dimensionality (dimension numbers in use)
 # Shape	5	PROPS	Props	Shape properties (point size, line width, text font/size etc.)
 
-RPoint1D	0	P1	Vertex1D	Point coordinate
-RPoint2D	0	P1	Vertex2D	Point coordinates
-RPoint3D	0	P1	Vertex3D	Point coordinates
-RPoints1D	0	NPOINTS	Count	Number of points
-RPoints1D	1	POINTS	Vertex1D[NPOINTS]	Array of point coordinates
-RPoints2D	0	NPOINTS	Count	Number of points
-RPoints2D	1	POINTS	Vertex2D[NPOINTS]	Array of point coordinates
-RPoints3D	0	NPOINTS	Count	Number of points
-RPoints3D	1	POINTS	Vertex3D[NPOINTS]	Array of point coordinates
-RVector1D	0	V1	Vector1D	Vector
-RVector2D	0	V1	Vector2D	Vector
-RVector3D	0	V1	Vector3D	Vector
-RVectors1D	0	NVEC	Count	Number of vectors
-RVectors1D	1	VA1	Vector1D[NVEC]	Array of vectors
-RVectors2D	0	NVEC	Count	Number of vectors
-RVectors2D	1	VA1	Vector2D[NVEC]	Array of vectors
-RVectors3D	0	NVEC	Count	Number of vectors
-RVectors3D	1	VA1	Vector3D[NVEC]	Array of vectors
-RLinePoints1D	0	P1	Vertex1D[2]	Line start and end points
-RLinePoints2D	0	P1	Vertex2D[2]	Line start and end points
-RLinePoints3D	0	P1	Vertex3D[2]	Line start and end points
-RLineVector1D	0	P1	Vertex1D	Line start
-RLineVector2D	0	P1	Vertex2D	Line start
-RLineVector2D	1	V1	Vector2D	Line end (relative to P1)
-RLineVector3D	0	P1	Vertex3D	Line start
-RLineVector3D	1	V1	Vector3D	Line end (relative to P1)
-RLinesPoints2D	0	NLINES	Count	Number of lines
-RLinesPoints1D	1	LINES	RLinePoints1D[NLINES]	Array of line points
-RLinesPoints1D	0	NLINES	Count	Number of lines
-RLinesPoints2D	1	LINES	RLinePoints2D[NLINES]	Array of line points
-RLinesPoints3D	0	NLINES	Count	Number of lines
-RLinesPoints3D	1	LINES	RLinePoints3D[NLINES]	Array of line points
-RLinesVectors1D	0	NLINES	Count	Number of lines
-RLinesVectors1D	1	LINES	RLineVector1D[NLINES]	Array of line vectors
-RLinesVectors2D	0	NLINES	Count	Number of lines
-RLinesVectors2D	1	LINES	RLineVector2D[NLINES]	Array of line vectors
-RLinesVectors3D	0	NLINES	Count	Number of lines
-RLinesVectors3D	1	LINES	RLineVector3D[NLINES]	Array of line vectors
-RPolylinePoints1D	0	P1	RPoints1D	Array of points
-RPolylinePoints2D	0	P1	RPoints2D	Array of points
-RPolylinePoints3D	0	P1	RPoints3D	Array of points
-RPolylineVector1D	0	P1	Vertex1D	First point
-RPolylineVector1D	1	V1	RVectors1D	Array of vectors
-RPolylineVector2D	0	P1	Vertex2D	First point
-RPolylineVector2D	1	V1	RVectors2D	Array of vectors
-RPolylineVector3D	0	P1	Vertex3D	First point
-RPolylineVector3D	1	V1	RVectors3D	Array of vectors
-RAlignedSquare12D	0	P1	Vertex2D	First corner
-RAlignedSquare12D	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
-RAlignedSquare22D	0	P1	Vertex2D	First corner
-RAlignedSquare22D	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
+scijava.roi.types.Point1D	0	P1	Vertex1D	Point coordinate
+scijava.roi.types.Point2D	0	P1	Vertex2D	Point coordinates
+scijava.roi.types.Point3D	0	P1	Vertex3D	Point coordinates
+scijava.roi.types.Points1D	0	POINTS	scijava.roi.types.Array<Vertex1D>	Array of point coordinates
+scijava.roi.types.Points2D	0	POINTS	scijava.roi.types.Array<Vertex2D>	Array of point coordinates
+scijava.roi.types.Points3D	0	POINTS	scijava.roi.types.Array<Vertex3D>	Array of point coordinates
+scijava.roi.types.Vector1D	0	V1	Vector1D	Vector
+scijava.roi.types.Vector2D	0	V1	Vector2D	Vector
+scijava.roi.types.Vector3D	0	V1	Vector3D	Vector
 
-RCube13D	0	P1	RLinePoints3D	Corner and adjacent corner
-RCube23D	0	P1	RLineVector3D	Corner and vector to adjacent corner
-RAlignedCuboid13D	0	P1	RLinePoints3D	Corner and opposing corner
-RAlignedCuboid23D	0	P1	RLineVector3D	Corner and vector to opposing corner
-RAlignedRectangle12D	0	P1	RLinePoints2D	Corner and opposing corner
-RAlignedRectangle22D	0	P1	RLineVector2D	Corner and vector to opposing corner
-RSquare12D	0	P1	RLinePoints2D	Corner and opposing corner
-RSquare22D	0	P1	RLineVector2D	Corner and vector to opposing corner
+scijava.roi.types.Vectors1D	0	VECS	scijava.roi.types.Array<Vector1D>	Array of vectors
+scijava.roi.types.Vectors2D	0	VECS	scijava.roi.types.Array<Vector2D>	Array of vectors
+scijava.roi.types.Vectors3D	0	VECS	scijava.roi.types.Array<Vector3D>	Array of vectors
 
-RAlignedCube13D	0	P1	Vertex3D	First corner
-RAlignedCube13D	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
-RAlignedCube23D	0	P1	Vertex3D	First corner
-RAlignedCube23D	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
-RRectangle12D	0	P1	Vertex2D	First corner
-RRectangle12D	1	P2	Vertex2D	Adjacent corner
-RRectangle12D	2	V1	Vector1D	Distance to corner opposing P1 (relative to P2)
-RRectangle22D	0	P1	Vertex2D	First corner
-RRectangle22D	1	V1	Vector2D	Distance to adjacent corner (relative to P1)
-RRectangle22D	2	V2	Vector1D	Distance to corner opposing P1 (relative to P2)
-RCuboid13D	0	P1	Vertex3D	First corner
-RCuboid13D	1	P2	Vertex3D	Second corner (adjacent to P1)
-RCuboid13D	2	V1	Vector2D	Distance to third corner (adjacent to P2)
-RCuboid13D	3	V2	Vector1D	Distance to fourth corner (opposing P1, adjacent to V1)
-RCuboid23D	0	P1	Vertex3D	First corner
-RCuboid23D	1	V1	Vector3D	Distance to second corner (relative to P1)
-RCuboid23D	2	V2	Vector2D	Distance to third corner (relative to V1)
-RCuboid23D	3	V3	Vector1D	Distance to fourth corner (relative to V2, opposing P1)
-RCircle02D	0	P1	Vertex2D	Centre point
-RCircle02D	1	P2	Vertex2D	Circumference point
-RCircle12D	0	P1	Vertex2D	Centre point
-RCircle12D	1	V1	Vector1D	Radius
-RCircle22D	0	P1	Vertex2D	Centre point
-RCircle22D	1	V1	Vector2D	Radius
-RCircle32D	0	P1	Vertex2D	Point on circumference
-RCircle32D	1	V1	Vector2D	Vector to centre
-RCircle42D	0	P1	Vertex2D[2]	Two points on circumference
-RCircle52D	0	P1	Vertex2D[3]	Three points on circumference
-RSphere03D	0	P1	Vertex3D	Centre point
-RSphere03D	1	P2	Vertex3D	Surface point
-RSphere13D	0	P1	Vertex3D	Centre point
-RSphere13D	1	V1	Vector1D	Radius
-RSphere23D	0	P1	Vertex3D	Centre point
-RSphere23D	1	V1	Vector2D	Radius
-RSphere33D	0	P1	Vertex3D	Centre point
-RSphere33D	1	V1	Vector3D	Radius
-RSphere43D	0	P1	Vertex3D	Point on surface
-RSphere43D	1	V1	Vector3D	Vector to centre
-RSphere53D	0	P1	Vertex3D[2]	Two points on surface
-RSphere63D	0	P1	Vertex3D[4]	Four points on surface
-RAlignedHalfAxes2D	0	P1	Vertex2D	Centre point
-RAlignedHalfAxes2D	1	V1	Vector2D	Half axes (x,y)
-RHalfAxes2D	0	P1	Vertex2D	Centre point
-RHalfAxes2D	1	V1	Vector2D	Half axes (xy)
+scijava.roi.types.LinePoints1D	0	P1	Vertex1D[2]	Line start and end points
+scijava.roi.types.LinePoints2D	0	P1	Vertex2D[2]	Line start and end points
+scijava.roi.types.LinePoints3D	0	P1	Vertex3D[2]	Line start and end points
+scijava.roi.types.LineVector1D	0	P1	Vertex1D	Line start
+scijava.roi.types.LineVector2D	0	P1	Vertex2D	Line start
+scijava.roi.types.LineVector2D	1	V1	Vector2D	Line end (relative to P1)
+scijava.roi.types.LineVector3D	0	P1	Vertex3D	Line start
+scijava.roi.types.LineVector3D	1	V1	Vector3D	Line end (relative to P1)
+
+
+scijava.roi.types.LinesPoints1D	0	LINES	scijava.roi.types.Array<RLinePoints1D>	Array of line points
+scijava.roi.types.LinesPoints2D	0	LINES	scijava.roi.types.Array<RLinePoints2D>	Array of line points
+scijava.roi.types.LinesPoints3D	0	LINES	scijava.roi.types.Array<RLinePoints3D>	Array of line points
+
+scijava.roi.types.LinesVectors1D	0	LINES	scijava.roi.types.Array<RLineVector1D>	Array of line vectors
+scijava.roi.types.LinesVectors2D	0	LINES	scijava.roi.types.Array<RLineVector2D>	Array of line vectors
+scijava.roi.types.LinesVectors3D	0	LINES	scijava.roi.types.Array<RLineVector3D>	Array of line vectors
+
+scijava.roi.types.PolylinePoints1D	0	P1	Points1D	Array of points
+scijava.roi.types.PolylinePoints2D	0	P1	Points2D	Array of points
+scijava.roi.types.PolylinePoints3D	0	P1	Points3D	Array of points
+scijava.roi.types.PolylineVector1D	0	P1	Vertex1D	First point
+scijava.roi.types.PolylineVector1D	1	V1	scijava.roi.types.Array<Vector1D>	Array of vectors
+scijava.roi.types.PolylineVector2D	0	P1	Vertex2D	First point
+scijava.roi.types.PolylineVector2D	1	V1	scijava.roi.types.Array<Vector2D>	Array of vectors
+scijava.roi.types.PolylineVector3D	0	P1	Vertex3D	First point
+scijava.roi.types.PolylineVector3D	1	V1	scijava.roi.types.Array<Vector3D>	Array of vectors
+scijava.roi.types.AlignedSquare12D	0	P1	Vertex2D	First corner
+scijava.roi.types.AlignedSquare12D	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
+scijava.roi.types.AlignedSquare22D	0	P1	Vertex2D	First corner
+scijava.roi.types.AlignedSquare22D	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
+
+scijava.roi.types.Cube13D	0	P1	LinePoints3D	Corner and adjacent corner
+scijava.roi.types.Cube23D	0	P1	LineVector3D	Corner and vector to adjacent corner
+scijava.roi.types.AlignedCuboid13D	0	P1	LinePoints3D	Corner and opposing corner
+scijava.roi.types.AlignedCuboid23D	0	P1	LineVector3D	Corner and vector to opposing corner
+scijava.roi.types.AlignedRectangle12D	0	P1	LinePoints2D	Corner and opposing corner
+scijava.roi.types.AlignedRectangle22D	0	P1	LineVector2D	Corner and vector to opposing corner
+scijava.roi.types.Square12D	0	P1	LinePoints2D	Corner and opposing corner
+scijava.roi.types.Square22D	0	P1	LineVector2D	Corner and vector to opposing corner
+
+scijava.roi.types.AlignedCube13D	0	P1	Vertex3D	First corner
+scijava.roi.types.AlignedCube13D	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
+scijava.roi.types.AlignedCube23D	0	P1	Vertex3D	First corner
+scijava.roi.types.AlignedCube23D	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
+scijava.roi.types.Rectangle12D	0	P1	Vertex2D	First corner
+scijava.roi.types.Rectangle12D	1	P2	Vertex2D	Adjacent corner
+scijava.roi.types.Rectangle12D	2	V1	Vector1D	Distance to corner opposing P1 (relative to P2)
+scijava.roi.types.Rectangle22D	0	P1	Vertex2D	First corner
+scijava.roi.types.Rectangle22D	1	V1	Vector2D	Distance to adjacent corner (relative to P1)
+scijava.roi.types.Rectangle22D	2	V2	Vector1D	Distance to corner opposing P1 (relative to P2)
+scijava.roi.types.Cuboid13D	0	P1	Vertex3D	First corner
+scijava.roi.types.Cuboid13D	1	P2	Vertex3D	Second corner (adjacent to P1)
+scijava.roi.types.Cuboid13D	2	V1	Vector2D	Distance to third corner (adjacent to P2)
+scijava.roi.types.Cuboid13D	3	V2	Vector1D	Distance to fourth corner (opposing P1, adjacent to V1)
+scijava.roi.types.Cuboid23D	0	P1	Vertex3D	First corner
+scijava.roi.types.Cuboid23D	1	V1	Vector3D	Distance to second corner (relative to P1)
+scijava.roi.types.Cuboid23D	2	V2	Vector2D	Distance to third corner (relative to V1)
+scijava.roi.types.Cuboid23D	3	V3	Vector1D	Distance to fourth corner (relative to V2, opposing P1)
+scijava.roi.types.Circle02D	0	P1	Vertex2D	Centre point
+scijava.roi.types.Circle02D	1	P2	Vertex2D	Circumference point
+scijava.roi.types.Circle12D	0	P1	Vertex2D	Centre point
+scijava.roi.types.Circle12D	1	V1	Vector1D	Radius
+scijava.roi.types.Circle22D	0	P1	Vertex2D	Centre point
+scijava.roi.types.Circle22D	1	V1	Vector2D	Radius
+scijava.roi.types.Circle32D	0	P1	Vertex2D	Point on circumference
+scijava.roi.types.Circle32D	1	V1	Vector2D	Vector to centre
+scijava.roi.types.Circle42D	0	P1	Vertex2D[2]	Two points on circumference
+scijava.roi.types.Circle52D	0	P1	Vertex2D[3]	Three points on circumference
+scijava.roi.types.Sphere03D	0	P1	Vertex3D	Centre point
+scijava.roi.types.Sphere03D	1	P2	Vertex3D	Surface point
+scijava.roi.types.Sphere13D	0	P1	Vertex3D	Centre point
+scijava.roi.types.Sphere13D	1	V1	Vector1D	Radius
+scijava.roi.types.Sphere23D	0	P1	Vertex3D	Centre point
+scijava.roi.types.Sphere23D	1	V1	Vector2D	Radius
+scijava.roi.types.Sphere33D	0	P1	Vertex3D	Centre point
+scijava.roi.types.Sphere33D	1	V1	Vector3D	Radius
+scijava.roi.types.Sphere43D	0	P1	Vertex3D	Point on surface
+scijava.roi.types.Sphere43D	1	V1	Vector3D	Vector to centre
+scijava.roi.types.Sphere53D	0	P1	Vertex3D[2]	Two points on surface
+scijava.roi.types.Sphere63D	0	P1	Vertex3D[4]	Four points on surface
+scijava.roi.types.AlignedHalfAxes2D	0	P1	Vertex2D	Centre point
+scijava.roi.types.AlignedHalfAxes2D	1	V1	Vector2D	Half axes (x,y)
+scijava.roi.types.HalfAxes2D	0	P1	Vertex2D	Centre point
+scijava.roi.types.HalfAxes2D	1	V1	Vector2D	Half axes (xy)
 # Is the dimensionality of the half axes correct here?
-RHalfAxes2D	2	V2	Vector1D	Half axes (x)
-REllipseCovariance2D	0	P1	Vertex2D	Centre point (mean)
-REllipseCovariance2D	1	COV1	double[2][2]	2 × 2 covariance matrix
-RAlignedHalfAxes3D	0	P1	Vertex3D	Centre point
-RAlignedHalfAxes3D	1	V1	Vector3D	Half axes (x,y,z)
-RHalfAxes3D	0	P1	Vertex3D	Centre point
-RHalfAxes3D	1	V1	Vector3D	Half axes (xyz)
+scijava.roi.types.HalfAxes2D	2	V2	Vector1D	Half axes (x)
+scijava.roi.types.AlignedHalfAxes3D	0	P1	Vertex3D	Centre point
+scijava.roi.types.AlignedHalfAxes3D	1	V1	Vector3D	Half axes (x,y,z)
+scijava.roi.types.HalfAxes3D	0	P1	Vertex3D	Centre point
+scijava.roi.types.HalfAxes3D	1	V1	Vector3D	Half axes (xyz)
 # Is the dimensionality of the half axes correct here?
-RHalfAxes3D	2	V2	Vector2D	Half axes (xy)
+scijava.roi.types.HalfAxes3D	2	V2	Vector2D	Half axes (xy)
 # Is the dimensionality of the half axes correct here?
-RHalfAxes3D	3	V3	Vector1D	Half axes (x)
-REllipsoidCovariance3D	0	P1	Vertex3D	Centre point (mean)
-REllipsoidCovariance3D	1	COV1	double[3][3]	3 × 3 covariance matrix
-RCircularCylinder13D	0	P1	Vertex3D	Centre of first face
-RCircularCylinder13D	1	P2	Vertex3D	Centre of second face
-RCircularCylinder13D	2	V1	Vector1D	Radius
-RCircularCylinder23D	0	P1	Vertex3D	Centre of first face
-RCircularCylinder23D	1	V1	Vector3D	Distance to centre of second face
-RCircularCylinder23D	2	V2	Vector1D	Radius
-RCircularCylinder33D	0	P1	Vertex3D	Centre of first face
-RCircularCylinder33D	1	P2	Vertex3D	Centre of second face
-RCircularCylinder33D	2	V1	Vector3D	Radius and angle of first face
+scijava.roi.types.HalfAxes3D	3	V3	Vector1D	Half axes (x)
+scijava.roi.types.CircularCylinder13D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.CircularCylinder13D	1	P2	Vertex3D	Centre of second face
+scijava.roi.types.CircularCylinder13D	2	V1	Vector1D	Radius
+scijava.roi.types.CircularCylinder23D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.CircularCylinder23D	1	V1	Vector3D	Distance to centre of second face
+scijava.roi.types.CircularCylinder23D	2	V2	Vector1D	Radius
+scijava.roi.types.CircularCylinder33D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.CircularCylinder33D	1	P2	Vertex3D	Centre of second face
+scijava.roi.types.CircularCylinder33D	2	V1	Vector3D	Radius and angle of first face
 # Should V2 only allow angle, assuming radius from V1, or also allow a
 # second radius to represent a conical section?
-RCircularCylinder33D	3	V2	Vector3D	Angle of second face
-RCircularCylinder43D	0	P1	Vertex3D	Centre of first face
-RCircularCylinder43D	1	V1	Vector3D	Distance to centre of second face
-RCircularCylinder43D	2	V2	Vector3D	Radius and angle of first face
+scijava.roi.types.CircularCylinder33D	3	V2	Vector3D	Angle of second face
+scijava.roi.types.CircularCylinder43D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.CircularCylinder43D	1	V1	Vector3D	Distance to centre of second face
+scijava.roi.types.CircularCylinder43D	2	V2	Vector3D	Radius and angle of first face
 # Should V3 only allow angle, assuming radius from V2, or also allow a
 # second radius to represent a conical section?
-RCircularCylinder43D	3	V3	Vector3D	Angle of second face
-REllipticCylinder13D	0	P1	Vertex3D	Centre of first face
-REllipticCylinder13D	1	P2	Vertex3D	Centre of second face
-REllipticCylinder13D	2	V1	Vector2D	Half axes (xy)
+scijava.roi.types.CircularCylinder43D	3	V3	Vector3D	Angle of second face
+scijava.roi.types.EllipticCylinder13D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.EllipticCylinder13D	1	P2	Vertex3D	Centre of second face
+scijava.roi.types.EllipticCylinder13D	2	V1	Vector2D	Half axes (xy)
 # Is the dimensionality of the half axes correct here?
-REllipticCylinder13D	3	V2	Vector1D	Half axes (x)
-REllipticCylinder23D	0	P1	Vertex3D	Centre of first face
-REllipticCylinder23D	1	V1	Vector3D	Distance to second face
-REllipticCylinder23D	2	V2	Vector3D	Half axes (xy)
+scijava.roi.types.EllipticCylinder13D	3	V2	Vector1D	Half axes (x)
+scijava.roi.types.EllipticCylinder23D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.EllipticCylinder23D	1	V1	Vector3D	Distance to second face
+scijava.roi.types.EllipticCylinder23D	2	V2	Vector3D	Half axes (xy)
 # Is the dimensionality of the half axes correct here?
-REllipticCylinder23D	3	V3	Vector2D	Half axes (x)
-REllipticCylinder33D	0	P1	Vertex3D	Centre of first face
-REllipticCylinder33D	1	P2	Vertex3D	Centre of second face
+scijava.roi.types.EllipticCylinder23D	3	V3	Vector2D	Half axes (x)
+scijava.roi.types.EllipticCylinder33D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.EllipticCylinder33D	1	P2	Vertex3D	Centre of second face
 # Should half axes and angle be specified in same vector or separately?
-REllipticCylinder33D	2	V1	Vector3D	Half axes of first face (xyz)
-REllipticCylinder33D	3	V2	Vector2D	Half axes of first face (xy)
-REllipticCylinder33D	4	V3	Vector3D	Angle of second face
-REllipticCylinder43D	0	P1	Vertex3D	Centre of first face
-REllipticCylinder43D	1	V1	Vector3D	Distance to second face
-REllipticCylinder43D	2	V2	Vector3D	Half axes (xyz)
-REllipticCylinder43D	3	V3	Vector2D	Half axes (xy)
-REllipticCylinder43D	4	V4	Vector3D	Angle of second face
-RArc12D	0	P1	RLinePoints2D	Centre point and arc start
-RArc12D	1	V1	Vector2D	Arc end
-RArc22D	0	P1	RLineVector2D	Centre point and arc start
-RArc22D	1	V1	Vector2D	Arc end
-RArc32D	0	P1	Vertex2D[3]	Centre point, arc start and arc end (vector inferred)
-RArc13D	0	P1	RLinePoints3D	Centre point and arc start
-RArc13D	1	V1	Vector3D	Arc end
-RArc23D	0	P1	RLineVector3D	Centre point and arc start
-RArc23D	1	V1	Vector3D	Arc end
-RArc33D	0	P1	Vertex3D[3]	Centre point, arc start and arc end (vector inferred)
-RAlignedBitMask1D	0	B1	RLinePoints1D	Bounding line
-RAlignedBitMask1D	1	DIM1	Vector1D	Mask dimensions (x)
-RAlignedBitMask1D	2	DATA	bool[x]	Mask data
-RAlignedBitMask2D	0	B1	RLinePoints2D	Bounding box
-RAlignedBitMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
-RAlignedBitMask2D	2	DATA	bool[x,y]	Mask data
-RAlignedBitMask3D	0	B1	RLinePoints3D	Bounding box
-RAlignedBitMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RAlignedBitMask3D	2	DATA	bool[x,y,z]	Mask data
-RAlignedGreyMask1D	0	B1	RLinePoints1D	Bounding line
-RAlignedGreyMask1D	1	DIM1	Vector1D	Mask dimensions (x)
-RAlignedGreyMask1D	2	DATA	double[x]	Mask data
-RAlignedGreyMask2D	0	B1	RLinePoints2D	Bounding box
-RAlignedGreyMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
-RAlignedGreyMask2D	2	DATA	double[x,y]	Mask data
-RAlignedGreyMask3D	0	B1	RLinePoints3D	Bounding box
-RAlignedGreyMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RAlignedGreyMask3D	2	DATA	double[x,y,z]	Mask data
-RBitMask2D	0	B1	RRectangle2	Bounding box
-RBitMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
-RBitMask2D	2	DATA	bool[x,y]	Mask data
-RBitMask3D	0	B1	RCuboid2	Bounding box
-RBitMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RBitMask3D	2	DATA	bool[x,y,z]	Mask data
-RGreyMask2D	0	B1	RRectangle2	Bounding box
-RGreyMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
-RGreyMask2D	2	DATA	double[x,y]	Mask data
-RGreyMask3D	0	B1	RCuboid2	Bounding box
-RGreyMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
-RGreyMask3D	2	DATA	double[x,y,z]	Mask data
-RMesh2D	0	NFACE	Count	Number of faces
-RMesh2D	1	VREF	double[NFACE][3]	Vertex references per face, counterclockwise winding
-RMesh2D	2	NVERT	Count	Number of vertices
-RMesh2D	3	VERTS	Vertex2D[NVERT]	Vertex coordinates
-RMesh3D	0	NFACE	Count	Number of faces
-RMesh3D	1	VREF	double[NFACE][3]	Vertex references per face, counterclockwise winding
-RMesh3D	2	NVERT	Count	Number of vertices
-RMesh3D	3	VERTS	Vertex3D[NVERT]	Vertex coordinates
+scijava.roi.types.EllipticCylinder33D	2	V1	Vector3D	Half axes of first face (xyz)
+scijava.roi.types.EllipticCylinder33D	3	V2	Vector2D	Half axes of first face (xy)
+scijava.roi.types.EllipticCylinder33D	4	V3	Vector3D	Angle of second face
+scijava.roi.types.EllipticCylinder43D	0	P1	Vertex3D	Centre of first face
+scijava.roi.types.EllipticCylinder43D	1	V1	Vector3D	Distance to second face
+scijava.roi.types.EllipticCylinder43D	2	V2	Vector3D	Half axes (xyz)
+scijava.roi.types.EllipticCylinder43D	3	V3	Vector2D	Half axes (xy)
+scijava.roi.types.EllipticCylinder43D	4	V4	Vector3D	Angle of second face
+scijava.roi.types.Arc12D	0	P1	LinePoints2D	Centre point and arc start
+scijava.roi.types.Arc12D	1	V1	Vector2D	Arc end
+scijava.roi.types.Arc22D	0	P1	LineVector2D	Centre point and arc start
+scijava.roi.types.Arc22D	1	V1	Vector2D	Arc end
+scijava.roi.types.Arc32D	0	P1	Vertex2D[3]	Centre point, arc start and arc end (vector inferred)
+scijava.roi.types.Arc13D	0	P1	LinePoints3D	Centre point and arc start
+scijava.roi.types.Arc13D	1	V1	Vector3D	Arc end
+scijava.roi.types.Arc23D	0	P1	LineVector3D	Centre point and arc start
+scijava.roi.types.Arc23D	1	V1	Vector3D	Arc end
+scijava.roi.types.Arc33D	0	P1	Vertex3D[3]	Centre point, arc start and arc end (vector inferred)
+scijava.roi.types.AlignedBitMask1D	0	B1	LinePoints1D	Bounding line
+scijava.roi.types.AlignedBitMask1D	1	DIM1	Vector1D	Mask dimensions (x)
+scijava.roi.types.AlignedBitMask1D	2	DATA	bool[x]	Mask data
+scijava.roi.types.AlignedBitMask2D	0	B1	LinePoints2D	Bounding box
+scijava.roi.types.AlignedBitMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+scijava.roi.types.AlignedBitMask2D	2	DATA	bool[x,y]	Mask data
+scijava.roi.types.AlignedBitMask3D	0	B1	LinePoints3D	Bounding box
+scijava.roi.types.AlignedBitMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+scijava.roi.types.AlignedBitMask3D	2	DATA	bool[x,y,z]	Mask data
+scijava.roi.types.AlignedGreyMask1D	0	B1	LinePoints1D	Bounding line
+scijava.roi.types.AlignedGreyMask1D	1	DIM1	Vector1D	Mask dimensions (x)
+scijava.roi.types.AlignedGreyMask1D	2	DATA	double[x]	Mask data
+scijava.roi.types.AlignedGreyMask2D	0	B1	LinePoints2D	Bounding box
+scijava.roi.types.AlignedGreyMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+scijava.roi.types.AlignedGreyMask2D	2	DATA	double[x,y]	Mask data
+scijava.roi.types.AlignedGreyMask3D	0	B1	LinePoints3D	Bounding box
+scijava.roi.types.AlignedGreyMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+scijava.roi.types.AlignedGreyMask3D	2	DATA	double[x,y,z]	Mask data
+scijava.roi.types.BitMask2D	0	B1	Rectangle2	Bounding box
+scijava.roi.types.BitMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+scijava.roi.types.BitMask2D	2	DATA	bool[x,y]	Mask data
+scijava.roi.types.BitMask3D	0	B1	Cuboid2	Bounding box
+scijava.roi.types.BitMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+scijava.roi.types.BitMask3D	2	DATA	bool[x,y,z]	Mask data
+scijava.roi.types.GreyMask2D	0	B1	Rectangle2	Bounding box
+scijava.roi.types.GreyMask2D	1	DIM1	Vector2D	Mask dimensions (x,y)
+scijava.roi.types.GreyMask2D	2	DATA	double[x,y]	Mask data
+scijava.roi.types.GreyMask3D	0	B1	Cuboid2	Bounding box
+scijava.roi.types.GreyMask3D	1	DIM1	Vector3D	Mask dimensions (x,y,z)
+scijava.roi.types.GreyMask3D	2	DATA	double[x,y,z]	Mask data
+
+scijava.roi.types.Mesh2D	0	FACES	scijava.roi.types.Array<double[3]>	Vertex references per face, counterclockwise winding
+scijava.roi.types.Mesh2D	1	VERTS	scijava.roi.types.Array<Vertex2D>	Vertex coordinates
+
+scijava.roi.types.Mesh3D	0	FACES	scijava.roi.types.Array<double[3]>	Vertex references per face, counterclockwise winding
+scijava.roi.types.Mesh3D	1	VERTS	scijava.roi.types.Array<Vertex3D>	Vertex coordinates
+
 # TODO: Specify dimensions for transform?  Or have variants for different combinations?
-RAffineTransform1D	0	TRANS	Affine1D	Transform
-RAffineTransform1D	1	SHAPE	Shape	Shape
-RAffineTransform2D	0	TRANS	Affine2D	Transform
-RAffineTransform2D	1	SHAPE	Shape	Shape
-RAffineTransform3D	0	TRANS	Affine3D	Transform
-RAffineTransform3D	1	SHAPE	Shape	Shape
-RTranslateTransform1D	0	TR1	Vector1D	Translation in x
-RTranslateTransform1D	1	SHAPE	Shape1D	Shape
-RTranslateTransform2D	0	TR1	Vector2D	Translation in x,y
-RTranslateTransform2D	1	SHAPE	Shape1D	Shape
-RTranslateTransform3D	0	TR1	Vector3D	Translation in x,y,z
-RTranslateTransform3D	1	SHAPE	Shape1D	Shape
-RScaleTransform1D	0	SF1	double[1]	Scale factor for x
-RScaleTransform1D	1	SHAPE	Shape1D	Shape
-RScaleTransform2D	0	SF1	double[2]	Scale factor for x,y
-RScaleTransform2D	1	SHAPE	Shape1D	Shape
-RScaleTransform3D	0	SF1	double[3]	Scale factor for x,y,z
-RScaleTransform3D	1	SHAPE	Shape	Shape
-RRotateTransform2D	0	RA	double[1]	Rotation angle in z
-RRotateTransform2D	1	SHAPE	Shape	Shape
-RRotateTransform3D	0	RA	double[3]	Rotation angle in x,y,z
-RRotateTransform3D	1	SHAPE	Shape	Shape
-RAbstractTransform1D	0	NAME	String	Name of transformation
-RAbstractTransform1D	1	ARGS	String	Arguments
-RAbstractTransform1D	2	SHAPE	Shape	Shape
-RAbstractTransform2D	0	NAME	String	Name of transformation
-RAbstractTransform2D	1	ARGS	String	Arguments
-RAbstractTransform2D	2	SHAPE	Shape	Shape
-RAbstractTransform3D	0	NAME	String	Name of transformation
-RAbstractTransform3D	1	ARGS	String	Arguments
-RAbstractTransform3D	2	SHAPE	Shape	Shape
-RText2D	0	B1	RRectangle2	Text bounds
+scijava.roi.types.AffineTransform1D	0	TRANS	Affine1D	Transform
+scijava.roi.types.AffineTransform1D	1	SHAPE	Shape	Shape
+scijava.roi.types.AffineTransform2D	0	TRANS	Affine2D	Transform
+scijava.roi.types.AffineTransform2D	1	SHAPE	Shape	Shape
+scijava.roi.types.AffineTransform3D	0	TRANS	Affine3D	Transform
+scijava.roi.types.AffineTransform3D	1	SHAPE	Shape	Shape
+scijava.roi.types.TranslateTransform1D	0	TR1	Vector1D	Translation in x
+scijava.roi.types.TranslateTransform1D	1	SHAPE	Shape1D	Shape
+scijava.roi.types.TranslateTransform2D	0	TR1	Vector2D	Translation in x,y
+scijava.roi.types.TranslateTransform2D	1	SHAPE	Shape1D	Shape
+scijava.roi.types.TranslateTransform3D	0	TR1	Vector3D	Translation in x,y,z
+scijava.roi.types.TranslateTransform3D	1	SHAPE	Shape1D	Shape
+scijava.roi.types.ScaleTransform1D	0	SF1	double[1]	Scale factor for x
+scijava.roi.types.ScaleTransform1D	1	SHAPE	Shape1D	Shape
+scijava.roi.types.ScaleTransform2D	0	SF1	double[2]	Scale factor for x,y
+scijava.roi.types.ScaleTransform2D	1	SHAPE	Shape1D	Shape
+scijava.roi.types.ScaleTransform3D	0	SF1	double[3]	Scale factor for x,y,z
+scijava.roi.types.ScaleTransform3D	1	SHAPE	Shape	Shape
+scijava.roi.types.RotateTransform2D	0	RA	double[1]	Rotation angle in z
+scijava.roi.types.RotateTransform2D	1	SHAPE	Shape	Shape
+scijava.roi.types.RotateTransform3D	0	RA	double[3]	Rotation angle in x,y,z
+scijava.roi.types.RotateTransform3D	1	SHAPE	Shape	Shape
+scijava.roi.types.AbstractTransform1D	0	NAME	String	Name of transformation
+scijava.roi.types.AbstractTransform1D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform1D	2	SHAPE	Shape	Shape
+scijava.roi.types.AbstractTransform2D	0	NAME	String	Name of transformation
+scijava.roi.types.AbstractTransform2D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform2D	2	SHAPE	Shape	Shape
+scijava.roi.types.AbstractTransform3D	0	NAME	String	Name of transformation
+scijava.roi.types.AbstractTransform3D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform3D	2	SHAPE	Shape	Shape
+scijava.roi.types.Text2D	0	B1	Rectangle2	Text bounds
 # Or, should the text be specified externally, e.g. as ROI label text?
-RText2D	1	TEXT	String	Text
-RValuenD	0	D1	Index	Dimension
-RValuenD	1	V1	Index	Value within dimension
-RValuesnD	0	D1	Index	Dimension
-RValuesnD	1	NVAL	Count	Number of values
-RValuesnD	2	V1	Index[NVAL]	Values within dimension
-RRange1nD	0	D1	Index	Dimension
-RRange1nD	1	V1	Index	Starting value within dimension
-RRange1nD	2	V2	Index	Ending value +1 within dimension
-RRange2nD	0	D1	Index	Dimension
-RRange2nD	1	O1	Operator	Mathematical operator
-RRange2nD	2	V1	Value	Value for operation
-RExtrudenD	0	D1	Index	Dimension
-RExtrudenD	1	SHAPE	Shape	Shape
+scijava.roi.types.Text2D	1	TEXT	String	Text
+scijava.roi.types.ValuesnD	0	D1	Index	Dimension
+scijava.roi.types.ValuesnD	1	V1	scijava.roi.types.Array<Index>	Values within dimension
+scijava.roi.types.Range1nD	0	D1	Index	Dimension
+scijava.roi.types.Range1nD	1	V1	Index	Starting value within dimension
+scijava.roi.types.Range1nD	2	V2	Index	Ending value +1 within dimension
+scijava.roi.types.Range2nD	0	D1	Index	Dimension
+scijava.roi.types.Range2nD	1	O1	Operator	Mathematical operator
+scijava.roi.types.Range2nD	2	V1	Value	Value for operation
+scijava.roi.types.ExtrudenD	0	D1	Index	Dimension
+scijava.roi.types.ExtrudenD	1	SHAPE	Shape	Shape
 
-RShapeSet3D	0	NSHAPES	Count	Number of shapes
-RShapeSet3D	1	SHAPES	Shape[NSHAPES]	List of shapes
+scijava.roi.types.ShapeSet3D	0	SHAPES	scijava.roi.types.Set<Shape>	Set of shapes
 
-RBitwise1D	0	O1	BLogic	Bitwise logic operator
-RBitwise1D	1	M1	RBitMask1D	Mask 1
-RBitwise1D	2	M2	RBitMask1D	Mask 2
-RBitwise2D	0	O1	BLogic	Bitwise logic operator
-RBitwise2D	1	M1	RBitMask2D	Mask 1
-RBitwise2D	2	M2	RBitMask2D	Mask 2
-RBitwise3D	0	O1	BLogic	Bitwise logic operator
-RBitwise3D	1	M1	RBitMask3D	Mask 1
-RBitwise3D	2	M2	RBitMask3D	Mask 2
-RCustom3D	0	TYPE	String	Name of the custom type
-RCustom3D	1	MEASUREMENTS	RSet	Set of shapes describing how the ROI was measured
-RCustom3D	2	RESULTS	RSet	Set of shapes for describing measurement results
-RCustom3D	3	EDIT	RSet	Set of shapes describing how to edit the ROI
-RCustom3D	4	VISUAL	RSet	Set of shapes describing how to visualise (render) the ROI for visualisation
+scijava.roi.types.Bitwise1D	0	O1	BLogic	Bitwise logic operator
+scijava.roi.types.Bitwise1D	1	M1	BitMask1D	Mask 1
+scijava.roi.types.Bitwise1D	2	M2	BitMask1D	Mask 2
+scijava.roi.types.Bitwise2D	0	O1	BLogic	Bitwise logic operator
+scijava.roi.types.Bitwise2D	1	M1	BitMask2D	Mask 1
+scijava.roi.types.Bitwise2D	2	M2	BitMask2D	Mask 2
+scijava.roi.types.Bitwise3D	0	O1	BLogic	Bitwise logic operator
+scijava.roi.types.Bitwise3D	1	M1	BitMask3D	Mask 1
+scijava.roi.types.Bitwise3D	2	M2	BitMask3D	Mask 2
+scijava.roi.types.Custom3D	0	TYPE	String	Name of the custom type
+scijava.roi.types.Custom3D	1	MEASUREMENTS	Set	Set of shapes describing how the ROI was measured
+scijava.roi.types.Custom3D	2	RESULTS	Set	Set of shapes for describing measurement results
+scijava.roi.types.Custom3D	3	EDIT	Set	Set of shapes describing how to edit the ROI
+scijava.roi.types.Custom3D	4	VISUAL	Set	Set of shapes describing how to visualise (render) the ROI for visualisation
 
-RPropertynD	0	KEY	String	Property name
-RPropertynD	1	VALUE	Representation	Property value (includes type information)
-RPropertiesnD	0	NPROP	Count	Number of properties
-RPropertiesnD	1	PROPS	RProperty[NPROP]	List of properties
+scijava.roi.types.Property	0	KEY	String	Property name
+scijava.roi.types.Property	1	VALUE	Representation	Property value (includes type information)
+scijava.roi.types.Properties	0	PROPS	scijava.roi.types.Set<scijava.roi.types.Property>	Set of properties
 
 # Placeholder.
-RDimConstraintnD	0	INVALID	Invalid	Placeholder for type
+scijava.roi.types.DimConstraintnD	0	INVALID	Invalid	Placeholder for type
 
-RDimConstraintSetnD	0	NSHAPES	Count	Number of shapes
-RDimConstraintSetnD	1	SHAPES	RDimConstraint[NSHAPES]	List of shapes
+scijava.roi.types.DimConstraintSetnD	0	NSHAPES	Count	Number of shapes
+scijava.roi.types.DimConstraintSetnD	1	SHAPES	DimConstraint[NSHAPES]	List of shapes
