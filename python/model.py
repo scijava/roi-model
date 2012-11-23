@@ -52,10 +52,21 @@ class EnumValue:
 class Compound:
     def __init__(self, name):
         self.name = name
+        self.templates = dict()
         self.members = dict()
 
     def check(self):
 # TODO: Check for duplicate names (and members).
+        return
+
+class CompoundTemplate:
+    def __init__(self, type, name, description):
+        self.type = type
+        self.name = name
+        self.desc = description
+        self.comment = ''
+
+    def check(self):
         return
 
 class CompoundMember:
@@ -445,13 +456,26 @@ class Model:
                 self.compound_names[primitive] = compound
                 print('** Added ** ' + primitive)
 
-            mb = CompoundMember(seqno, type, name, desc)
-            if (len(comment) > 0):
-                mb.comment = comment
-                comment = ''
-            if mb.name in compound.members:
-                raise Exception("Duplicate compound " + compound.name+':'+ mb.name)
-            compound.members[mb.name] = mb
+            try:
+                seqno = int(seqno)
+
+                mb = CompoundMember(seqno, type, name, desc)
+                if (len(comment) > 0):
+                    mb.comment = comment
+                    comment = ''
+                    if mb.name in compound.members:
+                        raise Exception("Duplicate compound " + compound.name+':'+ mb.name)
+                compound.members[mb.name] = mb
+
+            except ValueError:
+                # if seqno is not a number, it's a template parameter
+                tp = CompoundTemplate(type, name, desc)
+                if (len(comment) > 0):
+                    tp.comment = comment
+                    comment = ''
+                    if tp.name in compound.templates:
+                        raise Exception("Duplicate template parameter " + compound.name+':'+ tp.name)
+                compound.templates[tp.name] = tp
 
         # TODO: Sort
         for compound in self.compound_names.values():
