@@ -122,8 +122,8 @@ scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise2D	true	true
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise3D	true	true
 scijava.roi.shape.Custom	scijava.roi.types.Custom3D	true	true
 scijava.roi.annotation.Text	scijava.roi.types.Text2D	true	true
-scijava.roi.annotation.Scale	scijava.roi.shape.Line
-scijava.roi.annotation.Grid	scijava.roi.shape.Cuboid
+scijava.roi.annotation.Scale	scijava.roi.shape.Line	true	false
+scijava.roi.annotation.Grid	scijava.roi.shape.Cuboid	true	false
 scijava.roi.object.Property	scijava.roi.types.PropertynD	true	true
 scijava.roi.object.Property	scijava.roi.types.PropertiesnD	true	true
 scijava.roi.dimconstraint.Value	scijava.roi.types.ValuenD	true	true

@@ -17,6 +17,9 @@ class Primitive(PrimitiveBase):
         self.types = dict()
         self.name = name
         self.typeid = -1
+        self.rep_in = set()
+        self.rep_out = set()
+        self.rep_canonical = None
 
     def check(self):
         return
@@ -314,6 +317,7 @@ class Model:
 
         self.load_types()
         self.load_typeids()
+        self.load_typereps()
         self.load_enums()
         self.load_compounds()
         self.load_interfaces()
@@ -397,6 +401,28 @@ class Model:
         # TODO: Sort
         for primitive in self.primitive_names.values():
             print(primitive.name + ' = ' + str(primitive.typeid))
+
+    def load_typereps(self):
+        # Load type representations
+        for line in open ('spec/typereps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            print line
+            typename, rep, repin, repout  = line.split('\t')
+
+            if typename not in self.primitive_names.keys():
+                raise Exception("Primitive not found: " + typename)
+            primitive = self.primitive_names[typename]
+
+            if (repin == 'true'):
+                if rep in primitive.rep_in:
+                    raise Exception("Primitive "+typename+" has duplicate rep_in: " + rep_in)
+                primitive.rep_in.add(rep)
+            if (repout == 'true'):
+                if rep in primitive.rep_out:
+                    raise Exception("Primitive "+typename+" has duplicate rep_out: " + rep_out)
+                primitive.rep_out.add(rep)
 
     def load_enums(self):
         comment = ''
