@@ -1,0 +1,9 @@
+#Type	Inherits
+
+scijava.roi.RealRandomAccessible	scijava.roi.RandomAccessible
+
+scijava.roi.ROISet	scijava.roi.Serialisable
+scijava.roi.ROI	scijava.roi.Serialisable,scijava.roi.Iterable,scijava.roi.RealRandomAccessible
+scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible
+scijava.roi.shape.Representation	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible
+scijava.roi.shape.DimConstraint	scijava.roi.Serialisable,scijava.roi.RandomAccessible

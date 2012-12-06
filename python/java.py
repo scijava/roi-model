@@ -3,8 +3,6 @@
 import os
 import subprocess
 
-from model import PrimitiveBase
-
 class TypeBase(object):
     def __init__(self):
         # Documentation for JavaDocs
