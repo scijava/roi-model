@@ -318,6 +318,7 @@ class Model:
         self.load_types()
         self.load_typeids()
         self.load_typereps()
+        self.load_typecanonreps()
         self.load_enums()
         self.load_compounds()
         self.load_interfaces()
@@ -423,6 +424,23 @@ class Model:
                 if rep in primitive.rep_out:
                     raise Exception("Primitive "+typename+" has duplicate rep_out: " + rep_out)
                 primitive.rep_out.add(rep)
+
+    def load_typecanonreps(self):
+        # Load type representations
+        for line in open ('spec/typecanonreps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            print line
+            typename, canonrep = line.split('\t')
+
+            if typename not in self.primitive_names.keys():
+                raise Exception("Primitive not found: " + typename)
+            primitive = self.primitive_names[typename]
+
+            if canonrep not in primitive.rep_in:
+                raise Exception("Primitive "+typename+" has no rep_in for canonrep: " + canonrep)
+            primitive.rep_canonical = canonrep
 
     def load_enums(self):
         comment = ''

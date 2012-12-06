@@ -16,7 +16,7 @@ scijava.roi.shape.BitMask	scijava.roi.types.BitMask3D
 scijava.roi.shape.Mesh	scijava.roi.types.Mesh3D
 scijava.roi.shape.AffineTransform	scijava.roi.types.AffineTransform3D
 scijava.roi.shape.AbstractTransform	scijava.roi.types.AbstractTransform3D
-scijava.roi.shape.Text	scijava.roi.types.Text2D
+scijava.roi.annotation.Text	scijava.roi.types.Text2D
 scijava.roi.shape.Set	scijava.roi.types.ShapeSet3D
 scijava.roi.shape.Bitwise	scijava.roi.types.Bitwise3D
 scijava.roi.shape.Custom	scijava.roi.types.Custom3D
