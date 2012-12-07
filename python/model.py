@@ -308,7 +308,6 @@ class RepresentationMember:
 class Model:
     def __init__(self):
         self.type_names = dict()
-        self.interface_names = dict()
         self.types = dict()
 
         self.load_types(self.type_names)
@@ -543,17 +542,18 @@ class Model:
                 interface.comment = comment
                 comment = ''
 
-            if interface.name in self.interface_names:
+            if interface.name in self.type_names:
                 raise Exception("Duplicate interface: " + interface.name)
             if interface.name in type_names:
                 raise Exception("Duplicate type: " + interface.name)
 
-            self.interface_names[interface.name] = interface
+            self.type_names[interface.name] = interface
             type_names[interface.name] = interface
 
         # TODO: Sort
-        for interface in self.interface_names.values():
-            print(interface.name)
+        for interface in self.type_names.values():
+            if isinstance(interface, Interface):
+                print(interface.name)
 
     def load_inherits(self, type_names):
         comment = ''
@@ -578,8 +578,8 @@ class Model:
             if (inherits != ''):
                 for iname in inherits.split(','):
                     iface = None
-                    if iname in self.interface_names and isinstance(self.interface_names[iname], Inheritable):
-                        iface = self.interface_names[iname]
+                    if iname in self.type_names and isinstance(self.type_names[iname], Interface) and isinstance(self.type_names[iname], Inheritable):
+                        iface = self.type_names[iname]
                     else:
                         raise Exception("Invalid interface: " + iname)
                     if iface in itype.inherits:
