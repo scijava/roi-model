@@ -1,7 +1,7 @@
 #Primitive	C++Type
 scijava.roi.types.TypeID	uint16_t
 
-scijava.roi.types.UInt8	uint8_6
+scijava.roi.types.UInt8	uint8_t
 scijava.roi.types.UInt16	uint16_t
 scijava.roi.types.UInt32	uint32_t
 scijava.roi.types.UInt64	uint64_t

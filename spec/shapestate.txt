@@ -1,5 +1,5 @@
 Property	Type	Description
-DIMORDER	Index[]	Dimension order
+DIMORDER	scijava.roi.types.Array<Index>	Dimension order
 TRANSFORM	Affine3D	Affine transformation
 BOUNDS	RAlignedCuboid1	Bounding cuboid
 LINECOL	Colour	Line (and surface) colour

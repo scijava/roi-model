@@ -2,6 +2,9 @@
 
 import os
 import subprocess
+import re
+
+from model import Enum, Compound, Interface
 
 class Sphinx:
     def __init__(self, model):
@@ -11,30 +14,36 @@ class Sphinx:
         if not os.path.exists("gen"):
             os.makedirs("gen")
 
+    def genref(self, name, primitive, type):
+        link = ' <' + type + '_' + primitive + '>`'
+        link = re.sub('[\.\[\]]', '_', link)
+        return ':ref:`' + name + link
+
     def primitiveref(self, name, primitive):
-        return ':ref:`' + name + ' <primitive_' + primitive + '>`'
+        return self.genref(name, primitive, 'primitive')
 
     def enumref(self, name, enum):
-        return ':ref:`' + name + ' <enum_' + enum + '>`'
+        return self.genref(name, enum, 'enum')
 
     def compoundref(self, name, compound):
-        return ':ref:`' + name + ' <compound_' + compound + '>`'
+        return self.genref(name, compound, 'compound')
 
-    def shaperef(self, name, shape, dim):
-        return ':ref:`' + name + ' <shape_' + shape + '_' + dim + '>`'
+    def interfaceref(self, name, interface):
+        return self.genref(name, interface, 'interface')
 
-    def repref(self, name, rep, dim):
-        return ':ref:`' + name + ' <rep_' + rep + '_' + dim + '>`'
+    def shaperef(self, name, shape):
+        return self.genref(name, shape, 'shape')
+
+    def repref(self, name, rep):
+        return self.genref(name, rep, 'rep')
+
+    def primitiveref(self, name, primitive):
+        return self.genref(name, primitive, 'primitive')
 
     def dump_primitivelist(self):
         self.prepare_gen()
 
-# TODO: This must be generic for all languages.
         fr = open('primitives.rst','w')
-
-        f = open('gen/primitives.txt','w')
-        fc = open('gen/primitives-c++.txt','w')
-        fj = open('gen/primitives-java.txt','w')
 
         header = """Fundamental data types
 ======================
@@ -47,21 +56,17 @@ Implementors should treat these sizes as minimium requirements.
     interoperability between implementations, these may be required to
     be exact.  Using plain text would mitigate this to an extent.
 
-.. csv-table:: Primitives
+"""
+
+        ptab = """
+.. csv-table:: {0} Primitives
     :header-rows: 1
-    :file: gen/primitives.txt
+    :file: gen/primitives-{1}.txt
     :delim: tab
 
-.. csv-table:: C++ primitives
-    :header-rows: 1
-    :file: gen/primitives-c++.txt
-    :delim: tab
+"""
 
-.. csv-table:: Java primitives
-    :header-rows: 1
-    :file: gen/primitives-java.txt
-    :delim: tab
-
+        footer = """
 .. tabularcolumns:: |l|l|p{3in}|
 .. csv-table:: Shape state/attributes
     :header-rows: 1
@@ -76,32 +81,54 @@ Implementors should treat these sizes as minimium requirements.
 """
         fr.write(header)
 
-        f.write("Name\tBinType\tDescription\n")
-        fc.write("Name\tC++ Type\n")
-        fj.write("Name\tJava Type\n")
         primitives = list(self.model.primitive_names.keys())
         primitives.sort()
+        fh = dict()
         for name in primitives:
             primitive = self.model.primitive_names[name]
-            lname = self.primitiveref(primitive.name, primitive.name)
-            if primitive.type() == 'enum':
-                lname = self.enumref(primitive.name, primitive.name)
-            elif primitive.type() == 'compound':
-                lname = self.compoundref(primitive.name, primitive.name)
-            cxxtype = primitive.cxxtype
-            if cxxtype == 'enum':
-                cxxtype = self.enumref(primitive.name, primitive.name)
-            javatype = primitive.javatype
-            if javatype == 'enum':
-                javatype = self.enumref(primitive.name, primitive.name)
-            f.write(lname + '\t' +
-                    primitive.bintype + '\t' +primitive.desc + '\n')
-            fc.write(lname + '\t' + cxxtype + '\n')
-            fj.write(lname + '\t' + javatype + '\n')
-        f.close()
-        fc.close()
-        fj.close()
+
+            for lang in primitive.types.keys():
+                if lang not in fh.keys():
+                    fh[lang] = open('gen/primitives-'+lang+'.txt','w')
+                    if lang == 'raw':
+                        fh[lang].write("Name\tBinType\tDescription\n")
+                        fr.write(ptab.format('Raw', lang))
+                    elif lang == 'c++':
+                        fh[lang].write("Name\tC++ Type\n")
+                        fr.write(ptab.format('C++', lang))
+                    elif lang == 'java':
+                        fh[lang].write("Name\tJava Type\n")
+                        fr.write(ptab.format('Java', lang))
+                    else:
+                        fh[lang].write("Name\t"+lang+" Type\n")
+                        fr.write(ptab.format(lang, lang))
+
+                pname = primitive.name
+                ptype = primitive.types[lang]
+
+                if isinstance(primitive, Enum):
+                    pname = self.enumref(primitive.name, primitive.name)
+                    ptype = self.enumref(ptype, ptype)
+                elif isinstance(primitive, Compound):
+                    pname = self.compoundref(primitive.name, primitive.name)
+                    ptype = self.compoundref(ptype, ptype)
+                elif isinstance(primitive, Interface):
+                    pname = self.interfaceref(primitive.name, primitive.name)
+                    ptype = self.interfaceref(ptype, ptype)
+                else:
+                    pname = self.primitiveref(primitive.name, primitive.name)
+                    ptype = self.primitiveref(ptype, ptype)
+
+                if lang == 'raw':
+                    fh[lang].write(pname + '\t' + ptype + '\t' +primitive.desc + '\n')
+                else:
+                    fh[lang].write(pname + '\t' + ptype + '\n')
+
+        fr.write(footer)
         fr.close()
+
+        for f in fh.values():
+            f.close()
 
     def dump_enums(self):
         self.prepare_gen()
@@ -510,8 +537,7 @@ Definitions
         return
 
     def dump(self):
-        ()
-        # self.dump_primitivelist()
+        self.dump_primitivelist()
         # self.dump_enums()
         # self.dump_compounds()
         # self.dump_shapelist()

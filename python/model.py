@@ -35,7 +35,7 @@ class Type(TypeBase):
 
 class Enum(TypeBase):
     def __init__(self, name):
-        super(self.__class__, self).__init__()
+        super(Enum, self).__init__()
         self.values = dict()
 
     def check(self):
@@ -211,7 +211,7 @@ class ShapeBase(object):
 
 class Shape(ShapeBase):
     def __init__(self, text):
-        super(self.__class__, self).__init__(text)
+        super(Shape, self).__init__(text)
 
     def check(self):
         if (self.name not in ['Scale', 'Grid', 'Text']):
@@ -229,7 +229,7 @@ class Shape(ShapeBase):
 
 class DimConstraint(ShapeBase):
     def __init__(self, text):
-        super(self.__class__, self).__init__(text)
+        super(DimConstraint, self).__init__(text)
 
     def check(self):
         return
@@ -331,7 +331,7 @@ class Model:
         for file in ['spec/types.txt'] + glob.glob('spec/types-*.txt'):
             print "Reading " + file
             find = re.search('^spec/types-(.*).txt$', file)
-            lang = 'raw'
+            lang = 'undefined'
             if find:
                 lang = find.group(1)
             print "Language " + lang
@@ -345,8 +345,9 @@ class Model:
                     continue
                 name, typename = line.split('\t')
                 primitive = None
-                if lang == 'raw':
+                if lang == 'undefined':
                     primitive = Type(name)
+                    primitive.desc = typename
                     if (len(comment) > 0):
                         primitive.comment = comment
                         comment = ''
@@ -357,7 +358,8 @@ class Model:
                     if name not in self.primitive_names.keys():
                         raise Exception("Type not found: " + name)
                     primitive = self.primitive_names[name]
-                primitive.types[lang] = typename
+                if lang != 'undefined':
+                    primitive.types[lang] = typename
 
         # TODO: Sort
         for primitive in self.primitive_names.values():
