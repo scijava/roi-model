@@ -14,9 +14,12 @@ class Sphinx:
         if not os.path.exists("gen"):
             os.makedirs("gen")
 
+    def canon(self, string):
+        return re.sub('[\.\[\]]', '_', string)
+
     def genref(self, name, primitive, type):
         link = ' <' + type + '_' + primitive + '>`'
-        link = re.sub('[\.\[\]]', '_', link)
+        link = self.canon(link)
         return ':ref:`' + name + link
 
     def primitiveref(self, name, primitive):
@@ -146,7 +149,7 @@ Implementors should treat these sizes as minimium requirements.
         names.sort()
         for name in names:
             enum = self.model.enum_names[name]
-            filename = 'gen/enum-' + enum.name + '.txt'
+            filename = 'gen/enum-' + self.canon(enum.name) + '.txt'
 
             template = """
 .. index::
@@ -538,7 +541,7 @@ Definitions
 
     def dump(self):
         self.dump_primitivelist()
-        # self.dump_enums()
+        self.dump_enums()
         # self.dump_compounds()
         # self.dump_shapelist()
         # self.dump_replist()

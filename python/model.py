@@ -36,6 +36,7 @@ class Type(TypeBase):
 class Enum(TypeBase):
     def __init__(self, name):
         super(Enum, self).__init__()
+        self.name = name
         self.values = dict()
 
     def check(self):
