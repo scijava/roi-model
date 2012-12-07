@@ -308,7 +308,6 @@ class RepresentationMember:
 class Model:
     def __init__(self):
         self.type_names = dict()
-        self.compound_names = dict()
         self.interface_names = dict()
         self.types = dict()
 
@@ -486,11 +485,11 @@ class Model:
             primitive, seqno, name, type, desc = line.split('\t')
 
             compound = None
-            if primitive in self.compound_names:
-                compound = self.compound_names[primitive]
+            if primitive in self.type_names and isinstance(primitive, Compound):
+                compound = self.type_names[primitive]
             else:
                 compound = Compound(primitive)
-                self.compound_names[primitive] = compound
+                self.type_names[primitive] = compound
                 print('** Added ** ' + primitive)
 
             try:
@@ -517,8 +516,9 @@ class Model:
                 compound.templates[tp.name] = tp
 
         # TODO: Sort
-        for compound in self.compound_names.values():
-            print(compound.name)
+        for compound in self.type_names.values():
+            if isinstance(compound, Compound):
+                print(compound.name)
 
     def load_interfaces(self, type_names):
         comment = ''

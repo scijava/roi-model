@@ -302,10 +302,12 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.compound_names.keys())
+        names = list(self.model.type_names.keys())
         names.sort()
         for name in names:
-            compound = self.model.compound_names[name]
+            compound = self.model.type_names[name]
+            if not isinstance(compound, Compound):
+                continue
 
             templates = list(compound.templates.values())
             templates.sort(key = lambda x: x.seqno)
