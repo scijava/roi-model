@@ -308,7 +308,6 @@ class RepresentationMember:
 class Model:
     def __init__(self):
         self.type_names = dict()
-        self.primitive_names = dict()
         self.compound_names = dict()
         self.interface_names = dict()
         self.types = dict()
@@ -318,9 +317,9 @@ class Model:
         self.load_interfaces(self.type_names)
         self.load_compounds()
 
-        self.load_typeids()
-        self.load_typereps()
-        self.load_typecanonreps()
+        self.load_typeids(self.type_names)
+        self.load_typereps(self.type_names)
+        self.load_typecanonreps(self.type_names)
         self.load_inherits(self.type_names)
         self.check()
 
@@ -349,22 +348,22 @@ class Model:
                     if (len(comment) > 0):
                         primitive.comment = comment
                         comment = ''
-                    if primitive.name in self.primitive_names:
+                    if primitive.name in type_names:
                         raise Exception("Duplicate primitive: " + primitive.name)
-                    self.primitive_names[primitive.name] = primitive
-                    type_names[primitive] = primitive
+                    type_names[primitive.name] = primitive
+                    print "Added primitive type: " + primitive.name + ' (' + type_names[primitive.name].name + ')'
                 else:
-                    if name not in self.primitive_names.keys():
+                    if name not in self.type_names.keys():
                         raise Exception("Type not found: " + name)
-                    primitive = self.primitive_names[name]
+                    primitive = type_names[name]
                 if lang != 'undefined':
                     primitive.types[lang] = typename
 
         # TODO: Sort
-        for primitive in self.primitive_names.values():
+        for primitive in type_names.values():
             print(primitive.name)
 
-    def load_typeids(self):
+    def load_typeids(self, type_names):
         comment = ''
 
         used = set()
@@ -379,9 +378,9 @@ class Model:
                 continue
             typeid, typename = line.split('\t')
             typeid = int(typeid)
-            if typename not in self.primitive_names.keys():
+            if typename not in type_names.keys():
                 raise Exception("Type not found: " + typename)
-            primitive = self.primitive_names[typename]
+            primitive = type_names[typename]
 
             if not isinstance(primitive, ConcreteTypeBase):
                 raise Exception("Type is not concrete, and does not permit setting a typeid: " + typename)
@@ -396,10 +395,11 @@ class Model:
             primitive.typeid = typeid
 
         # TODO: Sort
-        for primitive in self.primitive_names.values():
-            print(primitive.name + ' = ' + str(primitive.typeid))
+        for primitive in type_names.values():
+            if isinstance(primitive, ConcreteTypeBase):
+                print(primitive.name + ' = ' + str(primitive.typeid))
 
-    def load_typereps(self):
+    def load_typereps(self, type_names):
         # Load type representations
         for line in open ('spec/typereps.txt', 'rt'):
             line = line.rstrip('\n')
@@ -408,9 +408,9 @@ class Model:
             print line
             typename, rep, repin, repout  = line.split('\t')
 
-            if typename not in self.primitive_names.keys():
+            if typename not in type_names.keys():
                 raise Exception("Type not found: " + typename)
-            primitive = self.primitive_names[typename]
+            primitive = type_names[typename]
 
             if (repin == 'true'):
                 if rep in primitive.rep_in:
@@ -421,7 +421,7 @@ class Model:
                     raise Exception("Type "+typename+" has duplicate rep_out: " + rep_out)
                 primitive.rep_out.add(rep)
 
-    def load_typecanonreps(self):
+    def load_typecanonreps(self, type_names):
         # Load type representations
         for line in open ('spec/typecanonreps.txt', 'rt'):
             line = line.rstrip('\n')
@@ -430,9 +430,9 @@ class Model:
             print line
             typename, canonrep = line.split('\t')
 
-            if typename not in self.primitive_names.keys():
+            if typename not in type_names.keys():
                 raise Exception("Type not found: " + typename)
-            primitive = self.primitive_names[typename]
+            primitive = type_names[typename]
 
             if canonrep not in primitive.rep_in:
                 raise Exception("Type "+typename+" has no rep_in for canonrep: " + canonrep)
@@ -452,13 +452,13 @@ class Model:
 
             primitive, name, number, symbol, desc = line.split('\t')
 
-            if primitive not in self.primitive_names.keys():
+            if primitive not in type_names.keys():
                 raise Exception("Type not found: " + primitive)
 
             enum = None
-            if primitive in self.type_names:
-                if isinstance(self.type_names[primitive], Enum):
-                    enum = self.type_names[primitive]
+            if primitive in type_names and isinstance(type_names[primitive], Enum):
+                if isinstance(type_names[primitive], Enum):
+                    enum = type_names[primitive]
             else:
                 enum = Enum(primitive)
                 type_names[primitive] = enum

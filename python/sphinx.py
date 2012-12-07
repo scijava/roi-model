@@ -176,11 +176,14 @@ Implementors should treat these sizes as minimium requirements.
 """
         fr.write(header)
 
-        primitives = list(self.model.primitive_names.keys())
+        primitives = list(self.model.type_names.keys())
         primitives.sort()
         fh = dict()
         for name in primitives:
-            primitive = self.model.primitive_names[name]
+            primitive = self.model.type_names[name]
+
+            if not isinstance(primitive, Type):
+                continue
 
             for lang in primitive.types.keys():
                 if lang not in fh.keys():
