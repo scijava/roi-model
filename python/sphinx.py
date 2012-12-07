@@ -237,10 +237,14 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.enum_names.keys())
+        names = list(self.model.type_names.keys())
         names.sort()
         for name in names:
-            enum = self.model.enum_names[name]
+            enum = self.model.type_names[name]
+
+            if not isinstance(enum, Enum):
+                continue
+
             filename = 'gen/enum-' + self.canon(enum.name) + '.txt'
 
             template = """

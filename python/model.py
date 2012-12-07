@@ -309,7 +309,6 @@ class Model:
     def __init__(self):
         self.type_names = dict()
         self.primitive_names = dict()
-        self.enum_names = dict()
         self.compound_names = dict()
         self.interface_names = dict()
         self.types = dict()
@@ -457,11 +456,11 @@ class Model:
                 raise Exception("Type not found: " + primitive)
 
             enum = None
-            if primitive in self.enum_names:
-                enum = self.enum_names[primitive]
+            if primitive in self.type_names:
+                if isinstance(self.type_names[primitive], Enum):
+                    enum = self.type_names[primitive]
             else:
                 enum = Enum(primitive)
-                self.enum_names[primitive] = enum
                 type_names[primitive] = enum
                 print('** Added ** ' + primitive)
 
@@ -472,10 +471,6 @@ class Model:
             if val.name in enum.values:
                 raise Exception("Duplicate enum " + enum.name+':'+ val.name)
             enum.values[val.name] = val
-
-        # TODO: Sort
-        for enum in self.enum_names.values():
-            print(enum.name)
 
     def load_compounds(self):
         comment = ''
