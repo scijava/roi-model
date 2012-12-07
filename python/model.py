@@ -307,18 +307,17 @@ class RepresentationMember:
 
 class Model:
     def __init__(self):
-        self.type_names = dict()
         self.types = dict()
 
-        self.load_types(self.type_names)
-        self.load_enums(self.type_names)
-        self.load_interfaces(self.type_names)
-        self.load_compounds()
+        self.load_types(self.types)
+        self.load_enums(self.types)
+        self.load_interfaces(self.types)
+        self.load_compounds(self.types)
 
-        self.load_typeids(self.type_names)
-        self.load_typereps(self.type_names)
-        self.load_typecanonreps(self.type_names)
-        self.load_inherits(self.type_names)
+        self.load_typeids(self.types)
+        self.load_typereps(self.types)
+        self.load_typecanonreps(self.types)
+        self.load_inherits(self.types)
         self.check()
 
     def load_types(self, type_names):
@@ -351,7 +350,7 @@ class Model:
                     type_names[primitive.name] = primitive
                     print "Added primitive type: " + primitive.name + ' (' + type_names[primitive.name].name + ')'
                 else:
-                    if name not in self.type_names.keys():
+                    if name not in type_names.keys():
                         raise Exception("Type not found: " + name)
                     primitive = type_names[name]
                 if lang != 'undefined':
@@ -470,7 +469,7 @@ class Model:
                 raise Exception("Duplicate enum " + enum.name+':'+ val.name)
             enum.values[val.name] = val
 
-    def load_compounds(self):
+    def load_compounds(self, type_names):
         comment = ''
         for line in open ('spec/compounds.txt', 'rt'):
             line = line.rstrip('\n')
@@ -484,11 +483,11 @@ class Model:
             primitive, seqno, name, type, desc = line.split('\t')
 
             compound = None
-            if primitive in self.type_names and isinstance(primitive, Compound):
-                compound = self.type_names[primitive]
+            if primitive in type_names and isinstance(primitive, Compound):
+                compound = type_names[primitive]
             else:
                 compound = Compound(primitive)
-                self.type_names[primitive] = compound
+                type_names[primitive] = compound
                 print('** Added ** ' + primitive)
 
             try:
@@ -515,7 +514,7 @@ class Model:
                 compound.templates[tp.name] = tp
 
         # TODO: Sort
-        for compound in self.type_names.values():
+        for compound in type_names.values():
             if isinstance(compound, Compound):
                 print(compound.name)
 
@@ -542,16 +541,16 @@ class Model:
                 interface.comment = comment
                 comment = ''
 
-            if interface.name in self.type_names:
+            if interface.name in type_names:
                 raise Exception("Duplicate interface: " + interface.name)
             if interface.name in type_names:
                 raise Exception("Duplicate type: " + interface.name)
 
-            self.type_names[interface.name] = interface
+            type_names[interface.name] = interface
             type_names[interface.name] = interface
 
         # TODO: Sort
-        for interface in self.type_names.values():
+        for interface in type_names.values():
             if isinstance(interface, Interface):
                 print(interface.name)
 
@@ -578,8 +577,8 @@ class Model:
             if (inherits != ''):
                 for iname in inherits.split(','):
                     iface = None
-                    if iname in self.type_names and isinstance(self.type_names[iname], Interface) and isinstance(self.type_names[iname], Inheritable):
-                        iface = self.type_names[iname]
+                    if iname in type_names and isinstance(type_names[iname], Interface) and isinstance(type_names[iname], Inheritable):
+                        iface = type_names[iname]
                     else:
                         raise Exception("Invalid interface: " + iname)
                     if iface in itype.inherits:

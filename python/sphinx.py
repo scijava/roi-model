@@ -90,10 +90,10 @@ class Sphinx:
         fr.write(header)
         ft.write('Name\tTypeID\n')
 
-        types = list(self.model.type_names.keys())
+        types = list(self.model.types.keys())
         types.sort()
         for name in types:
-            ctype = self.model.type_names[name]
+            ctype = self.model.types[name]
 
             id = 'N/A'
             if isinstance(ctype, Type):
@@ -176,11 +176,11 @@ Implementors should treat these sizes as minimium requirements.
 """
         fr.write(header)
 
-        primitives = list(self.model.type_names.keys())
+        primitives = list(self.model.types.keys())
         primitives.sort()
         fh = dict()
         for name in primitives:
-            primitive = self.model.type_names[name]
+            primitive = self.model.types[name]
 
             if not isinstance(primitive, Type):
                 continue
@@ -240,10 +240,10 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.type_names.keys())
+        names = list(self.model.types.keys())
         names.sort()
         for name in names:
-            enum = self.model.type_names[name]
+            enum = self.model.types[name]
 
             if not isinstance(enum, Enum):
                 continue
@@ -302,10 +302,10 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.type_names.keys())
+        names = list(self.model.types.keys())
         names.sort()
         for name in names:
-            compound = self.model.type_names[name]
+            compound = self.model.types[name]
             if not isinstance(compound, Compound):
                 continue
 
