@@ -7,25 +7,25 @@ scijava.roi.types.Color	1	G	scijava.roi.types.Float64	Green value (0,1)
 scijava.roi.types.Color	2	B	scijava.roi.types.Float64	Blue value (0,1)
 scijava.roi.types.Color	3	A	scijava.roi.types.Float64	Alpha value (0,1)
 
-scijava.roi.types.Pair	LTYPE	LTYPE	scijava.roi.types.TypeID	Left hand type
-scijava.roi.types.Pair	RTYPE	RTYPE	scijava.roi.types.TypeID	Right hand type
+scijava.roi.types.Pair	T0	LTYPE	scijava.roi.types.TypeID	Left hand type
+scijava.roi.types.Pair	T1	RTYPE	scijava.roi.types.TypeID	Right hand type
 scijava.roi.types.Pair	0	LEFT	LTYPE	Left hand value
 scijava.roi.types.Pair	1	RIGHT	LTYPE	Right hand value
 
-scijava.roi.types.Array	TYPE	TYPE	scijava.roi.types.TypeID	Type stored in container
+scijava.roi.types.Array	T0	TYPE	scijava.roi.types.TypeID	Type stored in container
 scijava.roi.types.Array	0	NELEM	scijava.roi.types.Count	Number of elements
 scijava.roi.types.Array	1	ELEM	TYPE[NELEM]	Elements
 
-scijava.roi.types.Set	TYPE	TYPE	scijava.roi.types.TypeID	Type stored in container
+scijava.roi.types.Set	T0	TYPE	scijava.roi.types.TypeID	Type stored in container
 scijava.roi.types.Set	0	NELEM	scijava.roi.types.Count	Number of elements
 scijava.roi.types.Set	1	ELEM	TYPE[NELEM]	Elements
 
-scijava.roi.types.Map	KTYPE	KTYPE	scijava.roi.types.TypeID	Key type stored in container
-scijava.roi.types.Map	VTYPE	VTYPE	scijava.roi.types.TypeID	Value type stored in container
+scijava.roi.types.Map	T0	KTYPE	scijava.roi.types.TypeID	Key type stored in container
+scijava.roi.types.Map	T1	VTYPE	scijava.roi.types.TypeID	Value type stored in container
 scijava.roi.types.Map	0	ELEM	scijava.roi.types.Array<scijava.roi.types.Pair<KTYPE,VTYPE>>	Array of key-value pairs
 
-scijava.roi.types.DirectedGraph	NTYPE	NTYPE	scijava.roi.types.TypeID	Node type stored in container
-scijava.roi.types.DirectedGraph	ETYPE	ETYPE	scijava.roi.types.TypeID	Edge type stored in container
+scijava.roi.types.DirectedGraph	T0	NTYPE	scijava.roi.types.TypeID	Node type stored in container
+scijava.roi.types.DirectedGraph	T1	ETYPE	scijava.roi.types.TypeID	Edge type stored in container
 scijava.roi.types.DirectedGraph	0	VERTS	scijava.roi.types.Array<NTYPE>	Nodes
 scijava.roi.types.DirectedGraph	1	EDGES	scijava.roi.types.Array<scijava.roi.types.Pair<ETYPE,scijava.roi.types.Pair<Index,Index>>	Edges, including out and in vertex numbers
 

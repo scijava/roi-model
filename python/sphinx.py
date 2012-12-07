@@ -207,7 +207,18 @@ Implementors should treat these sizes as minimium requirements.
         names.sort()
         for name in names:
             compound = self.model.compound_names[name]
-            filename = 'gen/compound-' + compound.name + '.txt'
+
+            templates = list(compound.templates.values())
+            templates.sort(key = lambda x: x.seqno)
+
+            members = list(compound.members.values())
+            members.sort(key = lambda x: x.seqno)
+
+
+            fullname = compound.name
+            if len(templates) > 0:
+                fullname += '<' + ', '.join([x.name for x in templates]) + '>'
+            filename = 'gen/compound-' + self.canon(compound.name) + '.txt'
 
             template = """
 .. index::
@@ -215,24 +226,24 @@ Implementors should treat these sizes as minimium requirements.
 
 .. _compound_{0}:
 
-{0}
 {1}
+{2}
 
-.. csv-table:: {0}
+.. csv-table:: {1}
     :header-rows: 1
-    :file: {2}
+    :file: {3}
     :delim: tab
 
 """
-            fe.write(template.format(compound.name, '^' * len(compound.name), filename))
+            fe.write(template.format(self.canon(compound.name), fullname, '^' * len(fullname), filename))
 
             compoundtab = open(filename, 'w')
             print('Writing '+ filename)
             compoundtab.write('SeqNo\tType\tName\tDescription\n')
 
-            members = list(compound.members.values())
-            members.sort(key = lambda x: x.seqno)
-
+            for tp in templates:
+                compoundtab.write('(T'+str(tp.seqno)+')' + '\t' + tp.type + '\t' +
+                                  tp.name + '\t' +tp.desc + '\n')
             for mb in members:
                 compoundtab.write(str(mb.seqno) + '\t' + mb.type + '\t' +
                                   mb.name + '\t' +mb.desc + '\n')
@@ -542,7 +553,7 @@ Definitions
     def dump(self):
         self.dump_primitivelist()
         self.dump_enums()
-        # self.dump_compounds()
+        self.dump_compounds()
         # self.dump_shapelist()
         # self.dump_replist()
         # self.dump_shapereps()

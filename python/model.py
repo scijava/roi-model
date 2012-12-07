@@ -70,16 +70,6 @@ class Compound(TypeBase, Inheritable):
 # TODO: Check for duplicate names (and members).
         return
 
-class CompoundTemplate:
-    def __init__(self, type, name, description):
-        self.type = type
-        self.name = name
-        self.desc = description
-        self.comment = ''
-
-    def check(self):
-        return
-
 class CompoundMember:
     def __init__(self, seqno, type, name, description):
         self.seqno = seqno
@@ -507,8 +497,10 @@ class Model:
                 compound.members[mb.name] = mb
 
             except ValueError:
+                seqno = re.sub('^T', '', seqno)
+                seqno = int(seqno)
                 # if seqno is not a number, it's a template parameter
-                tp = CompoundTemplate(type, name, desc)
+                tp = CompoundMember(seqno, type, name, desc)
                 if (len(comment) > 0):
                     tp.comment = comment
                     comment = ''
