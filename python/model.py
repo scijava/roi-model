@@ -345,6 +345,7 @@ class Model:
                     if primitive.name in self.primitive_names:
                         raise Exception("Duplicate primitive: " + primitive.name)
                     self.primitive_names[primitive.name] = primitive
+                    self.type_names[primitive] = primitive
                 else:
                     if name not in self.primitive_names.keys():
                         raise Exception("Type not found: " + name)
@@ -450,6 +451,7 @@ class Model:
             else:
                 enum = Enum(primitive)
                 self.enum_names[primitive] = enum
+                self.type_names[primitive] = enum
                 print('** Added ** ' + primitive)
 
             val = EnumValue(name, number, symbol, desc)

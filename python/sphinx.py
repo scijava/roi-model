@@ -4,7 +4,7 @@ import os
 import subprocess
 import re
 
-from model import Enum, Compound, Interface
+from model import Type, Enum, Compound, Interface, Inheritable
 
 class Sphinx:
     def __init__(self, model):
@@ -21,6 +21,9 @@ class Sphinx:
         link = ' <' + type + '_' + primitive + '>`'
         link = self.canon(link)
         return ':ref:`' + name + link
+
+    def typeref(self, name, type):
+        return self.genref(name, type, 'type')
 
     def primitiveref(self, name, primitive):
         return self.genref(name, primitive, 'primitive')
@@ -42,6 +45,95 @@ class Sphinx:
 
     def primitiveref(self, name, primitive):
         return self.genref(name, primitive, 'primitive')
+
+    def stripns(self, name):
+        return re.sub('(.*)\.', '', name)
+
+    def dump_typelist(self):
+        self.prepare_gen()
+
+        fr = open('types.rst','w')
+        ft = open('gen/types.txt','w')
+
+        header = """Data types
+==========
+
+.. csv-table:: Data types
+    :header-rows: 1
+    :file: gen/types.txt
+    :delim: tab
+
+"""
+
+        typetmpl = """
+.. index::
+    {0}
+
+.. _type_{0}:
+
+{1}
+{2}
+
+{3}.
+
+{4}
+
+.. tabularcolumns:: |l|p{{4in}}|
+.. csv-table:: {1} Details
+    :header-rows: 1
+    :file: {5}
+    :delim: tab
+    :widths: 5, 10
+
+"""
+
+        fr.write(header)
+        ft.write('Name\tTypeID\n')
+
+        types = list(self.model.type_names.keys())
+        types.sort()
+        for name in types:
+            ctype = self.model.type_names[name]
+
+            id = 'N/A'
+            if isinstance(ctype, Type):
+                id = ctype.typeid
+                if id == -1:
+                    id = 'None'
+                else:
+                    id = str(id)
+
+            ft.write(ctype.name + '\t' + id + '\n')
+
+            filename = 'gen/type-' + self.canon(ctype.name) + '.txt'
+            fd = open(filename, 'w')
+            fd.write('Property\tValue\n')
+            if isinstance(ctype, Type):
+                canonrep = ctype.rep_canonical
+                if canonrep == None:
+                    canonrep = 'None'
+                repin = 'None'
+                if len(ctype.rep_in) != 0:
+                    repin = ', '.join([self.typeref(self.stripns(x), x) for x in ctype.rep_in])
+                repout = 'None'
+                if len(ctype.rep_out) != 0:
+                    repout = ', '.join([self.typeref(self.stripns(x), x) for x in ctype.rep_out])
+                fd.write('TypeID\t'+id+'\n')
+                fd.write('Canonical representation\t'+canonrep+'\n')
+                fd.write('Representations in\t'+repin+'\n')
+                fd.write('Representations out\t'+repout+'\n')
+            if isinstance(ctype, Inheritable):
+                inherits = 'None'
+                if len(ctype.inherits) != 0:
+                    inherits = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.inherits])
+                    fd.write('Inherits\t'+inherits+'\n')
+
+
+
+            fr.write(typetmpl.format(self.canon(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, filename))
+
+        fr.close()
+        ft.close()
 
     def dump_primitivelist(self):
         self.prepare_gen()
@@ -551,6 +643,7 @@ Definitions
         return
 
     def dump(self):
+        self.dump_typelist()
         self.dump_primitivelist()
         self.dump_enums()
         self.dump_compounds()
