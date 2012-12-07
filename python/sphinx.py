@@ -109,9 +109,9 @@ class Sphinx:
             fd = open(filename, 'w')
             fd.write('Property\tValue\n')
             if isinstance(ctype, Type):
-                canonrep = ctype.rep_canonical
-                if canonrep == None:
-                    canonrep = 'None'
+                canonrep = 'None'
+                if ctype.rep_canonical != None:
+                    canonrep = self.typeref(self.stripns(ctype.rep_canonical), ctype.rep_canonical)
                 repin = 'None'
                 if len(ctype.rep_in) != 0:
                     repin = ', '.join([self.typeref(self.stripns(x), x) for x in ctype.rep_in])

@@ -5,104 +5,30 @@
 import glob
 import re
 
+# Basic type.  This is just a name.
 class TypeBase(object):
-    def __init__(self):
+    def __init__(self, name):
         super(TypeBase, self).__init__()
         self.comment = ''
-        self.name = ''
+        self.name = name
         self.desc = ''
 
-class Type(TypeBase):
+# Basic concrete type.  This is just a name and type identifier
+# (i.e. it's used for serialiation)
+class ConcreteTypeBase(TypeBase):
     def __init__(self, name):
-        super(Type, self).__init__()
+        super(ConcreteTypeBase, self).__init__(name)
+        self.typeid = -1
+
+# Primitive type.
+class Type(ConcreteTypeBase):
+    def __init__(self, name):
+        super(Type, self).__init__(name)
         self.types = dict()
         self.name = name
-        self.typeid = -1
         self.rep_in = set()
         self.rep_out = set()
         self.rep_canonical = None
-
-    def check(self):
-        return
-
-    # def type(self):
-    #     type = 'simple'
-    #     if self.bintype == 'compound':
-    #         type = 'compound'
-    #     if self.cxxtype == 'enum' or self.javatype == 'enum':
-    #         type = 'enum'
-    #     return type
-
-class Enum(TypeBase):
-    def __init__(self, name):
-        super(Enum, self).__init__()
-        self.name = name
-        self.values = dict()
-
-    def check(self):
-# TODO: Check for duplicate names (and values).
-        return
-
-class EnumValue:
-    def __init__(self, name, number, symbol, description):
-        self.name = name
-        self.number = number
-        self.symbol = symbol
-        self.desc = description
-        self.comment = ''
-
-    def check(self):
-        return
-
-class Inheritable(object):
-    def __init__(self):
-        super(Inheritable, self).__init__()
-        self.inherits = list()
-
-class Compound(TypeBase, Inheritable):
-    def __init__(self, name):
-        super(Compound, self).__init__()
-        self.name = name
-        self.templates = dict()
-        self.members = dict()
-
-    def check(self):
-# TODO: Check for duplicate names (and members).
-        return
-
-class CompoundMember:
-    def __init__(self, seqno, type, name, description):
-        self.seqno = seqno
-        self.type = type
-        self.name = name
-        self.desc = description
-        self.comment = ''
-
-    def check(self):
-        return
-
-class Interface(TypeBase, Inheritable):
-    def __init__(self, name, desc):
-        super(Interface, self).__init__()
-        self.name = name
-        self.desc = desc
-
-    def check(self):
-        return
-
-class ShapeBase(object):
-    def __init__(self, text):
-        self.id, self.name, self.dim, self.desc = text.split('\t')
-        self.inherit_in = set()
-        self.inherit_out = set()
-        self.rep_in = set()
-        self.rep_out = set()
-        self.rep_canonical = None
-        self.comment = ''
-        self.inherit_comment = dict()
-
-        if (self.id != 'ShapeID'):
-            self.id = int(self.id)
 
     def reps(self):
         used = set()
@@ -134,32 +60,6 @@ class ShapeBase(object):
             if (s not in used):
                 s.__reps(reps, used)
         return
-
-    def inherited_in(self):
-        used = set()
-        self.__inherited_in(used)
-        used.remove(self)
-        return used
-
-    def __inherited_in(self, used):
-        used.add(self)
-        for s in self.inherit_in:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_in(used)
-
-    def inherited_out(self):
-        used = set()
-        self.__inherited_out(used)
-        used.remove(self)
-        return used
-
-    def __inherited_out(self, used):
-        used.add(self)
-        for s in self.inherit_out:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_out(used)
 
     # If we inherit a shape, we can use of all its in representations.
     def has_rep_in(self, rep):
@@ -199,6 +99,112 @@ class ShapeBase(object):
         if rep in self.rep_out:
             found = 1
         return found
+
+    def check(self):
+        return
+
+    # def type(self):
+    #     type = 'simple'
+    #     if self.bintype == 'compound':
+    #         type = 'compound'
+    #     if self.cxxtype == 'enum' or self.javatype == 'enum':
+    #         type = 'enum'
+    #     return type
+
+class Enum(ConcreteTypeBase):
+    def __init__(self, name):
+        super(Enum, self).__init__(name)
+        self.name = name
+        self.values = dict()
+
+    def check(self):
+# TODO: Check for duplicate names (and values).
+        return
+
+class EnumValue:
+    def __init__(self, name, number, symbol, description):
+        self.name = name
+        self.number = number
+        self.symbol = symbol
+        self.desc = description
+        self.comment = ''
+
+    def check(self):
+        return
+
+class Inheritable(object):
+    def __init__(self):
+        super(Inheritable, self).__init__()
+        self.inherits = list()
+
+    def inherited_in(self):
+        used = set()
+        self.__inherited_in(used)
+        used.remove(self)
+        return used
+
+    def __inherited_in(self, used):
+        used.add(self)
+        for s in self.inherit_in:
+            if (s not in used):
+                used.add(s)
+                s.__inherited_in(used)
+
+    def inherited_out(self):
+        used = set()
+        self.__inherited_out(used)
+        used.remove(self)
+        return used
+
+    def __inherited_out(self, used):
+        used.add(self)
+        for s in self.inherit_out:
+            if (s not in used):
+                used.add(s)
+                s.__inherited_out(used)
+
+class Compound(ConcreteTypeBase, Inheritable):
+    def __init__(self, name):
+        super(Compound, self).__init__(name)
+        self.templates = dict()
+        self.members = dict()
+
+    def check(self):
+# TODO: Check for duplicate names (and members).
+        return
+
+class CompoundMember:
+    def __init__(self, seqno, type, name, description):
+        self.seqno = seqno
+        self.type = type
+        self.name = name
+        self.desc = description
+        self.comment = ''
+
+    def check(self):
+        return
+
+class Interface(TypeBase, Inheritable):
+    def __init__(self, name, desc):
+        super(Interface, self).__init__(name)
+        self.desc = desc
+
+    def check(self):
+        return
+
+class ShapeBase(object):
+    def __init__(self, text):
+        self.id, self.name, self.dim, self.desc = text.split('\t')
+        self.inherit_in = set()
+        self.inherit_out = set()
+        self.rep_in = set()
+        self.rep_out = set()
+        self.rep_canonical = None
+        self.comment = ''
+        self.inherit_comment = dict()
+
+        if (self.id != 'ShapeID'):
+            self.id = int(self.id)
 
 class Shape(ShapeBase):
     def __init__(self, text):
@@ -306,18 +312,20 @@ class Model:
         self.enum_names = dict()
         self.compound_names = dict()
         self.interface_names = dict()
+        self.types = dict()
 
-        self.load_types()
+        self.load_types(self.type_names)
+        self.load_enums(self.type_names)
+        self.load_interfaces(self.type_names)
+        self.load_compounds()
+
         self.load_typeids()
         self.load_typereps()
         self.load_typecanonreps()
-        self.load_enums()
-        self.load_compounds()
-        self.load_interfaces()
-        self.load_inherits()
+        self.load_inherits(self.type_names)
         self.check()
 
-    def load_types(self):
+    def load_types(self, type_names):
         comment = ''
         for file in ['spec/types.txt'] + glob.glob('spec/types-*.txt'):
             print "Reading " + file
@@ -345,7 +353,7 @@ class Model:
                     if primitive.name in self.primitive_names:
                         raise Exception("Duplicate primitive: " + primitive.name)
                     self.primitive_names[primitive.name] = primitive
-                    self.type_names[primitive] = primitive
+                    type_names[primitive] = primitive
                 else:
                     if name not in self.primitive_names.keys():
                         raise Exception("Type not found: " + name)
@@ -375,6 +383,9 @@ class Model:
             if typename not in self.primitive_names.keys():
                 raise Exception("Type not found: " + typename)
             primitive = self.primitive_names[typename]
+
+            if not isinstance(primitive, ConcreteTypeBase):
+                raise Exception("Type is not concrete, and does not permit setting a typeid: " + typename)
 
             if primitive.typeid != -1:
                 raise Exception("Type has duplicate typeid: " + typename)
@@ -428,7 +439,7 @@ class Model:
                 raise Exception("Type "+typename+" has no rep_in for canonrep: " + canonrep)
             primitive.rep_canonical = canonrep
 
-    def load_enums(self):
+    def load_enums(self, type_names):
         comment = ''
         for line in open ('spec/enums.txt', 'rt'):
             line = line.rstrip('\n')
@@ -451,7 +462,7 @@ class Model:
             else:
                 enum = Enum(primitive)
                 self.enum_names[primitive] = enum
-                self.type_names[primitive] = enum
+                type_names[primitive] = enum
                 print('** Added ** ' + primitive)
 
             val = EnumValue(name, number, symbol, desc)
@@ -514,7 +525,7 @@ class Model:
         for compound in self.compound_names.values():
             print(compound.name)
 
-    def load_interfaces(self):
+    def load_interfaces(self, type_names):
         comment = ''
         for line in open ('spec/interfaces.txt', 'rt'):
             line = line.rstrip('\n')
@@ -539,17 +550,17 @@ class Model:
 
             if interface.name in self.interface_names:
                 raise Exception("Duplicate interface: " + interface.name)
-            if interface.name in self.type_names:
+            if interface.name in type_names:
                 raise Exception("Duplicate type: " + interface.name)
 
             self.interface_names[interface.name] = interface
-            self.type_names[interface.name] = interface
+            type_names[interface.name] = interface
 
         # TODO: Sort
         for interface in self.interface_names.values():
             print(interface.name)
 
-    def load_inherits(self):
+    def load_inherits(self, type_names):
         comment = ''
         for line in open ('spec/inherits.txt', 'rt'):
             line = line.rstrip('\n')
@@ -562,9 +573,9 @@ class Model:
             print(line)
             name, inherits = line.split('\t')
 
-            if name not in self.type_names:
+            if name not in type_names:
                 raise Exception("Type not found: " + name)
-            itype = self.type_names[name]
+            itype = type_names[name]
 
             if not isinstance(itype, Inheritable):
                 raise Exception("Type does not support inheritance: " + name)

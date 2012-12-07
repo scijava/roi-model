@@ -18,6 +18,7 @@ ROI Specification [DRAFT]
    initial
    current
    3dconversion
+   types
    primitives
    enums
    compounds
