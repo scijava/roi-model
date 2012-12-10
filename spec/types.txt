@@ -50,6 +50,12 @@ scijava.roi.types.DirectedGraph	Fixed length directed graph
 ## Representations
 
 #Add representations for unit vectors?  RUnitVector?
+
+scijava.roi.types.Points1D	A list of points in 1D
+scijava.roi.types.Points2D	A list of points in 2D
+scijava.roi.types.Points3D	A list of points in 3D
+scijava.roi.types.PointsnD	A list of points in nD
+
 scijava.roi.types.Vertex1D	Vertex in 1D
 scijava.roi.types.Vertex2D	Vertex in 2D
 scijava.roi.types.Vertex3D	Vertex in 3D

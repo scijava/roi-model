@@ -409,6 +409,10 @@ class Model:
                 raise Exception("Type not found: " + typename)
             primitive = type_names[typename]
 
+            if rep not in type_names.keys():
+                raise Exception("Type representation not found: " + typename)
+            rep = type_names[rep]
+
             if (repin == 'true'):
                 if rep in primitive.rep_in:
                     raise Exception("Type "+typename+" has duplicate rep_in: " + rep_in)
@@ -430,6 +434,10 @@ class Model:
             if typename not in type_names.keys():
                 raise Exception("Type not found: " + typename)
             primitive = type_names[typename]
+
+            if canonrep not in type_names.keys():
+                raise Exception("Canonical type representation not found: " + typename)
+            canonrep = type_names[canonrep]
 
             if canonrep not in primitive.rep_in:
                 raise Exception("Type "+typename+" has no rep_in for canonrep: " + canonrep)
@@ -485,10 +493,13 @@ class Model:
             compound = None
             if primitive in type_names and isinstance(primitive, Compound):
                 compound = type_names[primitive]
-            else:
+            elif primitive in type_names:
                 compound = Compound(primitive)
                 type_names[primitive] = compound
                 print('** Added ** ' + primitive)
+            else:
+                raise Exception("Invalid compound name: " + primitive)
+
 
             try:
                 seqno = int(seqno)
@@ -546,7 +557,6 @@ class Model:
             if interface.name in type_names:
                 raise Exception("Duplicate type: " + interface.name)
 
-            type_names[interface.name] = interface
             type_names[interface.name] = interface
 
         # TODO: Sort

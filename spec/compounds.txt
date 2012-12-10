@@ -30,19 +30,16 @@ scijava.roi.types.DirectedGraph	0	VERTS	scijava.roi.types.Array<NTYPE>	Nodes
 scijava.roi.types.DirectedGraph	1	EDGES	scijava.roi.types.Array<scijava.roi.types.Pair<ETYPE,scijava.roi.types.Pair<Index,Index>>	Edges, including out and in vertex numbers
 
 # Per-shape state also includes: shape- and representation- specific data
-scijava.roi.types.Shape	0	NCHAR	Count	Number of octets
-scijava.roi.types.Shape	1	SID	ShapeID	Shape identifier
+scijava.roi.shape.PhysicalShape	0	NCHAR	Count	Number of octets
+scijava.roi.shape.PhysicalShape	1	SID	ShapeID	Shape identifier
 # Also used for re-serialisation; may be converted to canonical form internally
-scijava.roi.types.Shape	2	RID	RepID	Representation identifier
+scijava.roi.shape.PhysicalShape	2	RID	RepID	Representation identifier
 
 # Internal
 # Shape	3	NDIM	Count	Number of dimensions
 # Shape	4	DIMS	Index[NDIM]	Object dimensionality (dimension numbers in use)
 # Shape	5	PROPS	Props	Shape properties (point size, line width, text font/size etc.)
 
-scijava.roi.types.Point1D	0	P1	Vertex1D	Point coordinate
-scijava.roi.types.Point2D	0	P1	Vertex2D	Point coordinates
-scijava.roi.types.Point3D	0	P1	Vertex3D	Point coordinates
 scijava.roi.types.Points1D	0	POINTS	scijava.roi.types.Array<Vertex1D>	Array of point coordinates
 scijava.roi.types.Points2D	0	POINTS	scijava.roi.types.Array<Vertex2D>	Array of point coordinates
 scijava.roi.types.Points3D	0	POINTS	scijava.roi.types.Array<Vertex3D>	Array of point coordinates
@@ -95,10 +92,10 @@ scijava.roi.types.AlignedRectangle22D	0	P1	LineVector2D	Corner and vector to opp
 scijava.roi.types.Square12D	0	P1	LinePoints2D	Corner and opposing corner
 scijava.roi.types.Square22D	0	P1	LineVector2D	Corner and vector to opposing corner
 
-scijava.roi.types.AlignedCube13D	0	P1	Vertex3D	First corner
-scijava.roi.types.AlignedCube13D	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
-scijava.roi.types.AlignedCube23D	0	P1	Vertex3D	First corner
-scijava.roi.types.AlignedCube23D	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
+scijava.roi.types.AlignedCube1	0	P1	Vertex3D	First corner
+scijava.roi.types.AlignedCube1	1	P2	Vertex1D	x coordinate of adjacent/opposing corner
+scijava.roi.types.AlignedCube2	0	P1	Vertex3D	First corner
+scijava.roi.types.AlignedCube2	1	P2	Vector1D	distance to adjacent corner on x axis (relative to P1)
 scijava.roi.types.Rectangle12D	0	P1	Vertex2D	First corner
 scijava.roi.types.Rectangle12D	1	P2	Vertex2D	Adjacent corner
 scijava.roi.types.Rectangle12D	2	V1	Vector1D	Distance to corner opposing P1 (relative to P2)

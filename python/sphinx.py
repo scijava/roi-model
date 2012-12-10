@@ -116,13 +116,13 @@ class Sphinx:
             if isinstance(ctype, Type):
                 canonrep = 'None'
                 if ctype.rep_canonical != None:
-                    canonrep = self.typeref(self.stripns(ctype.rep_canonical), ctype.rep_canonical)
+                    canonrep = self.typeref(self.stripns(ctype.rep_canonical.name), ctype.rep_canonical.name)
                 repin = 'None'
                 if len(ctype.rep_in) != 0:
-                    repin = ', '.join([self.typeref(self.stripns(x), x) for x in ctype.rep_in])
+                    repin = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_in])
                 repout = 'None'
                 if len(ctype.rep_out) != 0:
-                    repout = ', '.join([self.typeref(self.stripns(x), x) for x in ctype.rep_out])
+                    repout = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_out])
                 fd.write('TypeID\t'+id+'\n')
                 fd.write('Canonical representation\t'+canonrep+'\n')
                 fd.write('Representations in\t'+repin+'\n')
