@@ -14,9 +14,9 @@ scijava.roi.types.Vector1D	scijava.roi.types.Vector1D
 scijava.roi.types.Vector2D	scijava.roi.types.Vector2D
 scijava.roi.types.Vector3D	scijava.roi.types.Vector3D
 scijava.roi.types.VectornD	scijava.roi.types.VectornD
-scijava.roi.types.Affine1D	scijava.roi.types.Matrix2D
-scijava.roi.types.Affine2D	scijava.roi.types.Matrix3D
-scijava.roi.types.Affine3D	scijava.roi.types.Matrix4D
-scijava.roi.types.AffinenD	scijava.roi.types.MatrixnD
+scijava.roi.types.AffineTransform1D	scijava.roi.types.Matrix2D
+scijava.roi.types.AffineTransform2D	scijava.roi.types.Matrix3D
+scijava.roi.types.AffineTransform3D	scijava.roi.types.Matrix4D
+scijava.roi.types.AffineTransformnD	scijava.roi.types.MatrixnD
 scijava.roi.types.String	String
 

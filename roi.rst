@@ -26,11 +26,9 @@ ROI Specification [DRAFT]
    ndim
    compound
    affine
-   shapes
-   representations
    masks.rst
-   transform.rst
-   state.rst
+   transform
+   state
    layers
    linkage
    storage

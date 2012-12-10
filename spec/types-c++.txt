@@ -26,8 +26,8 @@ scijava.roi.types.Vector1D	double
 scijava.roi.types.Vector2D	glm::detail::tvec2<double>
 scijava.roi.types.Vector3D	glm::detail::tvec3<double>
 scijava.roi.types.VectornD	TODO
-scijava.roi.types.Affine1D	glm::detail::tmat2x2<double>
-scijava.roi.types.Affine2D	glm::detail::tmat3x3<double>
-scijava.roi.types.Affine3D	glm::detail::tmat4x4<double>
-scijava.roi.types.Affine3D	TODO
+scijava.roi.types.AffineTransform1D	glm::detail::tmat2x2<double>
+scijava.roi.types.AffineTransform2D	glm::detail::tmat3x3<double>
+scijava.roi.types.AffineTransform3D	glm::detail::tmat4x4<double>
+scijava.roi.types.AffineTransformnD	TODO
 scijava.roi.types.String	std::string

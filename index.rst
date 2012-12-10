@@ -25,3 +25,4 @@ Specification
    :hidden:
 
    roi
+   README

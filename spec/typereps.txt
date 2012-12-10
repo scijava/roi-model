@@ -17,7 +17,7 @@ scijava.roi.shape.Lines	scijava.roi.types.LinesPoints2D	true	true
 scijava.roi.shape.Lines	scijava.roi.types.LinesVectors2D	true	true
 scijava.roi.shape.Lines	scijava.roi.types.LinesPoints3D	true	true
 scijava.roi.shape.Lines	scijava.roi.types.LinesVectors3D	true	true
-scijava.roi.shape.Lines	scijava.roi.types.Line	true	false
+scijava.roi.shape.Lines	scijava.roi.shape.Line	true	false
 scijava.roi.shape.Polyline	scijava.roi.types.PolylinePoints1D	true	true
 scijava.roi.shape.Polyline	scijava.roi.types.PolylineVector1D	true	true
 scijava.roi.shape.Polyline	scijava.roi.types.PolylinePoints2D	true	true
@@ -55,8 +55,7 @@ scijava.roi.shape.Ellipsoid	scijava.roi.types.Sphere53D	true	true
 scijava.roi.shape.Ellipsoid	scijava.roi.types.Sphere63D	true	true
 scijava.roi.shape.Ellipsoid	scijava.roi.types.AlignedHalfAxes3D	true	true
 scijava.roi.shape.Ellipsoid	scijava.roi.types.HalfAxes3D	true	true
-scijava.roi.shape.Ellipsoid	scijava.roi.types.EllipsoidCovariance3D	true	true
-scijava.roi.shape.Ellipsoid	scijava.roi.types.Cuboid	true	true
+scijava.roi.shape.Ellipsoid	scijava.roi.shape.Cuboid	true	true
 scijava.roi.shape.PolylineSpline	scijava.roi.types.PolylinePoints2D	true	true
 scijava.roi.shape.PolylineSpline	scijava.roi.types.PolylineVector2D	true	true
 scijava.roi.shape.PolylineSpline	scijava.roi.types.PolylinePoints3D	true	true
@@ -75,7 +74,6 @@ scijava.roi.shape.Cylinder	scijava.roi.types.Circle42D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.Circle52D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.AlignedHalfAxes2D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.HalfAxes2D	true	true
-scijava.roi.shape.Cylinder	scijava.roi.types.EllipseCovariance2D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.CircularCylinder13D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.CircularCylinder23D	true	true
 scijava.roi.shape.Cylinder	scijava.roi.types.CircularCylinder33D	true	true
@@ -124,8 +122,7 @@ scijava.roi.shape.Custom	scijava.roi.types.Custom3D	true	true
 scijava.roi.annotation.Text	scijava.roi.types.Text2D	true	true
 scijava.roi.annotation.Scale	scijava.roi.shape.Line	true	false
 scijava.roi.annotation.Grid	scijava.roi.shape.Cuboid	true	false
-scijava.roi.object.Property	scijava.roi.types.PropertynD	true	true
-scijava.roi.object.Property	scijava.roi.types.PropertiesnD	true	true
+scijava.roi.object.Property	scijava.roi.types.Properties	true	true
 scijava.roi.dimconstraint.Value	scijava.roi.types.ValuenD	true	true
 scijava.roi.dimconstraint.Values	scijava.roi.types.ValuesnD	true	true
 scijava.roi.dimconstraint.Range	scijava.roi.types.Range1nD	true	true

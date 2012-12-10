@@ -17,16 +17,23 @@ class Sphinx:
     def canon(self, string):
         return re.sub('[\.\[\]]', '_', string)
 
-    def genref(self, name, primitive, type):
-        link = ' <' + type + '_' + primitive + '>`'
+    def genlabel(self, primitive, type):
+        link = '_' + type + '_' + primitive
         link = self.canon(link)
-        return ':ref:`' + name + link
+        return link
+
+    def genref(self, name, primitive, type):
+        link = ' <' + type + '_' + primitive + '>'
+        link = self.canon(link)
+        name = name.replace('<', '\<')
+        name = name.replace('>', '\>')
+        return ':ref:`' + name + link + '`'
+
+    def typelabel(self, type):
+        return self.genlabel(type, 'type')
 
     def typeref(self, name, type):
         return self.genref(name, type, 'type')
-
-    def primitiveref(self, name, primitive):
-        return self.genref(name, primitive, 'primitive')
 
     def enumref(self, name, enum):
         return self.genref(name, enum, 'enum')
@@ -36,9 +43,6 @@ class Sphinx:
 
     def interfaceref(self, name, interface):
         return self.genref(name, interface, 'interface')
-
-    def shaperef(self, name, shape):
-        return self.genref(name, shape, 'shape')
 
     def repref(self, name, rep):
         return self.genref(name, rep, 'rep')
@@ -69,19 +73,19 @@ class Sphinx:
 .. index::
     {0}
 
-.. _type_{0}:
+.. {1}:
 
-{1}
 {2}
+{3}
 
-{3}.
+{4}.
 
-{4}
+{5}
 
 .. tabularcolumns:: |l|p{{4in}}|
-.. csv-table:: {1} Details
+.. csv-table:: {2} Details
     :header-rows: 1
-    :file: {5}
+    :file: {6}
     :delim: tab
     :widths: 5, 10
 
@@ -103,11 +107,12 @@ class Sphinx:
                 else:
                     id = str(id)
 
-            ft.write(ctype.name + '\t' + id + '\n')
+            ft.write(self.typeref(ctype.name, ctype.name) + '\t' + id + '\n')
 
             filename = 'gen/type-' + self.canon(ctype.name) + '.txt'
             fd = open(filename, 'w')
             fd.write('Property\tValue\n')
+            fd.write('Placeholder\tPlaceholder\n')
             if isinstance(ctype, Type):
                 canonrep = 'None'
                 if ctype.rep_canonical != None:
@@ -130,7 +135,7 @@ class Sphinx:
 
 
 
-            fr.write(typetmpl.format(self.canon(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, filename))
+            fr.write(typetmpl.format(ctype.name, self.typelabel(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, filename))
 
         fr.close()
         ft.close()
@@ -214,8 +219,7 @@ Implementors should treat these sizes as minimium requirements.
                     pname = self.interfaceref(primitive.name, primitive.name)
                     ptype = self.interfaceref(ptype, ptype)
                 else:
-                    pname = self.primitiveref(primitive.name, primitive.name)
-                    ptype = self.primitiveref(ptype, ptype)
+                    pname = self.typeref(primitive.name, primitive.name)
 
                 if lang == 'raw':
                     fh[lang].write(pname + '\t' + ptype + '\t' +primitive.desc + '\n')

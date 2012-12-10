@@ -221,10 +221,10 @@
 
 ## Transformations
 
-700	scijava.roi.types.Affine1D
-701	scijava.roi.types.Affine2D
-702	scijava.roi.types.Affine3D
-703	scijava.roi.types.AffinenD
+700	scijava.roi.types.AffineTransform1D
+701	scijava.roi.types.AffineTransform2D
+702	scijava.roi.types.AffineTransform3D
+703	scijava.roi.types.AffineTransformnD
 
 710	scijava.roi.types.TranslateTransform1D
 711	scijava.roi.types.TranslateTransform2D

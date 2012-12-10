@@ -186,10 +186,10 @@ scijava.roi.types.Mesh2D	A face-vertex mesh in 2D described by face and vertex l
 # mapping is implied, and will require the implementor to construct the
 # mapping.
 scijava.roi.types.Mesh3D	A face-vertex mesh in 3D described by face and vertex lists
-scijava.roi.types.Affine1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
-scijava.roi.types.Affine2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
-scijava.roi.types.Affine3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform
-scijava.roi.types.AffinenD	An affine transform in nD described by a transformation matrix and nD shape to transform
+scijava.roi.types.AffineTransform1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
+scijava.roi.types.AffineTransform2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
+scijava.roi.types.AffineTransform3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform
+scijava.roi.types.AffineTransformnD	An affine transform in nD described by a transformation matrix and nD shape to transform
 scijava.roi.types.TranslateTransform1D	A translation transformation in 1D
 scijava.roi.types.TranslateTransform2D	A translation transformation in 2D
 scijava.roi.types.TranslateTransform3D	A translation transformation in 3D
