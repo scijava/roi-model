@@ -30,11 +30,10 @@ scijava.roi.types.DirectedGraph	0	VERTS	scijava.roi.types.Array<NTYPE>	Nodes
 scijava.roi.types.DirectedGraph	1	EDGES	scijava.roi.types.Array<scijava.roi.types.Pair<ETYPE,scijava.roi.types.Pair<Index,Index>>	Edges, including out and in vertex numbers
 
 # Per-shape state also includes: shape- and representation- specific data
-scijava.roi.shape.PhysicalShape	0	NCHAR	Count	Number of octets
-scijava.roi.shape.PhysicalShape	1	SID	ShapeID	Shape identifier
+#scijava.roi.shape.PhysicalShape	0	NCHAR	Count	Number of octets
+#scijava.roi.shape.PhysicalShape	1	SID	ShapeID	Shape identifier
 # Also used for re-serialisation; may be converted to canonical form internally
-scijava.roi.shape.PhysicalShape	2	RID	RepID	Representation identifier
-
+#scijava.roi.shape.PhysicalShape	2	RID	RepID	Representation identifier
 # Internal
 # Shape	3	NDIM	Count	Number of dimensions
 # Shape	4	DIMS	Index[NDIM]	Object dimensionality (dimension numbers in use)

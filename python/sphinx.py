@@ -4,7 +4,7 @@ import os
 import subprocess
 import re
 
-from model import Type, Enum, Compound, Interface, Inheritable, ConcreteTypeBase
+from model import Type, Enum, Compound, Interface, TypeBase, ConcreteTypeBase
 
 class Sphinx:
     def __init__(self, model):
@@ -99,6 +99,8 @@ class Sphinx:
         for name in types:
             ctype = self.model.types[name]
 
+            print "DTYPE:" + ctype.name + " isa " + ctype.__class__.__name__
+
             id = 'N/A'
             if isinstance(ctype, ConcreteTypeBase):
                 id = ctype.typeid
@@ -112,7 +114,7 @@ class Sphinx:
             filename = 'gen/type-' + self.canon(ctype.name) + '.txt'
             fd = open(filename, 'w')
             fd.write('Property\tValue\n')
-            fd.write('Placeholder\tPlaceholder\n')
+            fd.write('TypeID\t'+id+'\n')
             if isinstance(ctype, Type):
                 canonrep = 'None'
                 if ctype.rep_canonical != None:
@@ -123,11 +125,10 @@ class Sphinx:
                 repout = 'None'
                 if len(ctype.rep_out) != 0:
                     repout = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_out])
-                fd.write('TypeID\t'+id+'\n')
                 fd.write('Canonical representation\t'+canonrep+'\n')
                 fd.write('Representations in\t'+repin+'\n')
                 fd.write('Representations out\t'+repout+'\n')
-            if isinstance(ctype, Inheritable):
+            if isinstance(ctype, TypeBase) and len(ctype.inherits) > 0:
                 inherits = 'None'
                 if len(ctype.inherits) != 0:
                     inherits = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.inherits])

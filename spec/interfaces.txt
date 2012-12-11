@@ -5,9 +5,9 @@ scijava.roi.MeasureLength	Get length of object
 scijava.roi.MeasureArea	Get area and perimeter of object
 scijava.roi.MeasureVolume	Get volume and surface area of object
 
-scijava.roi.Iterable	
-scijava.roi.RandomAccessible	
-scijava.roi.RealRandomAccessible	
+scijava.roi.Iterable	An iterable region
+scijava.roi.RandomAccessible	A region accessible using discrete points
+scijava.roi.RealRandomAccessible	A region accessible using real points
 
 scijava.roi.ROISet	Set of ROIs
 scijava.roi.ROI	Region of interest

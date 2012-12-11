@@ -12,6 +12,33 @@ class TypeBase(object):
         self.comment = ''
         self.name = name
         self.desc = ''
+        self.inherits = list()
+
+    def inherited_in(self):
+        used = set()
+        self.__inherited_in(used)
+        used.remove(self)
+        return used
+
+    def __inherited_in(self, used):
+        used.add(self)
+        for s in self.inherit_in:
+            if (s not in used):
+                used.add(s)
+                s.__inherited_in(used)
+
+    def inherited_out(self):
+        used = set()
+        self.__inherited_out(used)
+        used.remove(self)
+        return used
+
+    def __inherited_out(self, used):
+        used.add(self)
+        for s in self.inherit_out:
+            if (s not in used):
+                used.add(s)
+                s.__inherited_out(used)
 
 # Basic concrete type.  This is just a name and type identifier
 # (i.e. it's used for serialiation)
@@ -29,8 +56,8 @@ class ConcreteTypeBase(TypeBase):
 
 # Primitive type.
 class Type(ConcreteTypeBase):
-    def __init__(self, name):
-        super(Type, self).__init__(name)
+    def __init__(self, primitive):
+        super(Type, self).__init__(primitive)
         self.types = dict()
         self.rep_in = set()
         self.rep_out = set()
@@ -137,38 +164,8 @@ class EnumValue:
     def check(self):
         return
 
-class Inheritable(object):
-    def __init__(self):
-        super(Inheritable, self).__init__()
-        self.inherits = list()
 
-    def inherited_in(self):
-        used = set()
-        self.__inherited_in(used)
-        used.remove(self)
-        return used
-
-    def __inherited_in(self, used):
-        used.add(self)
-        for s in self.inherit_in:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_in(used)
-
-    def inherited_out(self):
-        used = set()
-        self.__inherited_out(used)
-        used.remove(self)
-        return used
-
-    def __inherited_out(self, used):
-        used.add(self)
-        for s in self.inherit_out:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_out(used)
-
-class Compound(ConcreteTypeBase, Inheritable):
+class Compound(Type):
     def __init__(self, primitive):
         super(Compound, self).__init__(primitive)
         self.templates = dict()
@@ -189,7 +186,7 @@ class CompoundMember:
     def check(self):
         return
 
-class Interface(TypeBase, Inheritable):
+class Interface(TypeBase):
     def __init__(self, name, desc):
         super(Interface, self).__init__(name)
         self.desc = desc
@@ -585,19 +582,17 @@ class Model:
                 raise Exception("Type not found: " + name)
             itype = type_names[name]
 
-            if not isinstance(itype, Inheritable):
+            if not isinstance(itype, TypeBase):
                 raise Exception("Type does not support inheritance: " + name)
 
-            if (inherits != ''):
-                for iname in inherits.split(','):
-                    iface = None
-                    if iname in type_names and isinstance(type_names[iname], Interface) and isinstance(type_names[iname], Inheritable):
-                        iface = type_names[iname]
-                    else:
-                        raise Exception("Invalid interface: " + iname)
-                    if iface in itype.inherits:
-                        raise Exception("Duplicated inheritance for "+name+" interface: " + iname)
-                    itype.inherits.append(iface)
+            iface = None
+            if inherits in type_names and isinstance(type_names[inherits], Interface):
+                iface = type_names[inherits]
+            else:
+                raise Exception("Invalid interface: " + inherits)
+            if iface in itype.inherits:
+                raise Exception("Duplicated inheritance for "+name+" interface: " + iname)
+            itype.inherits.append(iface)
 
     def check(self):
 #        for shape in self.shape_ids.values():

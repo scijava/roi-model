@@ -3,7 +3,39 @@
 scijava.roi.RealRandomAccessible	scijava.roi.RandomAccessible
 
 scijava.roi.ROISet	scijava.roi.Serialisable
-scijava.roi.ROI	scijava.roi.Serialisable,scijava.roi.Iterable,scijava.roi.RealRandomAccessible
-scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible
-scijava.roi.shape.Representation	scijava.roi.Serialisable,scijava.roi.RealRandomAccessible
-scijava.roi.shape.DimConstraint	scijava.roi.Serialisable,scijava.roi.RandomAccessible
+
+scijava.roi.ROI	scijava.roi.Serialisable
+scijava.roi.ROI	scijava.roi.Iterable
+scijava.roi.ROI	scijava.roi.RealRandomAccessible
+
+scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable
+scijava.roi.shape.PhysicalShape	scijava.roi.RealRandomAccessible
+scijava.roi.shape.DimConstraint	scijava.roi.Serialisable
+scijava.roi.shape.DimConstraint	scijava.roi.RandomAccessible
+
+scijava.roi.shape.Point	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Points	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Line	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Lines	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Polyline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Polygon	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.PolylineSpline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.PolygonSpline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Arc	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Cuboid	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Ellipsoid	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Cylinder	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Mesh	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.BitMask	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.GreyMask	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.AffineTransform	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.AbstractTransform	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Bitwise	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Set	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Custom	scijava.roi.shape.PhysicalShape
+
+scijava.roi.dimconstraint.Value	scijava.roi.shape.DimConstraint
+scijava.roi.dimconstraint.Values	scijava.roi.shape.DimConstraint
+scijava.roi.dimconstraint.Range	scijava.roi.shape.DimConstraint
+scijava.roi.dimconstraint.Extrude	scijava.roi.shape.DimConstraint
+scijava.roi.dimconstraint.Set	scijava.roi.shape.DimConstraint
