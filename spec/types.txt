@@ -226,6 +226,8 @@ scijava.roi.types.DimConstraintSet	A set of dimensional constraints
 
 scijava.roi.types.Custom	Custom (user-definable) representation
 
+scijava.roi.types.Text	Text annotation
+
 # We could use an RShape representation here so that we could set a shape as a property.
 
 scijava.roi.types.Properties	Property list
@@ -320,7 +322,7 @@ scijava.roi.annotation.Grid	A scale grid in a defined volume
 
 scijava.roi.shape.Custom	A custom (user-definable) 3D shape
 
-scijava.roi.object.Property	A custom (user-definable) object property
+scijava.roi.types.Property	A custom (user-definable) object property
 
 ### nD
 
@@ -336,7 +338,7 @@ scijava.roi.dimconstraint.Range	A range of values in an arbitrary dimension
 
 ## nD transformations and shape operations
 
-scijava.roi.dimconstraint.ExtrudeDim	Extrude a shape of arbitrary dimensionality into an additional dimension.
+scijava.roi.dimconstraint.Extrude	Extrude a shape of arbitrary dimensionality into an additional dimension.
 # The result is a shape combining all subset dimensions.
 # It is illegal to have a common dimension between the two shapes.
-scijava.roi.dimconstraint.DimConstraintSet	Combine shapes of differing dimensionality
+scijava.roi.dimconstraint.Set	Combine shapes of differing dimensionality

@@ -410,7 +410,7 @@ class Model:
             primitive = type_names[typename]
 
             if rep not in type_names.keys():
-                raise Exception("Type representation not found: " + typename)
+                raise Exception("Type representation not found: " + rep)
             rep = type_names[rep]
 
             if (repin == 'true'):

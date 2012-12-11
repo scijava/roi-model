@@ -334,10 +334,10 @@
 
 ## nD transformations and shape operations
 
-3010	scijava.roi.dimconstraint.ExtrudeDim
+3010	scijava.roi.dimconstraint.Extrude
 # The result is a shape combining all subset dimensions.
 # It is illegal to have a common dimension between the two shapes.
-3011	scijava.roi.dimconstraint.DimConstraintSet
+3011	scijava.roi.dimconstraint.Set
 
 3020	scijava.roi.types.DimConstraint
 3021	scijava.roi.types.DimConstraintSet
