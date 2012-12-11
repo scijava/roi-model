@@ -20,6 +20,7 @@ ROI Specification [DRAFT]
    3dconversion
    types
    primitives
+   interfaces
    enums
    compounds
    geometry

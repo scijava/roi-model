@@ -220,6 +220,7 @@ scijava.roi.types.Bitwise3D	Binary bitwise operation
 
 scijava.roi.types.ROI	A region of interest (top-level container of physical shape and nD constraints)
 scijava.roi.types.ROISet	A set of ROIs
+scijava.roi.types.Labelling	A labelling (collection of bitmasks)
 
 scijava.roi.types.DimConstraint	A dimensional constraint
 scijava.roi.types.DimConstraintSet	A set of dimensional constraints

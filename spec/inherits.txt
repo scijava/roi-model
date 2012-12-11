@@ -16,16 +16,28 @@ scijava.roi.shape.DimConstraint	scijava.roi.RandomAccessible
 scijava.roi.shape.Point	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Points	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Line	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Line	scijava.roi.measurement.Length
 scijava.roi.shape.Lines	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Lines	scijava.roi.measurement.Length
 scijava.roi.shape.Polyline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Polyline	scijava.roi.measurement.Length
 scijava.roi.shape.Polygon	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Polyline	scijava.roi.measurement.Area
 scijava.roi.shape.PolylineSpline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.PolylineSpline	scijava.roi.measurement.Length
 scijava.roi.shape.PolygonSpline	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.PolygonSpline	scijava.roi.measurement.Area
 scijava.roi.shape.Arc	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Arc	scijava.roi.measurement.Length
 scijava.roi.shape.Cuboid	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Cuboid	scijava.roi.measurement.Volume
 scijava.roi.shape.Ellipsoid	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Ellipsoid	scijava.roi.measurement.Volume
 scijava.roi.shape.Cylinder	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Cylinder	scijava.roi.measurement.Volume
 scijava.roi.shape.Mesh	scijava.roi.shape.PhysicalShape
+scijava.roi.shape.Mesh	scijava.roi.measurement.Area
+scijava.roi.shape.Mesh	scijava.roi.measurement.Volume
 scijava.roi.shape.BitMask	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.GreyMask	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.AffineTransform	scijava.roi.shape.PhysicalShape
@@ -39,3 +51,8 @@ scijava.roi.dimconstraint.Values	scijava.roi.shape.DimConstraint
 scijava.roi.dimconstraint.Range	scijava.roi.shape.DimConstraint
 scijava.roi.dimconstraint.Extrude	scijava.roi.shape.DimConstraint
 scijava.roi.dimconstraint.Set	scijava.roi.shape.DimConstraint
+
+scijava.roi.types.ROI	scijava.roi.ROI
+
+scijava.roi.types.ROISet	scijava.roi.ROISet
+scijava.roi.types.Labelling	scijava.roi.ROISet

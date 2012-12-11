@@ -14,31 +14,18 @@ class TypeBase(object):
         self.desc = ''
         self.inherits = list()
 
-    def inherited_in(self):
+    def inherited(self):
         used = set()
-        self.__inherited_in(used)
+        self.__inherited(used)
         used.remove(self)
         return used
 
-    def __inherited_in(self, used):
+    def __inherited(self, used):
         used.add(self)
-        for s in self.inherit_in:
+        for s in self.inherits:
             if (s not in used):
                 used.add(s)
-                s.__inherited_in(used)
-
-    def inherited_out(self):
-        used = set()
-        self.__inherited_out(used)
-        used.remove(self)
-        return used
-
-    def __inherited_out(self, used):
-        used.add(self)
-        for s in self.inherit_out:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_out(used)
+                s.__inherited(used)
 
 # Basic concrete type.  This is just a name and type identifier
 # (i.e. it's used for serialiation)
@@ -89,7 +76,7 @@ class Type(ConcreteTypeBase):
             else:
                 reps[r] = set([self])
         used.add(self)
-        for s in self.inherit_in | self.inherit_out:
+        for s in self.inherits:
             if (s not in used):
                 s.__reps(reps, used)
         return
@@ -591,7 +578,7 @@ class Model:
             else:
                 raise Exception("Invalid interface: " + inherits)
             if iface in itype.inherits:
-                raise Exception("Duplicated inheritance for "+name+" interface: " + iname)
+                raise Exception("Duplicated inheritance for "+name+" interface: " + inherits)
             itype.inherits.append(iface)
 
     def check(self):

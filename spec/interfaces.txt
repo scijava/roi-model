@@ -1,16 +1,19 @@
 #Interface	Description
 
 scijava.roi.Serialisable	Object can be serialised and deserialised
-scijava.roi.MeasureLength	Get length of object
-scijava.roi.MeasureArea	Get area and perimeter of object
-scijava.roi.MeasureVolume	Get volume and surface area of object
+
+scijava.roi.measurement.Length	Get length of object
+scijava.roi.measurement.Area	Get area and perimeter of object
+scijava.roi.measurement.Volume	Get volume and surface area of object
 
 scijava.roi.Iterable	An iterable region
 scijava.roi.RandomAccessible	A region accessible using discrete points
 scijava.roi.RealRandomAccessible	A region accessible using real points
 
-scijava.roi.ROISet	Set of ROIs
 scijava.roi.ROI	Region of interest
+
+scijava.roi.ROISet	Set of ROIs
+
+
 scijava.roi.shape.PhysicalShape	Abstract shape
-scijava.roi.shape.Representation	Abstract shape representation
 scijava.roi.shape.DimConstraint	Abstract shape dimensional constraints

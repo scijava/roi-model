@@ -35,11 +35,20 @@ class Sphinx:
     def typeref(self, name, type):
         return self.genref(name, type, 'type')
 
+    def enumlabel(self, enum):
+        return self.genlabel(enum, 'enum')
+
     def enumref(self, name, enum):
         return self.genref(name, enum, 'enum')
 
+    def compoundlabel(self, compound):
+        return self.genlabel(compound, 'compound')
+
     def compoundref(self, name, compound):
         return self.genref(name, compound, 'compound')
+
+    def interfacelabel(self, interface):
+        return self.genlabel(interface, 'interface')
 
     def interfaceref(self, name, interface):
         return self.genref(name, interface, 'interface')
@@ -82,10 +91,12 @@ class Sphinx:
 
 {5}
 
+{6}
+
 .. tabularcolumns:: |l|p{{4in}}|
 .. csv-table:: {2} Details
     :header-rows: 1
-    :file: {6}
+    :file: {7}
     :delim: tab
     :widths: 5, 10
 
@@ -112,6 +123,7 @@ class Sphinx:
             ft.write(self.typeref(ctype.name, ctype.name) + '\t' + id + '\n')
 
             filename = 'gen/type-' + self.canon(ctype.name) + '.txt'
+            detail = ''
             fd = open(filename, 'w')
             fd.write('Property\tValue\n')
             fd.write('TypeID\t'+id+'\n')
@@ -125,18 +137,24 @@ class Sphinx:
                 repout = 'None'
                 if len(ctype.rep_out) != 0:
                     repout = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_out])
-                fd.write('Canonical representation\t'+canonrep+'\n')
-                fd.write('Representations in\t'+repin+'\n')
-                fd.write('Representations out\t'+repout+'\n')
+                if len(ctype.rep_in) != 0 or len(ctype.rep_out) != 0:
+                    fd.write('Canonical representation\t'+canonrep+'\n')
+                    fd.write('Representations in\t'+repin+'\n')
+                    fd.write('Representations out\t'+repout+'\n')
             if isinstance(ctype, TypeBase) and len(ctype.inherits) > 0:
                 inherits = 'None'
                 if len(ctype.inherits) != 0:
                     inherits = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.inherits])
                     fd.write('Inherits\t'+inherits+'\n')
 
+            if isinstance(ctype, Compound):
+                detail = self.compoundref('Serialisation compound structure', ctype.name)
+            if isinstance(ctype, Enum):
+                detail = self.enumref('Enumeration values', ctype.name)
+            if isinstance(ctype, Interface):
+                detail = self.interfaceref('Interface details', ctype.name)
 
-
-            fr.write(typetmpl.format(ctype.name, self.typelabel(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, filename))
+            fr.write(typetmpl.format(ctype.name, self.typelabel(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, detail, filename))
 
         fr.close()
         ft.close()
@@ -259,18 +277,18 @@ Implementors should treat these sizes as minimium requirements.
 .. index::
     {0}
 
-.. _enum_{0}:
+.. {1}:
 
-{0}
-{1}
+{2}
+{3}
 
-.. csv-table:: {0}
+.. csv-table:: {2}
     :header-rows: 1
-    :file: {2}
+    :file: {4}
     :delim: tab
 
 """
-            fe.write(template.format(enum.name, '^' * len(enum.name), filename))
+            fe.write(template.format(enum.name, self.enumlabel(enum.name), enum.name, '^' * len(enum.name), filename))
 
             symbols = False
             for sym in [x.symbol for x in enum.values.values()]:
@@ -292,6 +310,57 @@ Implementors should treat these sizes as minimium requirements.
                     enumtab.write(val.symbol + '\t')
                 enumtab.write(val.desc + '\n')
             enumtab.close()
+
+        fe.close()
+
+    def dump_interfaces(self):
+        self.prepare_gen()
+
+        fe = open('interfaces.rst','w')
+
+        header="""Interface types
+===============
+
+"""
+
+        fe.write(header)
+
+        names = list(self.model.types.keys())
+        names.sort()
+        for name in names:
+            interface = self.model.types[name]
+
+            if not isinstance(interface, Interface):
+                continue
+
+            filename = 'gen/interface-' + self.canon(interface.name) + '.txt'
+
+            template = """
+.. index::
+    {0}
+
+.. {1}:
+
+{2}
+{3}
+
+.. csv-table:: {2}
+    :header-rows: 1
+    :file: {4}
+    :delim: tab
+
+"""
+            fe.write(template.format(interface.name, self.interfacelabel(interface.name), interface.name, '^' * len(interface.name), filename))
+
+            interfacetab = open(filename, 'w')
+            print('Writing '+ filename)
+            interfacetab.write('Implemented by\n')
+
+            for impl in names:
+                oimpl = self.model.types[impl]
+                if interface in oimpl.inherited():
+                    interfacetab.write(self.typeref(oimpl.name, oimpl.name) + '\n')
+            interfacetab.close()
 
         fe.close()
 
@@ -660,6 +729,7 @@ Definitions
         self.dump_typelist()
         self.dump_primitivelist()
         self.dump_enums()
+        self.dump_interfaces()
         self.dump_compounds()
         # self.dump_shapelist()
         # self.dump_replist()
