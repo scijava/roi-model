@@ -4,7 +4,7 @@ import os
 import subprocess
 import re
 
-from model import Type, Enum, Compound, Interface, Inheritable
+from model import Type, Enum, Compound, Interface, Inheritable, ConcreteTypeBase
 
 class Sphinx:
     def __init__(self, model):
@@ -100,7 +100,7 @@ class Sphinx:
             ctype = self.model.types[name]
 
             id = 'N/A'
-            if isinstance(ctype, Type):
+            if isinstance(ctype, ConcreteTypeBase):
                 id = ctype.typeid
                 if id == -1:
                     id = 'None'

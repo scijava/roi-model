@@ -17,15 +17,21 @@ class TypeBase(object):
 # (i.e. it's used for serialiation)
 class ConcreteTypeBase(TypeBase):
     def __init__(self, name):
-        super(ConcreteTypeBase, self).__init__(name)
-        self.typeid = -1
+        if isinstance(name, TypeBase):
+            super(ConcreteTypeBase, self).__init__(name.name)
+            if isinstance(name, ConcreteTypeBase):
+                self.typeid = name.typeid
+            else:
+                self.typeid = -1
+        else:
+            super(ConcreteTypeBase, self).__init__(name)
+            self.typeid = -1
 
 # Primitive type.
 class Type(ConcreteTypeBase):
     def __init__(self, name):
         super(Type, self).__init__(name)
         self.types = dict()
-        self.name = name
         self.rep_in = set()
         self.rep_out = set()
         self.rep_canonical = None
@@ -112,9 +118,8 @@ class Type(ConcreteTypeBase):
     #     return type
 
 class Enum(ConcreteTypeBase):
-    def __init__(self, name):
-        super(Enum, self).__init__(name)
-        self.name = name
+    def __init__(self, primitive):
+        super(Enum, self).__init__(primitive)
         self.values = dict()
 
     def check(self):
@@ -164,8 +169,8 @@ class Inheritable(object):
                 s.__inherited_out(used)
 
 class Compound(ConcreteTypeBase, Inheritable):
-    def __init__(self, name):
-        super(Compound, self).__init__(name)
+    def __init__(self, primitive):
+        super(Compound, self).__init__(primitive)
         self.templates = dict()
         self.members = dict()
 
@@ -467,7 +472,6 @@ class Model:
             else:
                 enum = Enum(primitive)
                 type_names[primitive] = enum
-                print('** Added ** ' + primitive)
 
             val = EnumValue(name, number, symbol, desc)
             if (len(comment) > 0):
@@ -488,35 +492,35 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             print(line)
-            primitive, seqno, name, type, desc = line.split('\t')
+            primitive, seqno, name, typename, desc = line.split('\t')
 
             compound = None
-            if primitive in type_names and isinstance(primitive, Compound):
-                compound = type_names[primitive]
-            elif primitive in type_names:
-                compound = Compound(primitive)
-                type_names[primitive] = compound
-                print('** Added ** ' + primitive)
+            if primitive in type_names:
+                if isinstance(type_names[primitive], Compound):
+                    compound = type_names[primitive]
+                else:
+                    compound = Compound(type_names[primitive])
+                    type_names[primitive] = compound
             else:
                 raise Exception("Invalid compound name: " + primitive)
-
 
             try:
                 seqno = int(seqno)
 
-                mb = CompoundMember(seqno, type, name, desc)
+                mb = CompoundMember(seqno, typename, name, desc)
                 if (len(comment) > 0):
                     mb.comment = comment
                     comment = ''
                     if mb.name in compound.members:
                         raise Exception("Duplicate compound " + compound.name+':'+ mb.name)
                 compound.members[mb.name] = mb
+                print "COMPOUND = " + compound.name + "  MEMBERSCOUNT=" + str(len(compound.members))
 
             except ValueError:
                 seqno = re.sub('^T', '', seqno)
                 seqno = int(seqno)
                 # if seqno is not a number, it's a template parameter
-                tp = CompoundMember(seqno, type, name, desc)
+                tp = CompoundMember(seqno, typename, name, desc)
                 if (len(comment) > 0):
                     tp.comment = comment
                     comment = ''
