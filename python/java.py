@@ -85,12 +85,6 @@ class Class(Compound):
         dtor = None
         methods = []
 
-class Interface(Compound):
-    def __init__(self):
-        interfaces = []
-        # List of method objects
-        methods = []
-
 class Enum(Class):
     def __init__(self, model, enum):
         self.model = model
@@ -179,6 +173,41 @@ class Enum(Class):
         ef.write(footer.format(tn))
         ef.close()
 
+class Interface(Class):
+    def __init__(self, model, interface):
+        self.model = model
+        self.interface = interface
+
+    def write(self):
+        nspath = self.interface.namespacepath()
+        tn = self.interface.typename()
+
+        if not os.path.exists('java/' + nspath):
+            os.makedirs('java/' + nspath)
+        ef = open('java/' + nspath + '/' + tn + '.java', 'w')
+        ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
+        ef.write(packagetmpl.format(self.interface.namespace()))
+        if len(self.interface.inherits) > 0:
+            for imp in self.interface.inherits:
+                ef.write(importtmpl.format(imp.name))
+            ef.write('\n')
+
+        header = """public interface {0}{1}
+{{
+"""
+        implements = ''
+        if len(self.interface.inherits) > 0:
+            implements = ' implements ' + ', '.join([x.typename() for x in self.interface.inherits])
+        ef.write(header.format(tn, implements))
+
+        footer = """
+  // TODO: Add methods defined elsewhere.
+
+}}
+"""
+        ef.write(footer.format(tn))
+        ef.close()
+
 class TypeInstance(TypeBase):
     def __init__(self):
         typename = ''
@@ -224,3 +253,8 @@ class Java:
             for enum in self.enums:
                 enum = Enum(self, enum)
                 enum.write()
+
+            for interface in self.interfaces:
+                interface = Interface(self, interface)
+                interface.write()
+
