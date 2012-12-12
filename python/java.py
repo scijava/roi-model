@@ -50,42 +50,7 @@ packagetmpl = """package {0};
 importtmpl = """import {0};
 """
 
-
-class TypeBase(object):
-    def __init__(self):
-        # Documentation for JavaDocs
-        doc=''
-        # Dependencies for imports
-        deps=''
-
-class File(object):
-    def __init__(self):
-        # Copyright header
-        header = ''
-        # From class namespace
-        package = ''
-        # From class imports
-        imports = ''
-        # From namespace and class name
-        filename = ''
-        classname = None
-
-class Compound(TypeBase):
-    def __init(self):
-        name = ''
-        namespace = ''
-
-class Class(Compound):
-    def __init__(self):
-        superclass = None
-        interfaces = []
-        constants = []
-        fields = []
-        ctors = []
-        dtor = None
-        methods = []
-
-class Enum(Class):
+class Enum(object):
     def __init__(self, model, enum):
         self.model = model
         self.enum = enum
@@ -173,7 +138,7 @@ class Enum(Class):
         ef.write(footer.format(tn))
         ef.close()
 
-class Interface(Class):
+class Interface(object):
     def __init__(self, model, interface):
         self.model = model
         self.interface = interface
@@ -208,16 +173,40 @@ class Interface(Class):
         ef.write(footer.format(tn))
         ef.close()
 
-class TypeInstance(TypeBase):
-    def __init__(self):
-        typename = ''
-        typeinstancename = ''
-        defaultvalue = ''
+class Class(object):
+    def __init__(self, model, klass):
+        self.model = model
+        self.klass = klass
 
-class Method(TypeBase):
-    def __init__(self):
-        args = []
-        implementation = ''
+    def write(self):
+        nspath = self.klass.namespacepath()
+        tn = self.klass.typename()
+
+        if not os.path.exists('java/' + nspath):
+            os.makedirs('java/' + nspath)
+        ef = open('java/' + nspath + '/' + tn + '.java', 'w')
+        ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
+        ef.write(packagetmpl.format(self.klass.namespace()))
+        if len(self.klass.inherits) > 0:
+            for imp in self.klass.inherits:
+                ef.write(importtmpl.format(imp.name))
+            ef.write('\n')
+
+        header = """public class {0}{1}
+{{
+"""
+        implements = ''
+        if len(self.klass.inherits) > 0:
+            implements = ' implements ' + ', '.join([x.typename() for x in self.klass.inherits])
+        ef.write(header.format(tn, implements))
+
+        footer = """
+  // TODO: Add methods defined elsewhere.
+
+}}
+"""
+        ef.write(footer.format(tn))
+        ef.close()
 
 class Java:
     def __init__(self, model):
@@ -257,4 +246,8 @@ class Java:
             for interface in self.interfaces:
                 interface = Interface(self, interface)
                 interface.write()
+
+            for klass in self.classes:
+                klass = Class(self, klass)
+                klass.write()
 
