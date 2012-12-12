@@ -14,6 +14,20 @@ class TypeBase(object):
         self.desc = ''
         self.inherits = list()
 
+    def typename(self):
+        parts = self.name.rsplit('.', 1)
+        return parts[1]
+
+    def namespace(self):
+        parts = self.name.rsplit('.', 1)
+        ns = parts[0]
+        ns.replace('.', '/')
+        return ns
+
+    def namespacepath(self):
+        ns = self.namespace()
+        return ns.replace('.', '/')
+
     def inherited(self):
         used = set()
         self.__inherited(used)
