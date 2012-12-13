@@ -363,6 +363,8 @@ class Model:
                         raise Exception("Type not found: " + name)
                     primitive = type_names[name]
                 if lang != 'undefined':
+                    if lang in primitive.types:
+                        raise Exception(lang + " type already defined for type: " + name)
                     primitive.types[lang] = typename
 
         # TODO: Sort

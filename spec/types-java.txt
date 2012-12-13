@@ -6,6 +6,16 @@ scijava.roi.types.Value	double
 scijava.roi.types.Operator	enum
 scijava.roi.types.BLogic	enum
 scijava.roi.types.Color	double[4]
+scijava.roi.types.Int8	byte
+scijava.roi.types.Int16	short
+scijava.roi.types.Int32	int
+scijava.roi.types.Int64	long
+scijava.roi.types.UInt8	short
+scijava.roi.types.UInt16	int
+scijava.roi.types.UInt32	long
+scijava.roi.types.UInt64	java.math.BigInteger
+scijava.roi.types.Float32	float
+scijava.roi.types.Float64	double
 #scijava.roi.types.Vertex1D	scijava.roi.types.Point1D
 #scijava.roi.types.Vertex2D	scijava.roi.types.Point2D
 #scijava.roi.types.Vertex3D	scijava.roi.types.Point3D

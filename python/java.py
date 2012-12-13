@@ -63,6 +63,7 @@ class Base(object):
   /*
    * Constructors (static definitions)
    *
+
 """)
             for line in open(path, 'rt'):
                 fh.write('  ' + line)
@@ -77,6 +78,7 @@ class Base(object):
   /*
    * Members (static definitions)
    *
+
 """)
             for line in open(path, 'rt'):
                 fh.write('  ' + line)
@@ -91,6 +93,7 @@ class Base(object):
   /*
    * Methods (static definitions)
    *
+
 """)
             for line in open(path, 'rt'):
                 fh.write('  ' + line)
