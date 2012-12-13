@@ -1,4 +1,5 @@
 #Type	Canonical representation
+scijava.roi.shape.Point	scijava.roi.types.Vertex3D
 scijava.roi.shape.Points	scijava.roi.types.Points3D
 scijava.roi.shape.Line	scijava.roi.types.LinePoints3D
 scijava.roi.shape.Lines	scijava.roi.types.LinesPoints3D

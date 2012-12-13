@@ -50,21 +50,40 @@ packagetmpl = """package {0};
 importtmpl = """import {0};
 """
 
-class Enum(object):
-    def __init__(self, model, enum):
+class Base(object):
+    def __init__(self, model, typeinfo):
+        super(Base, self).__init__()
         self.model = model
-        self.enum = enum
+        self.typeinfo = typeinfo
+
+    def write_members(self, fh):
+        path = 'spec/java/' + self.typeinfo.name + '-members.java'
+        if os.path.exists(path):
+            fh.write("""
+  /*
+   * Members (static definitions)
+   *
+""")
+            for line in open(path, 'rt'):
+                fh.write('  ' + line)
+            fh.write('\n')
+        else:
+            print "No definitions in " + path
+
+class Enum(Base):
+    def __init__(self, model, enum):
+        super(Enum, self).__init__(model, enum)
 
     def write(self):
-        nspath = self.enum.namespacepath()
-        tn = self.enum.typename()
+        nspath = self.typeinfo.namespacepath()
+        tn = self.typeinfo.typename()
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
-        ef.write(packagetmpl.format(self.enum.namespace()))
+        ef.write(packagetmpl.format(self.typeinfo.namespace()))
         ef.write(importtmpl.format('java.util.EnumSet'))
         ef.write(importtmpl.format('java.util.Map'))
         ef.write(importtmpl.format('java.util.HashMap'))
@@ -76,10 +95,10 @@ class Enum(object):
 """
         implements = ''
 #        if len(type.inherits) > 0:
-#            implements = ' ' + ', '.join([x.name() for x in self.enum.inherits])
+#            implements = ' ' + ', '.join([x.name() for x in self.typeinfo.inherits])
         ef.write(header.format(tn, implements))
 
-        values = sorted(self.enum.values.values(), key=lambda val: val.number)
+        values = sorted(self.typeinfo.values.values(), key=lambda val: val.number)
         for val in values:
             if val.desc != '':
                 ef.write('  // ' + val.desc)
@@ -141,23 +160,22 @@ class Enum(object):
 
         return filename
 
-class Interface(object):
+class Interface(Base):
     def __init__(self, model, interface):
-        self.model = model
-        self.interface = interface
+        super(Interface, self).__init__(model, interface)
 
     def write(self):
-        nspath = self.interface.namespacepath()
-        tn = self.interface.typename()
+        nspath = self.typeinfo.namespacepath()
+        tn = self.typeinfo.typename()
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
-        ef.write(packagetmpl.format(self.interface.namespace()))
-        if len(self.interface.inherits) > 0:
-            for imp in self.interface.inherits:
+        ef.write(packagetmpl.format(self.typeinfo.namespace()))
+        if len(self.typeinfo.inherits) > 0:
+            for imp in self.typeinfo.inherits:
                 ef.write(importtmpl.format(imp.name))
             ef.write('\n')
 
@@ -165,8 +183,8 @@ class Interface(object):
 {{
 """
         implements = ''
-        if len(self.interface.inherits) > 0:
-            implements = ' implements ' + ', '.join([x.typename() for x in self.interface.inherits])
+        if len(self.typeinfo.inherits) > 0:
+            implements = ' implements ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
         ef.write(header.format(tn, implements))
 
         footer = """
@@ -179,23 +197,28 @@ class Interface(object):
 
         return filename
 
-class Class(object):
+
+class Class(Base):
     def __init__(self, model, klass):
-        self.model = model
-        self.klass = klass
+        super(Class, self).__init__(model, klass)
 
     def write(self):
-        nspath = self.klass.namespacepath()
-        tn = self.klass.typename()
+        nspath = self.typeinfo.namespacepath()
+        tn = self.typeinfo.typename()
+
+        shapetype = self.model.types['scijava.roi.shape.PhysicalShape']
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
-        ef.write(packagetmpl.format(self.klass.namespace()))
-        if len(self.klass.inherits) > 0:
-            for imp in self.klass.inherits:
+        ef.write(packagetmpl.format(self.typeinfo.namespace()))
+        imports = set(self.typeinfo.inherits)
+        if shapetype in self.typeinfo.inherits:
+            imports.add(self.typeinfo.rep_canonical)
+        if len(imports) > 0:
+            for imp in imports:
                 ef.write(importtmpl.format(imp.name))
             ef.write('\n')
 
@@ -203,9 +226,26 @@ class Class(object):
 {{
 """
         implements = ''
-        if len(self.klass.inherits) > 0:
-            implements = ' implements ' + ', '.join([x.typename() for x in self.klass.inherits])
+        if len(self.typeinfo.inherits) > 0:
+            implements = ' implements ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
         ef.write(header.format(tn, implements))
+
+        # Generate canonical representation
+        if shapetype in self.typeinfo.inherits:
+            ef.write("""  /*
+   * Members (shape definitions)
+   */
+
+  /// Canonical representation
+""")
+            ef.write('  ' + self.typeinfo.rep_canonical.typename() + ' rep_canonical;\n')
+            ef.write("""
+
+  /// Generic representation
+  Object rep_generic;
+""")
+
+        self.write_members(ef)
 
         footer = """
   // TODO: Add methods defined elsewhere.
@@ -250,24 +290,24 @@ class Java:
                 self.types.add(typedef)
 
             for enum in self.enums:
-                enum = Enum(self, enum)
+                enum = Enum(self.model, enum)
                 file = enum.write()
                 self.code.add(file)
 
             for interface in self.interfaces:
-                interface = Interface(self, interface)
+                interface = Interface(self.model, interface)
                 file = interface.write()
                 self.code.add(file)
 
             for klass in self.classes:
-                klass = Class(self, klass)
+                klass = Class(self.model, klass)
                 file = klass.write()
                 file = self.code.add(file)
 
             for typename in self.types:
                 # Only write out classes, not primitives or aliases for other types
                 if 'java' not in typename.types:
-                    klass = Class(self, typename)
+                    klass = Class(self.model, typename)
                     klass.write()
 
             self.dump_sphinx()

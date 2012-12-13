@@ -134,7 +134,13 @@ class Type(ConcreteTypeBase):
             found = 1
         return found
 
-    def check(self):
+    def check(self, model):
+        # Ensure canonical representation is set for each shape type
+        shape = model.types['scijava.roi.shape.PhysicalShape']
+        if shape in self.inherits:
+            if self.rep_canonical == None:
+                raise Exception('Shape ' + str(self.name) + ' has no canonical representation')
+
         return
 
     # def type(self):
@@ -150,7 +156,7 @@ class Enum(ConcreteTypeBase):
         super(Enum, self).__init__(primitive)
         self.values = dict()
 
-    def check(self):
+    def check(self, model):
 # TODO: Check for duplicate names (and values).
         return
 
@@ -162,7 +168,7 @@ class EnumValue:
         self.desc = description
         self.comment = ''
 
-    def check(self):
+    def check(self, model):
         return
 
 
@@ -172,7 +178,7 @@ class Compound(Type):
         self.templates = dict()
         self.members = dict()
 
-    def check(self):
+    def check(self, model):
 # TODO: Check for duplicate names (and members).
         return
 
@@ -184,7 +190,7 @@ class CompoundMember:
         self.desc = description
         self.comment = ''
 
-    def check(self):
+    def check(self, model):
         return
 
 class Interface(TypeBase):
@@ -192,7 +198,7 @@ class Interface(TypeBase):
         super(Interface, self).__init__(name)
         self.desc = desc
 
-    def check(self):
+    def check(self, model):
         return
 
 class ShapeBase(object):
@@ -213,7 +219,7 @@ class Shape(ShapeBase):
     def __init__(self, text):
         super(Shape, self).__init__(text)
 
-    def check(self):
+    def check(self, model):
         if (self.name not in ['Scale', 'Grid', 'Text']):
 
             if self.rep_canonical == None:
@@ -231,7 +237,7 @@ class DimConstraint(ShapeBase):
     def __init__(self, text):
         super(DimConstraint, self).__init__(text)
 
-    def check(self):
+    def check(self, model):
         return
 
 class Representation:
@@ -245,7 +251,7 @@ class Representation:
 
     # Consistency check.  Make sure that sequence numbers are correct,
     # with no missing numbers.
-    def check(self):
+    def check(self, model):
         print('Checking ' + self.name + ':' + self.dim)
         for member in self.members.values():
             member.check()
@@ -305,7 +311,7 @@ class RepresentationMember:
 
         self.seq = int(self.seq)
 
-    def check(self):
+    def check(self, model):
         return
 
 class Model:
@@ -602,4 +608,7 @@ class Model:
 #            representation.check()
 # TODO: Add other types
 # Validate that all enums and compounds have detailed form.
+
+        for t in self.types.values():
+            t.check(self)
         return

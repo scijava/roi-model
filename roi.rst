@@ -34,7 +34,15 @@ ROI Specification [DRAFT]
    linkage
    storage
    terms
-   java
+
+.. only:: html
+
+   Java code:
+
+   .. toctree::
+      :maxdepth: 2
+
+      java
 
 Indices and tables
 ==================

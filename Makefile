@@ -115,7 +115,7 @@ latexpdf: gen
 	@echo "Running LaTeX files through pdflatex..."
 
 	if [ ! -d _build/latex/gen ]; then mkdir _build/latex/gen; fi
-	cp gen/*.pdf _build/latex/gen
+#	cp gen/*.pdf _build/latex/gen
 	cd "$(BUILDDIR)/latex" && \
 	xelatex $(LATEXOPTS) 'roi.tex' && \
         xelatex $(LATEXOPTS) 'roi.tex' && \
