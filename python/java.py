@@ -61,7 +61,8 @@ class Enum(object):
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
-        ef = open('java/' + nspath + '/' + tn + '.java', 'w')
+        filename = 'java/' + nspath + '/' + tn + '.java'
+        ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.enum.namespace()))
         ef.write(importtmpl.format('java.util.EnumSet'))
@@ -138,6 +139,8 @@ class Enum(object):
         ef.write(footer.format(tn))
         ef.close()
 
+        return filename
+
 class Interface(object):
     def __init__(self, model, interface):
         self.model = model
@@ -149,7 +152,8 @@ class Interface(object):
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
-        ef = open('java/' + nspath + '/' + tn + '.java', 'w')
+        filename = 'java/' + nspath + '/' + tn + '.java'
+        ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.interface.namespace()))
         if len(self.interface.inherits) > 0:
@@ -173,6 +177,8 @@ class Interface(object):
         ef.write(footer.format(tn))
         ef.close()
 
+        return filename
+
 class Class(object):
     def __init__(self, model, klass):
         self.model = model
@@ -184,7 +190,8 @@ class Class(object):
 
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
-        ef = open('java/' + nspath + '/' + tn + '.java', 'w')
+        filename = 'java/' + nspath + '/' + tn + '.java'
+        ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.klass.namespace()))
         if len(self.klass.inherits) > 0:
@@ -208,6 +215,8 @@ class Class(object):
         ef.write(footer.format(tn))
         ef.close()
 
+        return filename
+
 class Java:
     def __init__(self, model):
         self.model = model
@@ -216,6 +225,7 @@ class Java:
         self.interfaces = set()
         self.types = set()
         self.imports = set()
+        self.code = set()
 
     def dump(self):
         print('Generating Java reference implementation')
@@ -241,13 +251,37 @@ class Java:
 
             for enum in self.enums:
                 enum = Enum(self, enum)
-                enum.write()
+                file = enum.write()
+                self.code.add(file)
 
             for interface in self.interfaces:
                 interface = Interface(self, interface)
-                interface.write()
+                file = interface.write()
+                self.code.add(file)
 
             for klass in self.classes:
                 klass = Class(self, klass)
-                klass.write()
+                file = klass.write()
+                file = self.code.add(file)
 
+            for typename in self.types:
+                # Only write out classes, not primitives or aliases for other types
+                if 'java' not in typename.types:
+                    klass = Class(self, typename)
+                    klass.write()
+
+            self.dump_sphinx()
+
+    def dump_sphinx(self):
+        sj = open('java.rst','w')
+
+        header = """Java code
+=========
+
+The following source files have been generated from the specification.
+
+"""
+        sj.write(header)
+
+        for file in sorted(self.code):
+            sj.write("- :download:`{0} <{0}>`\n".format(file))
