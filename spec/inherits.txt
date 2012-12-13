@@ -6,7 +6,7 @@ scijava.roi.ROI	scijava.roi.Serialisable
 scijava.roi.ROI	scijava.roi.Iterable
 
 scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable
-scijava.roi.shape.DimConstraint	scijava.roi.Serialisable
+scijava.roi.types.DimConstraint	scijava.roi.Serialisable
 
 scijava.roi.shape.Point	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Points	scijava.roi.shape.PhysicalShape
@@ -41,11 +41,11 @@ scijava.roi.shape.Bitwise	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Set	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Custom	scijava.roi.shape.PhysicalShape
 
-scijava.roi.dimconstraint.Value	scijava.roi.shape.DimConstraint
-scijava.roi.dimconstraint.Values	scijava.roi.shape.DimConstraint
-scijava.roi.dimconstraint.Range	scijava.roi.shape.DimConstraint
-scijava.roi.dimconstraint.Extrude	scijava.roi.shape.DimConstraint
-scijava.roi.dimconstraint.Set	scijava.roi.shape.DimConstraint
+scijava.roi.dimconstraint.Value	scijava.roi.types.DimConstraint
+scijava.roi.dimconstraint.Values	scijava.roi.types.DimConstraint
+scijava.roi.dimconstraint.Range	scijava.roi.types.DimConstraint
+scijava.roi.dimconstraint.Extrude	scijava.roi.types.DimConstraint
+scijava.roi.dimconstraint.Set	scijava.roi.types.DimConstraint
 
 scijava.roi.types.ROI	scijava.roi.ROI
 

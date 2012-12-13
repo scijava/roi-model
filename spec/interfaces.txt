@@ -14,4 +14,4 @@ scijava.roi.ROISet	Set of ROIs
 
 
 scijava.roi.shape.PhysicalShape	Abstract shape
-scijava.roi.shape.DimConstraint	Abstract shape dimensional constraints
+scijava.roi.types.DimConstraint	Abstract dimensional constraints

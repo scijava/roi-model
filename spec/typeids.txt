@@ -339,7 +339,7 @@
 # It is illegal to have a common dimension between the two shapes.
 3011	scijava.roi.dimconstraint.Set
 
-3020	scijava.roi.types.DimConstraint
+#3020	scijava.roi.types.DimConstraint
 3021	scijava.roi.types.DimConstraintSet
 
 

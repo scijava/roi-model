@@ -62,7 +62,7 @@ class Base(object):
             fh.write("""
   /*
    * Constructors (static definitions)
-   *
+   */
 
 """)
             for line in open(path, 'rt'):
@@ -92,7 +92,7 @@ class Base(object):
             fh.write("""
   /*
    * Methods (static definitions)
-   *
+   */
 
 """)
             for line in open(path, 'rt'):
@@ -112,6 +112,7 @@ class Enum(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
+        print 'Generating java code for ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -205,6 +206,7 @@ class Interface(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
+        print 'Generating java code for ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -218,7 +220,10 @@ class Interface(Base):
 """
         implements = ''
         if len(self.typeinfo.inherits) > 0:
-            implements = ' implements ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
+            if isinstance(self.typeinfo, model.Interface):
+                implements = ' extends ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
+            else:
+                implements = ' implements ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
         ef.write(header.format(tn, implements))
 
         self.write_methods(ef)
@@ -247,6 +252,7 @@ class Class(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
+        print 'Generating java code for ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -327,28 +333,28 @@ class Java:
             else:
                 self.types.add(typedef)
 
-            for enum in self.enums:
-                enum = Enum(self.model, enum)
-                file = enum.write()
-                self.code.add(file)
+        for enum in self.enums:
+            enum = Enum(self.model, enum)
+            file = enum.write()
+            self.code.add(file)
 
-            for interface in self.interfaces:
-                interface = Interface(self.model, interface)
-                file = interface.write()
-                self.code.add(file)
+        for interface in self.interfaces:
+            interface = Interface(self.model, interface)
+            file = interface.write()
+            self.code.add(file)
 
-            for klass in self.classes:
-                klass = Class(self.model, klass)
-                file = klass.write()
-                file = self.code.add(file)
+        for klass in self.classes:
+            klass = Class(self.model, klass)
+            file = klass.write()
+            file = self.code.add(file)
 
-            for typename in self.types:
-                # Only write out classes, not primitives or aliases for other types
-                if 'java' not in typename.types:
-                    klass = Class(self.model, typename)
-                    klass.write()
+        for typename in self.types:
+            # Only write out classes, not primitives or aliases for other types
+            if 'java' not in typename.types:
+                klass = Class(self.model, typename)
+                klass.write()
 
-            self.dump_sphinx()
+        self.dump_sphinx()
 
     def dump_sphinx(self):
         sj = open('java.rst','w')

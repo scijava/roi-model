@@ -299,6 +299,6 @@ scijava.roi.types.Property	1	VALUE	Representation	Property value (includes type 
 scijava.roi.types.Properties	0	PROPS	scijava.roi.types.Set<scijava.roi.types.Property>	Set of properties
 
 # Placeholder.
-scijava.roi.types.DimConstraint	0	INVALID	Invalid	Placeholder for type
+#scijava.roi.types.DimConstraint	0	INVALID	Invalid	Placeholder for type
 
 scijava.roi.types.DimConstraintSet	0	CONSTRAINTS	scijava.roi.types.Set<scijava.roi.types.DimConstraintSet>	Set of dimensional constraints

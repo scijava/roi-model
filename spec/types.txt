@@ -222,7 +222,6 @@ scijava.roi.types.ROI	A region of interest (top-level container of physical shap
 scijava.roi.types.ROISet	A set of ROIs
 scijava.roi.types.Labelling	A labelling (collection of bitmasks)
 
-scijava.roi.types.DimConstraint	A dimensional constraint
 scijava.roi.types.DimConstraintSet	A set of dimensional constraints
 
 scijava.roi.types.Custom	Custom (user-definable) representation
