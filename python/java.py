@@ -56,12 +56,40 @@ class Base(object):
         self.model = model
         self.typeinfo = typeinfo
 
+    def write_constructors(self, fh):
+        path = 'spec/java/' + self.typeinfo.name + '-constructors.java'
+        if os.path.exists(path):
+            fh.write("""
+  /*
+   * Constructors (static definitions)
+   *
+""")
+            for line in open(path, 'rt'):
+                fh.write('  ' + line)
+            fh.write('\n')
+        else:
+            print "No definitions in " + path
+
     def write_members(self, fh):
         path = 'spec/java/' + self.typeinfo.name + '-members.java'
         if os.path.exists(path):
             fh.write("""
   /*
    * Members (static definitions)
+   *
+""")
+            for line in open(path, 'rt'):
+                fh.write('  ' + line)
+            fh.write('\n')
+        else:
+            print "No definitions in " + path
+
+    def write_methods(self, fh):
+        path = 'spec/java/' + self.typeinfo.name + '-methods.java'
+        if os.path.exists(path):
+            fh.write("""
+  /*
+   * Methods (static definitions)
    *
 """)
             for line in open(path, 'rt'):
@@ -110,6 +138,9 @@ class Enum(Base):
                 ef.write(';\n')
             else:
                 ef.write(',\n')
+
+        self.write_members(ef)
+        self.write_methods(ef)
 
         footer = """
   public static {0} get(String str)
@@ -187,6 +218,8 @@ class Interface(Base):
             implements = ' implements ' + ', '.join([x.typename() for x in self.typeinfo.inherits])
         ef.write(header.format(tn, implements))
 
+        self.write_methods(ef)
+
         footer = """
   // TODO: Add methods defined elsewhere.
 
@@ -246,6 +279,8 @@ class Class(Base):
 """)
 
         self.write_members(ef)
+        self.write_constructors(ef)
+        self.write_methods(ef)
 
         footer = """
   // TODO: Add methods defined elsewhere.
