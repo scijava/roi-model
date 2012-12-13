@@ -1,17 +1,12 @@
 #Type	Inherits
 
-scijava.roi.RealRandomAccessible	scijava.roi.RandomAccessible
-
 scijava.roi.ROISet	scijava.roi.Serialisable
 
 scijava.roi.ROI	scijava.roi.Serialisable
 scijava.roi.ROI	scijava.roi.Iterable
-scijava.roi.ROI	scijava.roi.RealRandomAccessible
 
 scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable
-scijava.roi.shape.PhysicalShape	scijava.roi.RealRandomAccessible
 scijava.roi.shape.DimConstraint	scijava.roi.Serialisable
-scijava.roi.shape.DimConstraint	scijava.roi.RandomAccessible
 
 scijava.roi.shape.Point	scijava.roi.shape.PhysicalShape
 scijava.roi.shape.Points	scijava.roi.shape.PhysicalShape
