@@ -56,6 +56,30 @@ class Base(object):
         self.model = model
         self.typeinfo = typeinfo
 
+    def write_imports(self, imports, fh):
+        paths = set()
+        paths.add('spec/java/' + self.typeinfo.name + '-imports.java')
+        for inherited in self.typeinfo.inherited():
+            if isinstance(inherited, model.Interface):
+                paths.add('spec/java/' + inherited.name + '-imports.java')
+
+        for path in paths:
+            if os.path.exists(path):
+                for line in open(path, 'rt'):
+                    line = line.rstrip('\n')
+                    imports.add(line)
+                else:
+                    print "No definitions in " + path
+
+        if len(imports) > 0:
+            for imp in sorted(imports):
+                if isinstance(imp, model.TypeBase):
+                    if imp.typename() == self.typeinfo.typename():
+                        continue
+                    imp = imp.name
+                fh.write(importtmpl.format(imp));
+            fh.write('\n')
+
     def write_constructors(self, fh):
         path = 'spec/java/' + self.typeinfo.name + '-constructors.java'
         if os.path.exists(path):
@@ -77,7 +101,7 @@ class Base(object):
             fh.write("""
   /*
    * Members (static definitions)
-   *
+   */
 
 """)
             for line in open(path, 'rt'):
@@ -116,11 +140,12 @@ class Enum(Base):
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
-        ef.write(importtmpl.format('java.util.EnumSet'))
-        ef.write(importtmpl.format('java.util.Map'))
-        ef.write(importtmpl.format('java.util.HashMap'))
-        ef.write('\n')
 
+        imports = set()
+        imports.add('java.util.EnumSet')
+        imports.add('java.util.Map')
+        imports.add('java.util.HashMap')
+        self.write_imports(imports, ef)
 
         header = """public enum {0}{1}
 {{
@@ -210,10 +235,11 @@ class Interface(Base):
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
-        if len(self.typeinfo.inherits) > 0:
-            for imp in self.typeinfo.inherits:
-                ef.write(importtmpl.format(imp.name))
-            ef.write('\n')
+
+        imports = set()
+        for imp in self.typeinfo.inherits:
+            imports.add(imp.name)
+        self.write_imports(imports, ef)
 
         header = """public interface {0}{1}
 {{
@@ -259,10 +285,7 @@ class Class(Base):
         imports = set(self.typeinfo.inherits)
         if shapetype in self.typeinfo.inherits:
             imports.add(self.typeinfo.rep_canonical)
-        if len(imports) > 0:
-            for imp in imports:
-                ef.write(importtmpl.format(imp.name))
-            ef.write('\n')
+        self.write_imports(imports, ef)
 
         header = """public class {0}{1}
 {{
@@ -280,9 +303,11 @@ class Class(Base):
 
   /// Canonical representation
 """)
-            ef.write('  ' + self.typeinfo.rep_canonical.typename() + ' rep_canonical;\n')
+            if self.typeinfo.typename() == self.typeinfo.rep_canonical.typename():
+                ef.write('  ' + self.typeinfo.rep_canonical.name + ' rep_canonical;\n')
+            else:
+                ef.write('  ' + self.typeinfo.rep_canonical.typename() + ' rep_canonical;\n')
             ef.write("""
-
   /// Generic representation
   Object rep_generic;
 """)
@@ -317,8 +342,6 @@ class Java:
             os.makedirs("java")
 
         for typename in self.model.types:
-            print 'Generating java code for ' + typename
-
             typedef = self.model.types[typename]
 
             if isinstance(typedef, model.Enum):

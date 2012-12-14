@@ -1,2 +1,2 @@
 /// 2D vertex
-public double[2] vertex;
+public double[] vertex = new double[2];
