@@ -7,12 +7,18 @@ import re
 
 # Basic type.  This is just a name.
 class TypeBase(object):
-    def __init__(self, name):
+    def __init__(self, primitive):
         super(TypeBase, self).__init__()
-        self.comment = ''
-        self.name = name
-        self.desc = ''
-        self.inherits = list()
+        if isinstance(primitive, TypeBase):
+            self.comment = primitive.comment
+            self.name = primitive.name
+            self.desc = primitive.desc
+            self.inherits = list(primitive.inherits)
+        else:
+            self.comment = ''
+            self.name = primitive
+            self.desc = ''
+            self.inherits = list()
 
     def typename(self):
         parts = self.name.rsplit('.', 1)
@@ -44,25 +50,27 @@ class TypeBase(object):
 # Basic concrete type.  This is just a name and type identifier
 # (i.e. it's used for serialiation)
 class ConcreteTypeBase(TypeBase):
-    def __init__(self, name):
-        if isinstance(name, TypeBase):
-            super(ConcreteTypeBase, self).__init__(name.name)
-            if isinstance(name, ConcreteTypeBase):
-                self.typeid = name.typeid
-            else:
-                self.typeid = -1
+    def __init__(self, primitive):
+        super(ConcreteTypeBase, self).__init__(primitive)
+        if isinstance(primitive, ConcreteTypeBase):
+            self.typeid = primitive.typeid
         else:
-            super(ConcreteTypeBase, self).__init__(name)
             self.typeid = -1
 
 # Primitive type.
 class Type(ConcreteTypeBase):
     def __init__(self, primitive):
         super(Type, self).__init__(primitive)
-        self.types = dict()
-        self.rep_in = set()
-        self.rep_out = set()
-        self.rep_canonical = None
+        if isinstance(primitive, Type):
+            self.types = dict(primitive.types)
+            self.rep_in = set(primitive.rep_in)
+            self.rep_out = set(primitive.rep_out)
+            self.rep_canonical = primitive.rep_canonical
+        else:
+            self.types = dict()
+            self.rep_in = set()
+            self.rep_out = set()
+            self.rep_canonical = None
 
     def reps(self):
         used = set()

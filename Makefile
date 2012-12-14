@@ -176,7 +176,7 @@ JAVASOURCES = $(shell find java -name '*.java')
 JAVACLASSES = $(addsuffix .class,$(basename $(JAVASOURCES)))
 
 %.class: %.java
-	CLASSPATH= javac -classpath java $<
+	CLASSPATH= javac -classpath java -Xlint $<
 
 java: $(JAVACLASSES)
 

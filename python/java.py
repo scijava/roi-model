@@ -136,7 +136,7 @@ class Enum(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
-        print 'Generating java code for ' + self.typeinfo.name
+        print 'Generating java code for enum ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -172,6 +172,12 @@ class Enum(Base):
         self.write_methods(ef)
 
         footer = """
+  private {0}(String str, int value)
+  {{
+    this.str = str;
+    this.value = value;
+  }}
+
   public static {0} get(String str)
   {{
       {0} ret = strLookup.get(str);
@@ -188,22 +194,17 @@ class Enum(Base):
       return ret;
   }}
 
+  @Override
   public String toString()
   {{
     return str;
   }}
 
-  private {0}(String str, int value)
-  {{
-    this.str = str;
-    this.value = value;
-  }}
+  private String str;
+  private int value;
 
-  private final String str;
-  private final int value;
-
-  private static final Map<String,{0}> strLookup = new HashMap<String,{0}>();
-  private static final Map<Integer,{0}> intLookup = new HashMap<Integer,{0}>();
+  private static Map<String,{0}> strLookup = new HashMap<String,{0}>();
+  private static Map<Integer,{0}> intLookup = new HashMap<Integer,{0}>();
 
   static
   {{
@@ -231,7 +232,7 @@ class Interface(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
-        print 'Generating java code for ' + self.typeinfo.name
+        print 'Generating java code for interface ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -278,7 +279,7 @@ class Class(Base):
         if not os.path.exists('java/' + nspath):
             os.makedirs('java/' + nspath)
         filename = 'java/' + nspath + '/' + tn + '.java'
-        print 'Generating java code for ' + self.typeinfo.name
+        print 'Generating java code for class ' + self.typeinfo.name
         ef = open(filename, 'w')
         ef.write(headertmpl.format(getpass.getuser(), datetime.datetime.now()))
         ef.write(packagetmpl.format(self.typeinfo.namespace()))
@@ -367,15 +368,23 @@ class Java:
             self.code.add(file)
 
         for klass in self.classes:
-            klass = Class(self.model, klass)
-            file = klass.write()
-            file = self.code.add(file)
+            print "CLASS: " + klass.name + "  TYPES: " + ','.join(klass.types.keys())
+
+            if 'java' not in klass.types:
+                klass = Class(self.model, klass)
+                file = klass.write()
+                file = self.code.add(file)
+            else:
+                print "Type " + klass.name + " is native"
 
         for typename in self.types:
             # Only write out classes, not primitives or aliases for other types
             if 'java' not in typename.types:
                 klass = Class(self.model, typename)
-                klass.write()
+                file = klass.write()
+                file = self.code.add(file)
+            else:
+                print "Type " + typename.name + " is native"
 
         self.dump_sphinx()
 

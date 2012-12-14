@@ -254,18 +254,18 @@ scijava.roi.types.RotateTransform2D	0	RA	double[1]	Rotation angle in z
 scijava.roi.types.RotateTransform2D	1	SHAPE	Shape	Shape
 scijava.roi.types.RotateTransform3D	0	RA	double[3]	Rotation angle in x,y,z
 scijava.roi.types.RotateTransform3D	1	SHAPE	Shape	Shape
-scijava.roi.types.AbstractTransform1D	0	NAME	String	Name of transformation
-scijava.roi.types.AbstractTransform1D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform1D	0	NAME	scijava.roi.types.String	Name of transformation
+scijava.roi.types.AbstractTransform1D	1	ARGS	scijava.roi.types.String	Arguments
 scijava.roi.types.AbstractTransform1D	2	SHAPE	Shape	Shape
-scijava.roi.types.AbstractTransform2D	0	NAME	String	Name of transformation
-scijava.roi.types.AbstractTransform2D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform2D	0	NAME	scijava.roi.types.String	Name of transformation
+scijava.roi.types.AbstractTransform2D	1	ARGS	scijava.roi.types.String	Arguments
 scijava.roi.types.AbstractTransform2D	2	SHAPE	Shape	Shape
-scijava.roi.types.AbstractTransform3D	0	NAME	String	Name of transformation
-scijava.roi.types.AbstractTransform3D	1	ARGS	String	Arguments
+scijava.roi.types.AbstractTransform3D	0	NAME	scijava.roi.types.String	Name of transformation
+scijava.roi.types.AbstractTransform3D	1	ARGS	scijava.roi.types.Array<scijava.roi.types.String>	Arguments
 scijava.roi.types.AbstractTransform3D	2	SHAPE	Shape	Shape
 scijava.roi.types.Text	0	B1	Rectangle2	Text bounds
 # Or, should the text be specified externally, e.g. as ROI label text?
-scijava.roi.types.Text	1	TEXT	String	Text
+scijava.roi.types.Text	1	TEXT	scijava.roi.types.String	Text
 scijava.roi.types.ValuesnD	0	D1	Index	Dimension
 scijava.roi.types.ValuesnD	1	V1	scijava.roi.types.Array<Index>	Values within dimension
 scijava.roi.types.Range1nD	0	D1	Index	Dimension
@@ -288,13 +288,13 @@ scijava.roi.types.Bitwise2D	2	M2	BitMask2D	Mask 2
 scijava.roi.types.Bitwise3D	0	O1	BLogic	Bitwise logic operator
 scijava.roi.types.Bitwise3D	1	M1	BitMask3D	Mask 1
 scijava.roi.types.Bitwise3D	2	M2	BitMask3D	Mask 2
-scijava.roi.types.Custom	0	TYPE	String	Name of the custom type
+scijava.roi.types.Custom	0	TYPE	scijava.roi.types.String	Name of the custom type
 scijava.roi.types.Custom	1	MEASUREMENTS	Set	Set of shapes describing how the ROI was measured
 scijava.roi.types.Custom	2	RESULTS	Set	Set of shapes for describing measurement results
 scijava.roi.types.Custom	3	EDIT	Set	Set of shapes describing how to edit the ROI
 scijava.roi.types.Custom	4	VISUAL	Set	Set of shapes describing how to visualise (render) the ROI for visualisation
 
-scijava.roi.types.Property	0	KEY	String	Property name
+scijava.roi.types.Property	0	KEY	scijava.roi.types.String	Property name
 scijava.roi.types.Property	1	VALUE	Representation	Property value (includes type information)
 scijava.roi.types.Properties	0	PROPS	scijava.roi.types.Set<scijava.roi.types.Property>	Set of properties
 
