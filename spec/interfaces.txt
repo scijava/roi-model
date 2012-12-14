@@ -8,9 +8,9 @@ scijava.roi.measurement.Volume	Get volume and surface area of object
 
 scijava.roi.Iterable	An iterable region
 
-scijava.roi.ROI	Region of interest
+scijava.roi.RegionOfInterest	Region of interest
 
-scijava.roi.ROISet	Set of ROIs
+scijava.roi.RegionOfInterestSet	Set of ROIs
 
 
 scijava.roi.shape.PhysicalShape	Abstract shape

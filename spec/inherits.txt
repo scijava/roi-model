@@ -1,9 +1,9 @@
 #Type	Inherits
 
-scijava.roi.ROISet	scijava.roi.Serialisable
+scijava.roi.RegionOfInterestSet	scijava.roi.Serialisable
 
-scijava.roi.ROI	scijava.roi.Serialisable
-scijava.roi.ROI	scijava.roi.Iterable
+scijava.roi.RegionOfInterest	scijava.roi.Serialisable
+scijava.roi.RegionOfInterest	scijava.roi.Iterable
 
 scijava.roi.shape.PhysicalShape	scijava.roi.Serialisable
 scijava.roi.types.DimConstraint	scijava.roi.Serialisable
@@ -47,7 +47,7 @@ scijava.roi.dimconstraint.Range	scijava.roi.types.DimConstraint
 scijava.roi.dimconstraint.Extrude	scijava.roi.types.DimConstraint
 scijava.roi.dimconstraint.Set	scijava.roi.types.DimConstraint
 
-scijava.roi.types.ROI	scijava.roi.ROI
+scijava.roi.types.ROI	scijava.roi.RegionOfInterest
 
-scijava.roi.types.ROISet	scijava.roi.ROISet
-scijava.roi.types.Labelling	scijava.roi.ROISet
+scijava.roi.types.ROISet	scijava.roi.RegionOfInterestSet
+scijava.roi.types.Labelling	scijava.roi.RegionOfInterestSet
