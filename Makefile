@@ -45,6 +45,14 @@ gen: genstamp
 genstamp:
 	./genspec
 
+	@for file in spec/java-static/*.java; do \
+	  echo $$file; \
+	  dest=$$(basename "$$file" | sed -e 's;\.;/;g' -e 's;/java$$;.java;'); \
+	  echo $$dest ; \
+	  cp -v "$$file" "java/$$dest"; \
+	done
+
+
 clean:
 	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar
 
