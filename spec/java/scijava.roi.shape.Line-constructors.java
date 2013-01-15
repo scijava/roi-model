@@ -1,6 +1,8 @@
 public Line()
 {
-    this.rep_canonical = null;
+    Vertex3D v = new Vertex3D(0,0,0);
+    Vertex3D list[] = {v, v};
+    this.rep_canonical = new LinePoints3D(list);
     this.rep_generic = null;
 }
 

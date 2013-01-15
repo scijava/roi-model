@@ -16,3 +16,8 @@ public final LinePoints3D getPoints()
 {
     return this.rep_canonical;
 }
+
+public String toString()
+{
+    return "(" + this.rep_canonical.points[0] + ',' + this.rep_canonical.points[1] + ")";
+}

@@ -46,7 +46,7 @@ genstamp:
 	./genspec
 
 clean:
-	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst java c++ *.jar
+	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar
 
 fullhtml: gen latexpdf html
 html: gen
