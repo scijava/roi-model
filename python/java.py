@@ -50,6 +50,9 @@ packagetmpl = """package {0};
 importtmpl = """import {0};
 """
 
+membertmpl = """  {0} {1};
+"""
+
 class Base(object):
     def __init__(self, model, typeinfo):
         super(Base, self).__init__()
@@ -96,6 +99,16 @@ class Base(object):
             print "No definitions in " + path
 
     def write_members(self, fh):
+        if isinstance(self, model.Compound):
+            if len(self.members) > 0:
+                fh.write("""
+  /*
+   * Members (model definitions)
+   */
+
+""")
+
+
         path = 'spec/java/' + self.typeinfo.name + '-members.java'
         if os.path.exists(path):
             fh.write("""
@@ -333,7 +346,7 @@ class Java:
         self.enums = set()
         self.classes = set()
         self.interfaces = set()
-        self.types = set()
+        self.types = dict()
         self.imports = set()
         self.code = set()
 
@@ -352,10 +365,19 @@ class Java:
                 self.interfaces.add(typedef)
                 self.imports.add(typedef)
             elif isinstance(typedef, model.Compound):
-                self.classes.add(typedef)
-                self.imports.add(typedef)
+                if 'java' not in typedef.types:
+                    self.classes.add(typedef)
+                    self.imports.add(typedef)
+                else:
+                    print "Type " + typedef.name + " is native"
+                    self.types[typedef.name] = typedef.types['java']
             else:
-                self.types.add(typedef)
+                if 'java' not in typedef.types:
+                    self.classes.add(typedef)
+                    self.imports.add(typedef)
+                else:
+                    print "Type " + typedef.name + " is native"
+                    self.types[typedef.name] = typedef.types['java']
 
         for enum in self.enums:
             enum = Enum(self.model, enum)
@@ -368,23 +390,9 @@ class Java:
             self.code.add(file)
 
         for klass in self.classes:
-            print "CLASS: " + klass.name + "  TYPES: " + ','.join(klass.types.keys())
-
-            if 'java' not in klass.types:
-                klass = Class(self.model, klass)
-                file = klass.write()
-                file = self.code.add(file)
-            else:
-                print "Type " + klass.name + " is native"
-
-        for typename in self.types:
-            # Only write out classes, not primitives or aliases for other types
-            if 'java' not in typename.types:
-                klass = Class(self.model, typename)
-                file = klass.write()
-                file = self.code.add(file)
-            else:
-                print "Type " + typename.name + " is native"
+            klass = Class(self.model, klass)
+            file = klass.write()
+            file = self.code.add(file)
 
         self.dump_sphinx()
 

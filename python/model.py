@@ -179,12 +179,14 @@ class EnumValue:
     def check(self, model):
         return
 
-
 class Compound(Type):
     def __init__(self, primitive):
         super(Compound, self).__init__(primitive)
         self.templates = dict()
         self.members = dict()
+
+        if hasattr(primitive, 'templates'):
+            self.templates = dict(primitive.templates)
 
     def check(self, model):
 # TODO: Check for duplicate names (and members).
@@ -202,9 +204,12 @@ class CompoundMember:
         return
 
 class Interface(TypeBase):
-    def __init__(self, name, desc):
-        super(Interface, self).__init__(name)
-        self.desc = desc
+    def __init__(self, primitive):
+        super(Interface, self).__init__(primitive)
+        self.templates = dict()
+
+        if hasattr(primitive, 'templates'):
+            self.templates = dict(primitive.templates)
 
     def check(self, model):
         return
@@ -512,6 +517,8 @@ class Model:
             if primitive in type_names:
                 if isinstance(type_names[primitive], Compound):
                     compound = type_names[primitive]
+                elif hasattr(type_names[primitive], 'templates'):
+                    compound = type_names[primitive]
                 else:
                     compound = Compound(type_names[primitive])
                     type_names[primitive] = compound
@@ -520,6 +527,9 @@ class Model:
 
             try:
                 seqno = int(seqno)
+
+                if not isinstance(compound, Compound):
+                    raise Exception("Not a compound " + compound.name)
 
                 mb = CompoundMember(seqno, typename, name, desc)
                 if (len(comment) > 0):
@@ -560,7 +570,8 @@ class Model:
             print(line)
             name, desc = line.split('\t')
 
-            interface = Interface(name, desc)
+            interface = Interface(name)
+            interface.desc = desc
 
             if (len(comment) > 0):
                 interface.comment = comment

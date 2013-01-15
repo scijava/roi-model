@@ -1,0 +1,32 @@
+#Primitive	RawType
+scijava.roi.types.TypeID	uint16_t
+
+scijava.roi.types.UInt8	uint8_t
+scijava.roi.types.UInt16	uint16_t
+scijava.roi.types.UInt32	uint32_t
+scijava.roi.types.UInt64	uint64_t
+
+scijava.roi.types.Int8	int8_t
+scijava.roi.types.Int16	int16_t
+scijava.roi.types.Int32	int32_t
+scijava.roi.types.Int64	int64_t
+
+scijava.roi.types.Count	uint32_t
+scijava.roi.types.Index	uint32_t
+
+scijava.roi.types.Value	double
+scijava.roi.types.Operator	enum
+scijava.roi.types.BLogic	enum
+scijava.roi.types.Color	double[4]
+scijava.roi.types.Vertex1D	double[1]
+scijava.roi.types.Vertex2D	double[2]
+scijava.roi.types.Vertex3D	double[3]
+scijava.roi.types.VertexnD	TODO
+scijava.roi.types.Vector1D	double[1]
+scijava.roi.types.Vector2D	double[2]
+scijava.roi.types.Vector3D	double[3]
+scijava.roi.types.VectornD	TODO
+scijava.roi.types.AffineTransform1D	double[4]
+scijava.roi.types.AffineTransform2D	double[9]
+scijava.roi.types.AffineTransform3D	double[16]
+scijava.roi.types.AffineTransformnD	TODO
