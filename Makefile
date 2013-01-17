@@ -14,7 +14,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html fullhtml dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext gen java jar
+.PHONY: help clean html fullhtml dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext gen java jar test
 
 default: html
 
@@ -54,7 +54,7 @@ genstamp:
 
 
 clean:
-	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar
+	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar *.tar.xz
 
 fullhtml: gen latexpdf jar html
 html: gen
@@ -190,8 +190,17 @@ JAVACLASSES = $(addsuffix .class,$(basename $(JAVASOURCES)))
 java: gen
 	@$(MAKE) $(JAVACLASSES)
 
+java-tar: scijava-roi-src.tar.xz
+
 jar: scijava-roi.jar
+
+scijava-roi-src.tar.xz: gen
+	@echo TAR $@
+	@tar cf - -C java $$(cd java && find . -name '*.java') | xz -9 > "$@"
 
 scijava-roi.jar: java
 	@echo JAR $@
 	@jar cf $@ $$(cd java && find . -name '*.class' | sed -e 's;^;-C java ;')
+
+test:
+	$(MAKE) -C test test
