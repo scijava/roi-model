@@ -1,3 +1,6 @@
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.IOException;
 import java.lang.IllegalArgumentException;
 import scijava.roi.shape.Line;
 import scijava.roi.types.Vertex3D;
@@ -67,5 +70,30 @@ class testline
             {
                 System.out.println("L5: Construction failed (expected): " + e);
             }
+
+        // Output a ROI in Icy XML format.
+        {
+            Vertex3D p1 = new Vertex3D(4.5653,7.6969,0);
+            Vertex3D p2 = new Vertex3D(0.9834,9.7242,4);
+            Line l6 = new Line(p1, p2);
+            LinePoints3D pts = l6.getPoints();
+
+            FileOutputStream fout;
+            try
+		{
+                    fout = new FileOutputStream("roi.xml");
+                    new PrintStream(fout).printf("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<root>\n<roi>\n<classname>icy.roi.ROI2DRectangle</classname>\n<id>1</id>\n<name>Rectangle2D</name>\n<color>-7703041</color>\n<selected_color>-3014684</selected_color>\n<stroke>2</stroke>\n<selected>true</selected>\n<z>-1</z>\n<t>-1</t>\n<c>-1</c>\n<top_left>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</top_left>\n<bottom_right>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</bottom_right>\n</roi>\n</root>\n",
+                              pts.points[0].vertex[0],
+                              pts.points[0].vertex[1],
+                              pts.points[1].vertex[0],
+                              pts.points[1].vertex[1]);
+                    fout.close();
+                }
+            catch (IOException e)
+                {
+                    System.err.println ("Unable to write Icy roi.xml");
+                }
+        }
+
     }
 }
