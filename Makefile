@@ -56,7 +56,7 @@ genstamp:
 clean:
 	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar *.tar.xz
 
-fullhtml: gen latexpdf jar html
+fullhtml: gen latexpdf jar java-tar html
 html: gen
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
