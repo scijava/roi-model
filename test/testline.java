@@ -92,7 +92,7 @@ class testline
             {
                 FileOutputStream ficy;
                 ficy = new FileOutputStream(filename + ".xml");
-                new PrintStream(ficy).printf("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<root>\n<roi>\n<classname>icy.roi.ROI2DRectangle</classname>\n<id>1</id>\n<name>Rectangle2D</name>\n<color>-7703041</color>\n<selected_color>-3014684</selected_color>\n<stroke>2</stroke>\n<selected>true</selected>\n<z>-1</z>\n<t>-1</t>\n<c>-1</c>\n<top_left>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</top_left>\n<bottom_right>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</bottom_right>\n</roi>\n</root>\n",
+                new PrintStream(ficy).printf("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<root>\n<roi>\n<classname>icy.roi.ROI2DLine</classname>\n<id>1</id>\n<name>Line2D</name>\n<color>-7703041</color>\n<selected_color>-3014684</selected_color>\n<stroke>2</stroke>\n<selected>true</selected>\n<z>-1</z>\n<t>-1</t>\n<c>-1</c>\n<pt1>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</pt1>\n<pt2>\n<color>-3014684</color>\n<selected_color>-1</selected_color>\n<pos_x>%s</pos_x>\n<pos_y>%s</pos_y>\n<ray>6</ray>\n<visible>true</visible>\n</pt2>\n</roi>\n</root>\n",
                     pts.points[0].vertex[0],
                     pts.points[0].vertex[1],
                     pts.points[1].vertex[0],
@@ -148,7 +148,7 @@ class testline
                 putFloat(data, 26, (float)x2); // X2
                 putFloat(data, 30, (float)y2); // Y2
 
-                putShort(data, 34, 4); // LINEWID
+                putShort(data, 34, 2); // LINEWID
                 putInt(data, 40, 0xff0000ff); // LINECOL
                 putInt(data, 44, 0); // FILLCOL
 
