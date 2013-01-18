@@ -13,7 +13,7 @@ The following are the requirements collected from meetings, online and
 offline discussion, email etc.
 
 - Notes from the April 2012 meeting in Barcelona (:download:`PDF <reference/2012.04.29-rois.txt.pdf>`)
-- Comments on "fuzzy Rois" from April 2012 meeting in Barcelona (:download:`PDF <reference/2012.04.29-roi-ideas.pdf>`)
+- Comments on "fuzzy ROIs" from the April 2012 meeting in Barcelona (:download:`PDF <reference/2012.04.29-roi-ideas.pdf>`)
 
 Specification
 -------------
