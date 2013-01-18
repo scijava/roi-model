@@ -20,6 +20,8 @@ Specification
 - :ref:`HTML <model_toplevel>`
 - :download:`PDF <_build/latex/roi.pdf>`
 - :download:`Compiled Java sources (JAR) <scijava-roi.jar>`
+- :download:`Generated Java sources (ZIP) <scijava-roi-src.zip>`
+- :download:`Generated Java sources (TAR) <scijava-roi-src.tar.xz>`
 - `git <https://github.com/scijava/roi-model>`_
 
 .. toctree::
