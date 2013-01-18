@@ -1,5 +1,5 @@
 Property	Type	Description
-DIMORDER	Index[]	Dimension order
+DIMORDER	scijava.roi.types.Array<Index>	Dimension order
 TRANSFORM	Affine3D	Affine transformation
 BOUNDS	RAlignedCuboid1	Bounding cuboid
 LINECOL	Colour	Line (and surface) colour
@@ -14,6 +14,6 @@ LINESTYLE	enum	Line style (alternating fill/clear pattern) (could be impemented 
 LINESTARTMARKER	enum	Line end marker (arrowhead, etc.) (could be implemented internally in the form of a Shape)
 LINEENDMARKER	enum	Line end marker (arrowhead, etc.) (could be implemented internally in the form of a Shape)
 MARKERSIZE	double	Size of points and line start/end markers; scales marker
-TEXTFONT	String	Font description (format?  freetype-style fontdesc?)
+TEXTFONT	scijava.roi.types.String	Font description (format?  freetype-style fontdesc?)
 TEXTPLACEMENT	double[2]	Text placement in bounding box (-1,+1) for x and y limits, (0,0) being centred
 TEXTSIZE	double	Font size

@@ -20,9 +20,8 @@ import java
 if __name__ == "__main__":
     model = model.Model()
     sphinx = sphinx.Sphinx(model)
-    cxx = cxx.Cxx(model)
     java = java.Java(model)
 
     sphinx.dump()
-    cxx.dump()
+#    cxx.dump()
     java.dump()

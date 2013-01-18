@@ -18,22 +18,31 @@ ROI Specification [DRAFT]
    initial
    current
    3dconversion
+   types
    primitives
+   interfaces
    enums
    compounds
    geometry
    ndim
    compound
    affine
-   shapes
-   representations
    masks.rst
-   transform.rst
-   state.rst
+   transform
+   state
    layers
    linkage
    storage
    terms
+
+.. only:: html
+
+   Java code:
+
+   .. toctree::
+      :maxdepth: 2
+
+      java
 
 Indices and tables
 ==================

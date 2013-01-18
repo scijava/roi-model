@@ -2,6 +2,9 @@
 
 import os
 import subprocess
+import re
+
+from model import Type, Enum, Compound, Interface, TypeBase, ConcreteTypeBase
 
 class Sphinx:
     def __init__(self, model):
@@ -11,29 +14,155 @@ class Sphinx:
         if not os.path.exists("gen"):
             os.makedirs("gen")
 
-    def primitiveref(self, name, primitive):
-        return ':ref:`' + name + ' <primitive_' + primitive + '>`'
+    def canon(self, string):
+        return re.sub('[\.\[\]]', '_', string)
+
+    def genlabel(self, primitive, type):
+        link = '_' + type + '_' + primitive
+        link = self.canon(link)
+        return link
+
+    def genref(self, name, primitive, type):
+        link = ' <' + type + '_' + primitive + '>'
+        link = self.canon(link)
+        name = name.replace('<', '\<')
+        name = name.replace('>', '\>')
+        return ':ref:`' + name + link + '`'
+
+    def typelabel(self, type):
+        return self.genlabel(type, 'type')
+
+    def typeref(self, name, type):
+        return self.genref(name, type, 'type')
+
+    def enumlabel(self, enum):
+        return self.genlabel(enum, 'enum')
 
     def enumref(self, name, enum):
-        return ':ref:`' + name + ' <enum_' + enum + '>`'
+        return self.genref(name, enum, 'enum')
+
+    def compoundlabel(self, compound):
+        return self.genlabel(compound, 'compound')
 
     def compoundref(self, name, compound):
-        return ':ref:`' + name + ' <compound_' + compound + '>`'
+        return self.genref(name, compound, 'compound')
 
-    def shaperef(self, name, shape, dim):
-        return ':ref:`' + name + ' <shape_' + shape + '_' + dim + '>`'
+    def interfacelabel(self, interface):
+        return self.genlabel(interface, 'interface')
 
-    def repref(self, name, rep, dim):
-        return ':ref:`' + name + ' <rep_' + rep + '_' + dim + '>`'
+    def interfaceref(self, name, interface):
+        return self.genref(name, interface, 'interface')
+
+    def repref(self, name, rep):
+        return self.genref(name, rep, 'rep')
+
+    def primitiveref(self, name, primitive):
+        return self.genref(name, primitive, 'primitive')
+
+    def stripns(self, name):
+        return re.sub('(.*)\.', '', name)
+
+    def dump_typelist(self):
+        self.prepare_gen()
+
+        fr = open('types.rst','w')
+        ft = open('gen/types.txt','w')
+
+        header = """Data types
+==========
+
+.. csv-table:: Data types
+    :header-rows: 1
+    :file: gen/types.txt
+    :delim: tab
+
+"""
+
+        typetmpl = """
+.. index::
+    {0}
+
+.. {1}:
+
+{2}
+{3}
+
+{4}.
+
+{5}
+
+{6}
+
+.. tabularcolumns:: |l|p{{4in}}|
+.. csv-table:: {2} Details
+    :header-rows: 1
+    :file: {7}
+    :delim: tab
+    :widths: 5, 10
+
+"""
+
+        fr.write(header)
+        ft.write('Name\tTypeID\n')
+
+        types = list(self.model.types.keys())
+        types.sort()
+        for name in types:
+            ctype = self.model.types[name]
+
+            print "DTYPE:" + ctype.name + " isa " + ctype.__class__.__name__
+
+            id = 'N/A'
+            if isinstance(ctype, ConcreteTypeBase):
+                id = ctype.typeid
+                if id == -1:
+                    id = 'None'
+                else:
+                    id = str(id)
+
+            ft.write(self.typeref(ctype.name, ctype.name) + '\t' + id + '\n')
+
+            filename = 'gen/type-' + self.canon(ctype.name) + '.txt'
+            detail = ''
+            fd = open(filename, 'w')
+            fd.write('Property\tValue\n')
+            fd.write('TypeID\t'+id+'\n')
+            if isinstance(ctype, Type):
+                canonrep = 'None'
+                if ctype.rep_canonical != None:
+                    canonrep = self.typeref(self.stripns(ctype.rep_canonical.name), ctype.rep_canonical.name)
+                repin = 'None'
+                if len(ctype.rep_in) != 0:
+                    repin = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_in])
+                repout = 'None'
+                if len(ctype.rep_out) != 0:
+                    repout = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.rep_out])
+                if len(ctype.rep_in) != 0 or len(ctype.rep_out) != 0:
+                    fd.write('Canonical representation\t'+canonrep+'\n')
+                    fd.write('Representations in\t'+repin+'\n')
+                    fd.write('Representations out\t'+repout+'\n')
+            if isinstance(ctype, TypeBase) and len(ctype.inherits) > 0:
+                inherits = 'None'
+                if len(ctype.inherits) != 0:
+                    inherits = ', '.join([self.typeref(self.stripns(x.name), x.name) for x in ctype.inherits])
+                    fd.write('Inherits\t'+inherits+'\n')
+
+            if isinstance(ctype, Compound):
+                detail = self.compoundref('Serialisation compound structure', ctype.name)
+            if isinstance(ctype, Enum):
+                detail = self.enumref('Enumeration values', ctype.name)
+            if isinstance(ctype, Interface):
+                detail = self.interfaceref('Interface details', ctype.name)
+
+            fr.write(typetmpl.format(ctype.name, self.typelabel(ctype.name), ctype.name, '^' * len(ctype.name), ctype.desc, ctype.comment, detail, filename))
+
+        fr.close()
+        ft.close()
 
     def dump_primitivelist(self):
         self.prepare_gen()
 
         fr = open('primitives.rst','w')
-
-        f = open('gen/primitives.txt','w')
-        fc = open('gen/primitives-c++.txt','w')
-        fj = open('gen/primitives-java.txt','w')
 
         header = """Fundamental data types
 ======================
@@ -46,21 +175,17 @@ Implementors should treat these sizes as minimium requirements.
     interoperability between implementations, these may be required to
     be exact.  Using plain text would mitigate this to an extent.
 
-.. csv-table:: Primitives
+"""
+
+        ptab = """
+.. csv-table:: {0} Primitives
     :header-rows: 1
-    :file: gen/primitives.txt
+    :file: gen/primitives-{1}.txt
     :delim: tab
 
-.. csv-table:: C++ primitives
-    :header-rows: 1
-    :file: gen/primitives-c++.txt
-    :delim: tab
+"""
 
-.. csv-table:: Java primitives
-    :header-rows: 1
-    :file: gen/primitives-java.txt
-    :delim: tab
-
+        footer = """
 .. tabularcolumns:: |l|l|p{3in}|
 .. csv-table:: Shape state/attributes
     :header-rows: 1
@@ -75,32 +200,56 @@ Implementors should treat these sizes as minimium requirements.
 """
         fr.write(header)
 
-        f.write("Name\tBinType\tDescription\n")
-        fc.write("Name\tC++ Type\n")
-        fj.write("Name\tJava Type\n")
-        primitives = list(self.model.primitive_names.keys())
+        primitives = list(self.model.types.keys())
         primitives.sort()
+        fh = dict()
         for name in primitives:
-            primitive = self.model.primitive_names[name]
-            lname = self.primitiveref(primitive.name, primitive.name)
-            if primitive.type() == 'enum':
-                lname = self.enumref(primitive.name, primitive.name)
-            elif primitive.type() == 'compound':
-                lname = self.compoundref(primitive.name, primitive.name)
-            cxxtype = primitive.cxxtype
-            if cxxtype == 'enum':
-                cxxtype = self.enumref(primitive.name, primitive.name)
-            javatype = primitive.javatype
-            if javatype == 'enum':
-                javatype = self.enumref(primitive.name, primitive.name)
-            f.write(lname + '\t' +
-                    primitive.bintype + '\t' +primitive.desc + '\n')
-            fc.write(lname + '\t' + cxxtype + '\n')
-            fj.write(lname + '\t' + javatype + '\n')
-        f.close()
-        fc.close()
-        fj.close()
+            primitive = self.model.types[name]
+
+            if not isinstance(primitive, Type):
+                continue
+
+            for lang in primitive.types.keys():
+                if lang not in fh.keys():
+                    fh[lang] = open('gen/primitives-'+lang+'.txt','w')
+                    if lang == 'raw':
+                        fh[lang].write("Name\tBinType\tDescription\n")
+                        fr.write(ptab.format('Raw', lang))
+                    elif lang == 'c++':
+                        fh[lang].write("Name\tC++ Type\n")
+                        fr.write(ptab.format('C++', lang))
+                    elif lang == 'java':
+                        fh[lang].write("Name\tJava Type\n")
+                        fr.write(ptab.format('Java', lang))
+                    else:
+                        fh[lang].write("Name\t"+lang+" Type\n")
+                        fr.write(ptab.format(lang, lang))
+
+                pname = primitive.name
+                ptype = primitive.types[lang]
+
+                if isinstance(primitive, Enum):
+                    pname = self.enumref(primitive.name, primitive.name)
+                    ptype = self.enumref(ptype, ptype)
+                elif isinstance(primitive, Compound):
+                    pname = self.compoundref(primitive.name, primitive.name)
+                    ptype = self.compoundref(ptype, ptype)
+                elif isinstance(primitive, Interface):
+                    pname = self.interfaceref(primitive.name, primitive.name)
+                    ptype = self.interfaceref(ptype, ptype)
+                else:
+                    pname = self.typeref(primitive.name, primitive.name)
+
+                if lang == 'raw':
+                    fh[lang].write(pname + '\t' + ptype + '\t' +primitive.desc + '\n')
+                else:
+                    fh[lang].write(pname + '\t' + ptype + '\n')
+
+        fr.write(footer)
         fr.close()
+
+        for f in fh.values():
+            f.close()
 
     def dump_enums(self):
         self.prepare_gen()
@@ -114,28 +263,32 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.enum_names.keys())
+        names = list(self.model.types.keys())
         names.sort()
         for name in names:
-            enum = self.model.enum_names[name]
-            filename = 'gen/enum-' + enum.name + '.txt'
+            enum = self.model.types[name]
+
+            if not isinstance(enum, Enum):
+                continue
+
+            filename = 'gen/enum-' + self.canon(enum.name) + '.txt'
 
             template = """
 .. index::
     {0}
 
-.. _enum_{0}:
+.. {1}:
 
-{0}
-{1}
+{2}
+{3}
 
-.. csv-table:: {0}
+.. csv-table:: {2}
     :header-rows: 1
-    :file: {2}
+    :file: {4}
     :delim: tab
 
 """
-            fe.write(template.format(enum.name, '^' * len(enum.name), filename))
+            fe.write(template.format(enum.name, self.enumlabel(enum.name), enum.name, '^' * len(enum.name), filename))
 
             symbols = False
             for sym in [x.symbol for x in enum.values.values()]:
@@ -160,6 +313,57 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.close()
 
+    def dump_interfaces(self):
+        self.prepare_gen()
+
+        fe = open('interfaces.rst','w')
+
+        header="""Interface types
+===============
+
+"""
+
+        fe.write(header)
+
+        names = list(self.model.types.keys())
+        names.sort()
+        for name in names:
+            interface = self.model.types[name]
+
+            if not isinstance(interface, Interface):
+                continue
+
+            filename = 'gen/interface-' + self.canon(interface.name) + '.txt'
+
+            template = """
+.. index::
+    {0}
+
+.. {1}:
+
+{2}
+{3}
+
+.. csv-table:: {2}
+    :header-rows: 1
+    :file: {4}
+    :delim: tab
+
+"""
+            fe.write(template.format(interface.name, self.interfacelabel(interface.name), interface.name, '^' * len(interface.name), filename))
+
+            interfacetab = open(filename, 'w')
+            print('Writing '+ filename)
+            interfacetab.write('Implemented by\n')
+
+            for impl in names:
+                oimpl = self.model.types[impl]
+                if interface in oimpl.inherited():
+                    interfacetab.write(self.typeref(oimpl.name, oimpl.name) + '\n')
+            interfacetab.close()
+
+        fe.close()
+
     def dump_compounds(self):
         self.prepare_gen()
 
@@ -172,11 +376,24 @@ Implementors should treat these sizes as minimium requirements.
 
         fe.write(header)
 
-        names = list(self.model.compound_names.keys())
+        names = list(self.model.types.keys())
         names.sort()
         for name in names:
-            compound = self.model.compound_names[name]
-            filename = 'gen/compound-' + compound.name + '.txt'
+            compound = self.model.types[name]
+            if not isinstance(compound, Compound):
+                continue
+
+            templates = list(compound.templates.values())
+            templates.sort(key = lambda x: x.seqno)
+
+            members = list(compound.members.values())
+            members.sort(key = lambda x: x.seqno)
+
+
+            fullname = compound.name
+            if len(templates) > 0:
+                fullname += '<' + ', '.join([x.name for x in templates]) + '>'
+            filename = 'gen/compound-' + self.canon(compound.name) + '.txt'
 
             template = """
 .. index::
@@ -184,24 +401,24 @@ Implementors should treat these sizes as minimium requirements.
 
 .. _compound_{0}:
 
-{0}
 {1}
+{2}
 
-.. csv-table:: {0}
+.. csv-table:: {1}
     :header-rows: 1
-    :file: {2}
+    :file: {3}
     :delim: tab
 
 """
-            fe.write(template.format(compound.name, '^' * len(compound.name), filename))
+            fe.write(template.format(self.canon(compound.name), fullname, '^' * len(fullname), filename))
 
             compoundtab = open(filename, 'w')
             print('Writing '+ filename)
             compoundtab.write('SeqNo\tType\tName\tDescription\n')
 
-            members = list(compound.members.values())
-            members.sort(key = lambda x: x.seqno)
-
+            for tp in templates:
+                compoundtab.write('(T'+str(tp.seqno)+')' + '\t' + tp.type + '\t' +
+                                  tp.name + '\t' +tp.desc + '\n')
             for mb in members:
                 compoundtab.write(str(mb.seqno) + '\t' + mb.type + '\t' +
                                   mb.name + '\t' +mb.desc + '\n')
@@ -509,12 +726,14 @@ Definitions
         return
 
     def dump(self):
+        self.dump_typelist()
         self.dump_primitivelist()
         self.dump_enums()
+        self.dump_interfaces()
         self.dump_compounds()
-        self.dump_shapelist()
-        self.dump_replist()
-        self.dump_shapereps()
-        self.dump_repmembers()
-        self.dump_relgraph()
-        self.dump_relgraph_simple()
+        # self.dump_shapelist()
+        # self.dump_replist()
+        # self.dump_shapereps()
+        # self.dump_repmembers()
+        # self.dump_relgraph()
+        # self.dump_relgraph_simple()

@@ -5,82 +5,72 @@
 import glob
 import re
 
-class PrimitiveBase(object):
-    def __init__(self):
-        self.comment = ''
-        self.name = ''
-        self.desc = ''
+# Basic type.  This is just a name.
+class TypeBase(object):
+    def __init__(self, primitive):
+        super(TypeBase, self).__init__()
+        if isinstance(primitive, TypeBase):
+            self.comment = primitive.comment
+            self.name = primitive.name
+            self.desc = primitive.desc
+            self.inherits = list(primitive.inherits)
+        else:
+            self.comment = ''
+            self.name = primitive
+            self.desc = ''
+            self.inherits = list()
 
-class Primitive(PrimitiveBase):
-    def __init__(self, name):
-        super(self.__class__, self).__init__()
-        self.types = dict()
-        self.name = name
+    def typename(self):
+        parts = self.name.rsplit('.', 1)
+        return parts[1]
 
-    def check(self):
-        return
+    def namespace(self):
+        parts = self.name.rsplit('.', 1)
+        ns = parts[0]
+        ns.replace('.', '/')
+        return ns
 
-    # def type(self):
-    #     type = 'simple'
-    #     if self.bintype == 'compound':
-    #         type = 'compound'
-    #     if self.cxxtype == 'enum' or self.javatype == 'enum':
-    #         type = 'enum'
-    #     return type
+    def namespacepath(self):
+        ns = self.namespace()
+        return ns.replace('.', '/')
 
-class Enum:
-    def __init__(self, name):
-        self.name = name
-        self.values = dict()
+    def inherited(self):
+        used = set()
+        self.__inherited(used)
+        used.remove(self)
+        return used
 
-    def check(self):
-# TODO: Check for duplicate names (and values).
-        return
+    def __inherited(self, used):
+        used.add(self)
+        for s in self.inherits:
+            if (s not in used):
+                used.add(s)
+                s.__inherited(used)
 
-class EnumValue:
-    def __init__(self, name, number, symbol, description):
-        self.name = name
-        self.number = number
-        self.symbol = symbol
-        self.desc = description
-        self.comment = ''
+# Basic concrete type.  This is just a name and type identifier
+# (i.e. it's used for serialiation)
+class ConcreteTypeBase(TypeBase):
+    def __init__(self, primitive):
+        super(ConcreteTypeBase, self).__init__(primitive)
+        if isinstance(primitive, ConcreteTypeBase):
+            self.typeid = primitive.typeid
+        else:
+            self.typeid = -1
 
-    def check(self):
-        return
-
-class Compound:
-    def __init__(self, name):
-        self.name = name
-        self.members = dict()
-
-    def check(self):
-# TODO: Check for duplicate names (and members).
-        return
-
-class CompoundMember:
-    def __init__(self, seqno, type, name, description):
-        self.seqno = seqno
-        self.type = type
-        self.name = name
-        self.desc = description
-        self.comment = ''
-
-    def check(self):
-        return
-
-class ShapeBase(object):
-    def __init__(self, text):
-        self.id, self.name, self.dim, self.desc = text.split('\t')
-        self.inherit_in = set()
-        self.inherit_out = set()
-        self.rep_in = set()
-        self.rep_out = set()
-        self.rep_canonical = None
-        self.comment = ''
-        self.inherit_comment = dict()
-
-        if (self.id != 'ShapeID'):
-            self.id = int(self.id)
+# Primitive type.
+class Type(ConcreteTypeBase):
+    def __init__(self, primitive):
+        super(Type, self).__init__(primitive)
+        if isinstance(primitive, Type):
+            self.types = dict(primitive.types)
+            self.rep_in = set(primitive.rep_in)
+            self.rep_out = set(primitive.rep_out)
+            self.rep_canonical = primitive.rep_canonical
+        else:
+            self.types = dict()
+            self.rep_in = set()
+            self.rep_out = set()
+            self.rep_canonical = None
 
     def reps(self):
         used = set()
@@ -108,36 +98,10 @@ class ShapeBase(object):
             else:
                 reps[r] = set([self])
         used.add(self)
-        for s in self.inherit_in | self.inherit_out:
+        for s in self.inherits:
             if (s not in used):
                 s.__reps(reps, used)
         return
-
-    def inherited_in(self):
-        used = set()
-        self.__inherited_in(used)
-        used.remove(self)
-        return used
-
-    def __inherited_in(self, used):
-        used.add(self)
-        for s in self.inherit_in:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_in(used)
-
-    def inherited_out(self):
-        used = set()
-        self.__inherited_out(used)
-        used.remove(self)
-        return used
-
-    def __inherited_out(self, used):
-        used.add(self)
-        for s in self.inherit_out:
-            if (s not in used):
-                used.add(s)
-                s.__inherited_out(used)
 
     # If we inherit a shape, we can use of all its in representations.
     def has_rep_in(self, rep):
@@ -178,11 +142,97 @@ class ShapeBase(object):
             found = 1
         return found
 
+    def check(self, model):
+        # Ensure canonical representation is set for each shape type
+        shape = model.types['scijava.roi.shape.PhysicalShape']
+        if shape in self.inherits:
+            if self.rep_canonical == None:
+                raise Exception('Shape ' + str(self.name) + ' has no canonical representation')
+
+        return
+
+    # def type(self):
+    #     type = 'simple'
+    #     if self.bintype == 'compound':
+    #         type = 'compound'
+    #     if self.cxxtype == 'enum' or self.javatype == 'enum':
+    #         type = 'enum'
+    #     return type
+
+class Enum(ConcreteTypeBase):
+    def __init__(self, primitive):
+        super(Enum, self).__init__(primitive)
+        self.values = dict()
+
+    def check(self, model):
+# TODO: Check for duplicate names (and values).
+        return
+
+class EnumValue:
+    def __init__(self, name, number, symbol, description):
+        self.name = name
+        self.number = number
+        self.symbol = symbol
+        self.desc = description
+        self.comment = ''
+
+    def check(self, model):
+        return
+
+class Compound(Type):
+    def __init__(self, primitive):
+        super(Compound, self).__init__(primitive)
+        self.templates = dict()
+        self.members = dict()
+
+        if hasattr(primitive, 'templates'):
+            self.templates = dict(primitive.templates)
+
+    def check(self, model):
+# TODO: Check for duplicate names (and members).
+        return
+
+class CompoundMember:
+    def __init__(self, seqno, type, name, description):
+        self.seqno = seqno
+        self.type = type
+        self.name = name
+        self.desc = description
+        self.comment = ''
+
+    def check(self, model):
+        return
+
+class Interface(TypeBase):
+    def __init__(self, primitive):
+        super(Interface, self).__init__(primitive)
+        self.templates = dict()
+
+        if hasattr(primitive, 'templates'):
+            self.templates = dict(primitive.templates)
+
+    def check(self, model):
+        return
+
+class ShapeBase(object):
+    def __init__(self, text):
+        self.id, self.name, self.dim, self.desc = text.split('\t')
+        self.inherit_in = set()
+        self.inherit_out = set()
+        self.rep_in = set()
+        self.rep_out = set()
+        self.rep_canonical = None
+        self.comment = ''
+        self.inherit_comment = dict()
+
+        if (self.id != 'ShapeID'):
+            self.id = int(self.id)
+
 class Shape(ShapeBase):
     def __init__(self, text):
-        super(self.__class__, self).__init__(text)
+        super(Shape, self).__init__(text)
 
-    def check(self):
+    def check(self, model):
         if (self.name not in ['Scale', 'Grid', 'Text']):
 
             if self.rep_canonical == None:
@@ -198,9 +248,9 @@ class Shape(ShapeBase):
 
 class DimConstraint(ShapeBase):
     def __init__(self, text):
-        super(self.__class__, self).__init__(text)
+        super(DimConstraint, self).__init__(text)
 
-    def check(self):
+    def check(self, model):
         return
 
 class Representation:
@@ -214,7 +264,7 @@ class Representation:
 
     # Consistency check.  Make sure that sequence numbers are correct,
     # with no missing numbers.
-    def check(self):
+    def check(self, model):
         print('Checking ' + self.name + ':' + self.dim)
         for member in self.members.values():
             member.check()
@@ -274,42 +324,30 @@ class RepresentationMember:
 
         self.seq = int(self.seq)
 
-    def check(self):
+    def check(self, model):
         return
 
 class Model:
     def __init__(self):
-        self.primitive_names = dict()
-        self.enum_names = dict()
-        self.compound_names = dict()
-        self.shape_ids = dict()
-        self.shape_names = dict()
-        self.dimconstraint_ids = dict()
-        self.dimconstraint_names = dict()
-        self.representation_ids = dict()
-        self.representation_names = dict()
+        self.types = dict()
 
-        self.load_primitives()
-        self.load_enums()
-        self.load_compounds()
-        self.load_shapes()
-        self.load_dimconstraints()
-        self.load_reps()
-        self.load_rep_members()
-        self.load_shape_reps()
-        self.load_shape_canonical_reps()
-        self.load_shape_rels()
-        self.load_dimconstraint_reps()
-        self.load_dimconstraint_canonical_reps()
-        self.load_dimconstraint_rels()
+        self.load_types(self.types)
+        self.load_enums(self.types)
+        self.load_interfaces(self.types)
+        self.load_compounds(self.types)
+
+        self.load_typeids(self.types)
+        self.load_typereps(self.types)
+        self.load_typecanonreps(self.types)
+        self.load_inherits(self.types)
         self.check()
 
-    def load_primitives(self):
+    def load_types(self, type_names):
         comment = ''
         for file in ['spec/types.txt'] + glob.glob('spec/types-*.txt'):
             print "Reading " + file
             find = re.search('^spec/types-(.*).txt$', file)
-            lang = 'raw'
+            lang = 'undefined'
             if find:
                 lang = find.group(1)
             print "Language " + lang
@@ -323,25 +361,113 @@ class Model:
                     continue
                 name, typename = line.split('\t')
                 primitive = None
-                if lang == 'raw':
-                    primitive = Primitive(name)
+                if lang == 'undefined':
+                    primitive = Type(name)
+                    primitive.desc = typename
                     if (len(comment) > 0):
                         primitive.comment = comment
                         comment = ''
-                    if primitive.name in self.primitive_names:
+                    if primitive.name in type_names:
                         raise Exception("Duplicate primitive: " + primitive.name)
-                    self.primitive_names[primitive.name] = primitive
+                    type_names[primitive.name] = primitive
+                    print "Added primitive type: " + primitive.name + ' (' + type_names[primitive.name].name + ')'
                 else:
-                    if name not in self.primitive_names.keys()
-                        raise Exception("Primitive not found: " + primitive.name)
-                    primitive = self.primitive_names[name]
-                primitive.types[lang] = typename
+                    if name not in type_names.keys():
+                        raise Exception("Type not found: " + name)
+                    primitive = type_names[name]
+                if lang != 'undefined':
+                    if lang in primitive.types:
+                        raise Exception(lang + " type already defined for type: " + name)
+                    primitive.types[lang] = typename
 
         # TODO: Sort
-        for primitive in self.primitive_names.values():
+        for primitive in type_names.values():
             print(primitive.name)
 
-    def load_enums(self):
+    def load_typeids(self, type_names):
+        comment = ''
+
+        used = set()
+
+        for line in open ('spec/typeids.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0):
+                continue
+            if (line[0] == '#'):
+                if (len(line) > 1 and line[1] == ' '):
+                    comment += line[2:] + '\n'
+                continue
+            typeid, typename = line.split('\t')
+            typeid = int(typeid)
+            if typename not in type_names.keys():
+                raise Exception("Type not found: " + typename)
+            primitive = type_names[typename]
+
+            if not isinstance(primitive, ConcreteTypeBase):
+                raise Exception("Type is not concrete, and does not permit setting a typeid: " + typename)
+
+            if primitive.typeid != -1:
+                raise Exception("Type has duplicate typeid: " + typename)
+
+            if typeid in used:
+                raise Exception("Duplicate typeid: " + str(typeid))
+            used.add(typeid)
+
+            primitive.typeid = typeid
+
+        # TODO: Sort
+        for primitive in type_names.values():
+            if isinstance(primitive, ConcreteTypeBase):
+                print(primitive.name + ' = ' + str(primitive.typeid))
+
+    def load_typereps(self, type_names):
+        # Load type representations
+        for line in open ('spec/typereps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            print line
+            typename, rep, repin, repout  = line.split('\t')
+
+            if typename not in type_names.keys():
+                raise Exception("Type not found: " + typename)
+            primitive = type_names[typename]
+
+            if rep not in type_names.keys():
+                raise Exception("Type representation not found: " + rep)
+            rep = type_names[rep]
+
+            if (repin == 'true'):
+                if rep in primitive.rep_in:
+                    raise Exception("Type "+typename+" has duplicate rep_in: " + rep_in)
+                primitive.rep_in.add(rep)
+            if (repout == 'true'):
+                if rep in primitive.rep_out:
+                    raise Exception("Type "+typename+" has duplicate rep_out: " + rep_out)
+                primitive.rep_out.add(rep)
+
+    def load_typecanonreps(self, type_names):
+        # Load type representations
+        for line in open ('spec/typecanonreps.txt', 'rt'):
+            line = line.rstrip('\n')
+            if (len(line) == 0 or line[0] == '#'):
+                continue
+            print line
+            typename, canonrep = line.split('\t')
+
+            if typename not in type_names.keys():
+                raise Exception("Type not found: " + typename)
+            primitive = type_names[typename]
+
+            if canonrep not in type_names.keys():
+                raise Exception("Canonical type representation not found: " + typename)
+            canonrep = type_names[canonrep]
+
+            if canonrep not in primitive.rep_in:
+                raise Exception("Type "+typename+" has no rep_in for canonrep: " + canonrep)
+            primitive.rep_canonical = canonrep
+
+    def load_enums(self, type_names):
         comment = ''
         for line in open ('spec/enums.txt', 'rt'):
             line = line.rstrip('\n')
@@ -355,16 +481,16 @@ class Model:
 
             primitive, name, number, symbol, desc = line.split('\t')
 
-            if primitive not in self.primitive_names.keys():
-                raise Exception("Primitive not found: " + primitive)
+            if primitive not in type_names.keys():
+                raise Exception("Type not found: " + primitive)
 
             enum = None
-            if primitive in self.enum_names:
-                enum = self.enum_names[primitive]
+            if primitive in type_names and isinstance(type_names[primitive], Enum):
+                if isinstance(type_names[primitive], Enum):
+                    enum = type_names[primitive]
             else:
                 enum = Enum(primitive)
-                self.enum_names[primitive] = enum
-                print('** Added ** ' + primitive)
+                type_names[primitive] = enum
 
             val = EnumValue(name, number, symbol, desc)
             if (len(comment) > 0):
@@ -374,11 +500,7 @@ class Model:
                 raise Exception("Duplicate enum " + enum.name+':'+ val.name)
             enum.values[val.name] = val
 
-        # TODO: Sort
-        for enum in self.enum_names.values():
-            print(enum.name)
-
-    def load_compounds(self):
+    def load_compounds(self, type_names):
         comment = ''
         for line in open ('spec/compounds.txt', 'rt'):
             line = line.rstrip('\n')
@@ -389,99 +511,55 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             print(line)
-            primitive, seqno, type, name, desc = line.split('\t')
+            primitive, seqno, name, typename, desc = line.split('\t')
 
             compound = None
-            if primitive in self.compound_names:
-                compound = self.compound_names[primitive]
+            if primitive in type_names:
+                if isinstance(type_names[primitive], Compound):
+                    compound = type_names[primitive]
+                elif hasattr(type_names[primitive], 'templates'):
+                    compound = type_names[primitive]
+                else:
+                    compound = Compound(type_names[primitive])
+                    type_names[primitive] = compound
             else:
-                compound = Compound(primitive)
-                self.compound_names[primitive] = compound
-                print('** Added ** ' + primitive)
+                raise Exception("Invalid compound name: " + primitive)
 
-            mb = CompoundMember(seqno, type, name, desc)
-            if (len(comment) > 0):
-                mb.comment = comment
-                comment = ''
-            if mb.name in compound.members:
-                raise Exception("Duplicate compound " + compound.name+':'+ mb.name)
-            compound.members[mb.name] = mb
+            try:
+                seqno = int(seqno)
+
+                if not isinstance(compound, Compound):
+                    raise Exception("Not a compound " + compound.name)
+
+                mb = CompoundMember(seqno, typename, name, desc)
+                if (len(comment) > 0):
+                    mb.comment = comment
+                    comment = ''
+                    if mb.name in compound.members:
+                        raise Exception("Duplicate compound " + compound.name+':'+ mb.name)
+                compound.members[mb.name] = mb
+                print "COMPOUND = " + compound.name + "  MEMBERSCOUNT=" + str(len(compound.members))
+
+            except ValueError:
+                seqno = re.sub('^T', '', seqno)
+                seqno = int(seqno)
+                # if seqno is not a number, it's a template parameter
+                tp = CompoundMember(seqno, typename, name, desc)
+                if (len(comment) > 0):
+                    tp.comment = comment
+                    comment = ''
+                    if tp.name in compound.templates:
+                        raise Exception("Duplicate template parameter " + compound.name+':'+ tp.name)
+                compound.templates[tp.name] = tp
 
         # TODO: Sort
-        for compound in self.compound_names.values():
-            print(compound.name)
+        for compound in type_names.values():
+            if isinstance(compound, Compound):
+                print(compound.name)
 
-
-    def load_shapes(self):
-        # Load shapes
+    def load_interfaces(self, type_names):
         comment = ''
-        for line in open ('spec/shapes.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0):
-                continue
-            if (line[0] == '#'):
-                if (len(line) > 1 and line[1] == ' '):
-                    comment += line[2:] + '\n'
-                continue
-            shape = Shape(line)
-            if (len(comment) > 0):
-                shape.comment = comment
-                comment = ''
-            if shape.id in self.shape_ids:
-                raise Exception("Duplicate shape ID " + shape.id)
-            self.shape_ids[shape.id] = shape
-            if shape.name+':'+shape.dim in self.shape_names:
-                raise Exception("Duplicate shape " + shape.name+':'+shape.dim)
-            self.shape_names[shape.name+':'+shape.dim] = shape
-
-    def load_dimconstraints(self):
-        # Load dimconstraints
-        comment = ''
-        for line in open ('spec/dimconstrainttypes.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0):
-                continue
-            if (line[0] == '#'):
-                if (len(line) > 1 and line[1] == ' '):
-                    comment += line[2:] + '\n'
-                continue
-            dimconstraint = DimConstraint(line)
-            if (len(comment) > 0):
-                dimconstraint.comment = comment
-                comment = ''
-            if dimconstraint.id in self.dimconstraint_ids:
-                raise Exception("Duplicate dimconstraint ID " + dimconstraint.id)
-            self.dimconstraint_ids[dimconstraint.id] = dimconstraint
-            if dimconstraint.name+':'+dimconstraint.dim in self.dimconstraint_names:
-                raise Exception("Duplicate dimconstraint " + dimconstraint.name+':'+dimconstraint.dim)
-            self.dimconstraint_names[dimconstraint.name+':'+dimconstraint.dim] = dimconstraint
-
-    def load_reps(self):
-        comment = ''
-        # Load representations
-        for line in open ('spec/representations.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0):
-                continue
-            if (line[0] == '#'):
-                if (len(line) > 1 and line[1] == ' '):
-                    comment += line[2:] + '\n'
-                continue
-            representation = Representation(line)
-            if (len(comment) > 0):
-                representation.comment = comment
-                comment = ''
-            if representation.id in self.representation_ids:
-                raise Exception("Duplicate representation ID " + str(representation.id))
-            self.representation_ids[representation.id] = representation
-            if representation.name+':'+representation.dim in self.representation_names:
-                raise Exception("Duplicate representation name+dim " + representation.name+':'+representation.dim)
-            self.representation_names[representation.name+':'+representation.dim] = representation
-
-    def load_rep_members(self):
-        # Load representation members
-        comment = ''
-        for line in open ('spec/representationmembers.txt', 'rt'):
+        for line in open ('spec/interfaces.txt', 'rt'):
             line = line.rstrip('\n')
             if (len(line) == 0):
                 continue
@@ -490,75 +568,34 @@ class Model:
                     comment += line[2:] + '\n'
                 continue
             print(line)
-            name, dim, memberseq, membername, membertype, memberdesc = line.split('\t')
-            memberseq = int(memberseq)
-            representation = self.representation_names[name+':'+dim]
-            member = RepresentationMember(memberseq, membername, membertype, memberdesc)
+            name, desc = line.split('\t')
+
+            interface = Interface(name)
+            interface.desc = desc
+
             if (len(comment) > 0):
-                member.comment = comment
+                interface.comment = comment
                 comment = ''
-            if memberseq in representation.members:
-                raise Exception("Duplicate representation " + str(representation.id) + " sequence " + str(memberseq))
-            representation.members[memberseq] = member
 
-    def load_shape_reps(self):
-        # Load shape representations
-        for line in open ('spec/shapereps.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
-                continue
-            shape, dim, rep, repdim, repin, repout, details = line.split('\t')
-            s = self.shape_names[shape+':'+dim]
-            srep = self.representation_names[rep+':'+repdim]
-            if (repin == 'true'):
-                s.rep_in.add(srep)
-            if (repout == 'true'):
-                s.rep_out.add(srep)
+            if (len(comment) > 0):
+                interface.comment = comment
+                comment = ''
 
-    def load_dimconstraint_reps(self):
-        # Load dimconstraint representations
-        for line in open ('spec/dimconstraintreps.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
-                continue
-            dimconstraint, dim, rep, repdim, repin, repout, details = line.split('\t')
-            s = self.dimconstraint_names[dimconstraint+':'+dim]
-            srep = self.representation_names[rep+':'+repdim]
-            if (repin == 'true'):
-                s.rep_in.add(srep)
-            if (repout == 'true'):
-                s.rep_out.add(srep)
+            if interface.name in type_names:
+                raise Exception("Duplicate interface: " + interface.name)
+            if interface.name in type_names:
+                raise Exception("Duplicate type: " + interface.name)
 
-    def load_shape_canonical_reps(self):
-        # Load shape representations
-        for line in open ('spec/shapecanonreps.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
-                continue
-            shape, dim, rep, repdim = line.split('\t')
-            s = self.shape_names[shape+':'+dim]
-            srep = self.representation_names[rep+':'+repdim]
-            if s.rep_canonical != None:
-                raise Exception("Duplicate canonical representation for " + s.name+':'+s.dim)
-            s.rep_canonical = srep
+            type_names[interface.name] = interface
 
-    def load_dimconstraint_canonical_reps(self):
-        # Load dimconstraint representations
-        for line in open ('spec/dimconstraintcanonreps.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0 or line[0] == '#'):
-                continue
-            dimconstraint, dim, rep, repdim = line.split('\t')
-            s = self.dimconstraint_names[dimconstraint+':'+dim]
-            srep = self.representation_names[rep+':'+repdim]
-            if s.rep_canonical != None:
-                raise Exception("Duplicate canonical representation for " + s.name+':'+s.dim)
-            s.rep_canonical = srep
+        # TODO: Sort
+        for interface in type_names.values():
+            if isinstance(interface, Interface):
+                print(interface.name)
 
-    def load_shape_rels(self):
-        # Load shape relations
+    def load_inherits(self, type_names):
         comment = ''
-        for line in open ('spec/shaperel.txt', 'rt'):
+        for line in open ('spec/inherits.txt', 'rt'):
             line = line.rstrip('\n')
             if (len(line) == 0):
                 continue
@@ -566,44 +603,33 @@ class Model:
                 if (len(line) > 1 and line[1] == ' '):
                     comment += line[2:] + '\n'
                 continue
-            shape, dim, inherit, inheritdim, shapein, shapeout = line.split('\t')
-            s = self.shape_names[shape+':'+dim]
-            si = self.shape_names[inherit+':'+inheritdim]
-            if (shapein == 'true'):
-                s.inherit_in.add(si)
-            if (shapeout == 'true'):
-                s.inherit_out.add(si)
-            if (len(comment) > 0):
-                s.inherit_comment[inherit] = comment
-                comment = ''
+            print(line)
+            name, inherits = line.split('\t')
 
-    def load_dimconstraint_rels(self):
-        # Load dimconstraint relations
-        comment = ''
-        for line in open ('spec/dimconstraintrel.txt', 'rt'):
-            line = line.rstrip('\n')
-            if (len(line) == 0):
-                continue
-            if (line[0] == '#'):
-                if (len(line) > 1 and line[1] == ' '):
-                    comment += line[2:] + '\n'
-                continue
-            dimconstraint, dim, inherit, inheritdim, dimconstraintin, dimconstraintout = line.split('\t')
-            s = self.dimconstraint_names[dimconstraint+':'+dim]
-            si = self.dimconstraint_names[inherit+':'+inheritdim]
-            if (dimconstraintin == 'true'):
-                s.inherit_in.add(si)
-            if (dimconstraintout == 'true'):
-                s.inherit_out.add(si)
-            if (len(comment) > 0):
-                s.inherit_comment[inherit] = comment
-                comment = ''
+            if name not in type_names:
+                raise Exception("Type not found: " + name)
+            itype = type_names[name]
+
+            if not isinstance(itype, TypeBase):
+                raise Exception("Type does not support inheritance: " + name)
+
+            iface = None
+            if inherits in type_names and isinstance(type_names[inherits], Interface):
+                iface = type_names[inherits]
+            else:
+                raise Exception("Invalid interface: " + inherits)
+            if iface in itype.inherits:
+                raise Exception("Duplicated inheritance for "+name+" interface: " + inherits)
+            itype.inherits.append(iface)
 
     def check(self):
-        for shape in self.shape_ids.values():
-            shape.check()
-        for representation in self.representation_ids.values():
-            representation.check()
+#        for shape in self.shape_ids.values():
+#            shape.check()
+#        for representation in self.representation_ids.values():
+#            representation.check()
 # TODO: Add other types
 # Validate that all enums and compounds have detailed form.
+
+        for t in self.types.values():
+            t.check(self)
         return

@@ -1,244 +1,199 @@
 #TypeID	Name
 
-### Representations
+## Fundamental
 
-0	scijava.roi.types.Point
-1	scijava.roi.types.Point
-2	scijava.roi.types.Point
-3	scijava.roi.types.Points
-4	scijava.roi.types.Points
-5	scijava.roi.types.Points
-6	scijava.roi.types.Vector
-7	scijava.roi.types.Vector
-8	scijava.roi.types.Vector
-9	scijava.roi.types.Vectors
-10	scijava.roi.types.Vectors
-11	scijava.roi.types.Vectors
-12	scijava.roi.types.LinePoints
-13	scijava.roi.types.LinePoints
-14	scijava.roi.types.LinePoints
-15	scijava.roi.types.LineVector
-16	scijava.roi.types.LineVector
-17	scijava.roi.types.LineVector
-181	scijava.roi.types.LinesPoints
-18	scijava.roi.types.LinesPoints
-19	scijava.roi.types.LinesPoints
-201	scijava.roi.types.LinesVectors
-20	scijava.roi.types.LinesVectors
-21	scijava.roi.types.LinesVectors
-221	scijava.roi.types.PolylinePoints
-22	scijava.roi.types.PolylinePoints
-23	scijava.roi.types.PolylinePoints
-241	scijava.roi.types.PolylineVector
-24	scijava.roi.types.PolylineVector
-25	scijava.roi.types.PolylineVector
-26	scijava.roi.types.AlignedSquare1
-27	scijava.roi.types.AlignedSquare2
-28	scijava.roi.types.AlignedCube1
-29	scijava.roi.types.AlignedCube2
+0	scijava.roi.types.Null
+1	scijava.roi.types.TypeID
 
-291	scijava.roi.types.AlignedRectangle1
-293	scijava.roi.types.AlignedRectangle2
-292	scijava.roi.types.AlignedCuboid1
-294	scijava.roi.types.AlignedCuboid2
-295	scijava.roi.types.Cube1
-296	scijava.roi.types.Cube2
-297	scijava.roi.types.Square1
-298	scijava.roi.types.Square2
+## Integer numbers
 
-30	scijava.roi.types.Rectangle1
-31	scijava.roi.types.Rectangle2
-32	scijava.roi.types.Cuboid1
-33	scijava.roi.types.Cuboid2
-341	scijava.roi.types.Circle0
-34	scijava.roi.types.Circle1
-35	scijava.roi.types.Circle2
-36	scijava.roi.types.Circle3
-371	scijava.roi.types.Circle4
-37	scijava.roi.types.Circle5
-381	scijava.roi.types.Sphere0
-38	scijava.roi.types.Sphere1
-39	scijava.roi.types.Sphere2
-40	scijava.roi.types.Sphere3
-41	scijava.roi.types.Sphere4
-421	scijava.roi.types.Sphere5
-42	scijava.roi.types.Sphere6
-43	scijava.roi.types.AlignedHalfAxes
-44	scijava.roi.types.HalfAxes
-45	scijava.roi.types.EllipseCovariance
-46	scijava.roi.types.AlignedHalfAxes
-47	scijava.roi.types.HalfAxes
-48	scijava.roi.types.EllipsoidCovariance
+10	scijava.roi.types.UInt8
+11	scijava.roi.types.UInt16
+12	scijava.roi.types.UInt32
+13	scijava.roi.types.UInt64
+#14	scijava.roi.types.UInt128
+
+15	scijava.roi.types.Int8
+16	scijava.roi.types.Int16
+17	scijava.roi.types.Int32
+18	scijava.roi.types.Int64
+#19	scijava.roi.types.Int128
+
+## Real numbers
+
+20	scijava.roi.types.Float32
+21	scijava.roi.types.Float64
+#22	scijava.roi.types.Float128
+
+## Primitive compound types
+
+30	scijava.roi.types.String
+31	scijava.roi.types.Color
+
+## Enumerated types
+
+40	scijava.roi.types.Operator
+41	scijava.roi.types.BLogic
+
+## Containers
+
+50	scijava.roi.types.Pair
+51	scijava.roi.types.Array
+52	scijava.roi.types.Set
+53	scijava.roi.types.Map
+54	scijava.roi.types.DirectedGraph
+
+## Geometry
+
+100	scijava.roi.types.Vertex1D
+101	scijava.roi.types.Vertex2D
+102	scijava.roi.types.Vertex3D
+103	scijava.roi.types.VertexnD
+
+110	scijava.roi.types.Vector1D
+111	scijava.roi.types.Vector2D
+112	scijava.roi.types.Vector3D
+113	scijava.roi.types.VectornD
+
+120	scijava.roi.types.LinePoints1D
+121	scijava.roi.types.LinePoints2D
+122	scijava.roi.types.LinePoints3D
+125	scijava.roi.types.LineVector1D
+126	scijava.roi.types.LineVector2D
+127	scijava.roi.types.LineVector3D
+
+130	scijava.roi.types.LinesPoints1D
+131	scijava.roi.types.LinesPoints2D
+132	scijava.roi.types.LinesPoints3D
+135	scijava.roi.types.LinesVectors1D
+136	scijava.roi.types.LinesVectors2D
+137	scijava.roi.types.LinesVectors3D
+
+140	scijava.roi.types.PolylinePoints1D
+141	scijava.roi.types.PolylinePoints2D
+142	scijava.roi.types.PolylinePoints3D
+145	scijava.roi.types.PolylineVector1D
+146	scijava.roi.types.PolylineVector2D
+147	scijava.roi.types.PolylineVector3D
+
+150	scijava.roi.types.AlignedSquare1
+151	scijava.roi.types.AlignedSquare2
+
+155	scijava.roi.types.AlignedRectangle1
+156	scijava.roi.types.AlignedRectangle2
+
+160	scijava.roi.types.AlignedCube1
+161	scijava.roi.types.AlignedCube2
+
+165	scijava.roi.types.AlignedCuboid1
+166	scijava.roi.types.AlignedCuboid2
+
+170	scijava.roi.types.Square1
+171	scijava.roi.types.Square2
+
+175	scijava.roi.types.Rectangle1
+176	scijava.roi.types.Rectangle2
+
+180	scijava.roi.types.Cube1
+181	scijava.roi.types.Cube2
+
+185	scijava.roi.types.Cuboid1
+186	scijava.roi.types.Cuboid2
+
+200	scijava.roi.types.Circle0
+201	scijava.roi.types.Circle1
+202	scijava.roi.types.Circle2
+203	scijava.roi.types.Circle3
+204	scijava.roi.types.Circle4
+205	scijava.roi.types.Circle5
+
+210	scijava.roi.types.Sphere0
+211	scijava.roi.types.Sphere1
+212	scijava.roi.types.Sphere2
+213	scijava.roi.types.Sphere3
+214	scijava.roi.types.Sphere4
+215	scijava.roi.types.Sphere5
+216	scijava.roi.types.Sphere6
+
+220	scijava.roi.types.AlignedHalfAxes2D
+221	scijava.roi.types.AlignedHalfAxes3D
+225	scijava.roi.types.HalfAxes2D
+226	scijava.roi.types.HalfAxes3D
+
 # A basic circular cylinder with faces at right angles.
-49	scijava.roi.types.CircularCylinder1
+230	scijava.roi.types.CircularCylinder1
 # A basic circular cylinder with faces at right angles.
-50	scijava.roi.types.CircularCylinder2
+231	scijava.roi.types.CircularCylinder2
 # Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
-51	scijava.roi.types.CircularCylinder3
+232	scijava.roi.types.CircularCylinder3
 # Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
-52	scijava.roi.types.CircularCylinder4
+233	scijava.roi.types.CircularCylinder4
+
+
 # A basic elliptic cylinder with faces at right angles.
-53	scijava.roi.types.EllipticCylinder1
+240	scijava.roi.types.EllipticCylinder1
 # A basic elliptic cylinder with faces at right angles.
-54	scijava.roi.types.EllipticCylinder2
+241	scijava.roi.types.EllipticCylinder2
 # Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
-55	scijava.roi.types.EllipticCylinder3
+242	scijava.roi.types.EllipticCylinder3
 # Face angles other than right-angles let chains of cylinders be used
 # for tubular structures without gaps at the joins.
-56	scijava.roi.types.EllipticCylinder4
-57	scijava.roi.types.Arc1
-58	scijava.roi.types.Arc2
-59	scijava.roi.types.Arc3
-60	scijava.roi.types.Arc1
-61	scijava.roi.types.Arc2
-62	scijava.roi.types.Arc3
+243	scijava.roi.types.EllipticCylinder4
+
+## Arcs
+250	scijava.roi.types.Arc12D
+251	scijava.roi.types.Arc13D
+252	scijava.roi.types.Arc22D
+253	scijava.roi.types.Arc23D
+254	scijava.roi.types.Arc32D
+255	scijava.roi.types.Arc33D
 
 # The mask is applied to the bounding line.  Dimensions specify the
 # x size of the mask.  DATA is the mask pixel data.
-100	scijava.roi.types.AlignedBitMask
+500	scijava.roi.types.AlignedBitMask1D
 # The mask is applied to the aligned bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-101	scijava.roi.types.AlignedBitMask
+501	scijava.roi.types.AlignedBitMask2D
 # The mask is applied to the aligned bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-102	scijava.roi.types.AlignedBitMask
+502	scijava.roi.types.AlignedBitMask3D
 # The mask is applied to the aligned bounding line.  Dimensions specify the
 # x size of the mask.  DATA is the mask pixel data.
-103	scijava.roi.types.AlignedGreyMask
+510	scijava.roi.types.AlignedGreyMask1D
 # The mask is applied to the aligned bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-104	scijava.roi.types.AlignedGreyMask
+511	scijava.roi.types.AlignedGreyMask2D
 # The mask is applied to the aligned bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-105	scijava.roi.types.AlignedGreyMask
+512	scijava.roi.types.AlignedGreyMask3D
 
 
 # The mask is applied to the bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-106	scijava.roi.types.BitMask
+520	scijava.roi.types.BitMask2D
 # The mask is applied to the bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-107	scijava.roi.types.BitMask
+521	scijava.roi.types.BitMask3D
 # The mask is applied to the bounding rectangle.  Dimensions specify the
 # x and y size of the mask.  DATA is the mask pixel data.
-108	scijava.roi.types.GreyMask
+530	scijava.roi.types.GreyMask2D
 # The mask is applied to the bounding cuboid.  Dimensions specify the
 # x, y and z size of the mask.  DATA is the mask pixel data.
-109	scijava.roi.types.GreyMask
+531	scijava.roi.types.GreyMask3D
+
 # Vertex references are indexes into the VERTS array.  Vertex-face
 # mapping is implied, and will require the implementor to construct the
 # mapping.
-69	scijava.roi.types.Mesh
+600	scijava.roi.types.Mesh2D
 # Vertex references are indexes into the VERTS array.  Vertex-face
 # mapping is implied, and will require the implementor to construct the
 # mapping.
-70	scijava.roi.types.Mesh
-71	scijava.roi.types.AffineTransform
-72	scijava.roi.types.AffineTransform
-73	scijava.roi.types.AffineTransform
-74	scijava.roi.types.TranslateTransform
-75	scijava.roi.types.TranslateTransform
-76	scijava.roi.types.TranslateTransform
-77	scijava.roi.types.ScaleTransform
-78	scijava.roi.types.ScaleTransform
-79	scijava.roi.types.ScaleTransform
-80	scijava.roi.types.RotateTransform
-81	scijava.roi.types.RotateTransform
-82	scijava.roi.types.AbstractTransform
-83	scijava.roi.types.AbstractTransform
-84	scijava.roi.types.AbstractTransform
-85	scijava.roi.types.Text
-87	scijava.roi.types.Value
-88	scijava.roi.types.Values
-89	scijava.roi.types.Range1
-# Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
-90	scijava.roi.types.Range2
-91	scijava.roi.types.Extrude
-93	scijava.roi.types.ShapeSet
-94	scijava.roi.types.Bitwise
-95	scijava.roi.types.Bitwise
-96	scijava.roi.types.Bitwise
+601	scijava.roi.types.Mesh3D
 
-#150	scijava.roi.types.ROI
-#151	scijava.roi.types.ROISet
-
-120	scijava.roi.types.DimConstraint
-121	scijava.roi.types.DimConstraintSet
-
-200	scijava.roi.types.Custom
-
-# We could use an RShape representation here so that we could set a shape as a property.
-
-210	scijava.roi.types.Property
-211	scijava.roi.types.Properties
-
-
-### Shapes
-
-## 3D geometric forms with no intrinsic volume
-
-0	scijava.roi.shape.Point
-1	scijava.roi.shape.Points
-2	scijava.roi.shape.Line
-3	scijava.roi.shape.Lines
-4	scijava.roi.shape.Polyline
-5	scijava.roi.shape.Polygon
-6	scijava.roi.shape.PolylineSpline
-7	scijava.roi.shape.PolygonSpline
-8	scijava.roi.shape.Arc
-
-## 3D geometric forms with intrinsic volume
-
-10	scijava.roi.shape.Cuboid
-11	scijava.roi.shape.Ellipsoid
-12	scijava.roi.shape.Cylinder
-13	scijava.roi.shape.Mesh
-
-## 3D pixel data
-
-# A bitmask may be aligned with the axes (with an aligned bounding
-# box) or unaligned (with an unaligned bounding box).  In order to
-# iterate over the mask with a 1:1 correspondence between mask and
-# underlying image pixel data, it must be converted to an aligned
-# form.  Additionally, it must be converted to an aligned form with
-# the samples aligned with the pixel grid.
-
-30	scijava.roi.shape.BitMask
-
-# A greymask may be aligned with the axes (with an aligned bounding
-# box) or unaligned (with an unaligned bounding box).  In order to
-# iterate over the mask with a 1:1 correspondence between mask and
-# underlying image pixel data, it must be converted to an aligned
-# form.  Additionally, it must be converted to an aligned form with
-# the samples aligned with the pixel grid.
-
-31	scijava.roi.shape.GreyMask
-
-## 3D transformations and operations
-
-40	scijava.roi.shape.AffineTransform
-41	scijava.roi.shape.AbstractTransform
-42	scijava.roi.shape.Bitwise
-
-## Grouping
-
-# All operations operate individually upon the contained shapes.  This
-# implies that transforms are performed upon each shape, with rotation
-# centres in the centre of each shape.
-70	scijava.roi.shape.Set
-
-## Annotations
-
-# Text in 3D will need to be based upon a rectangle in 3D (not yet
-# possible without a transform).  Should label alignment be specified
-# directly in the representation, or in higher-level metadata?
-100	scijava.roi.shape.Text
-101	scijava.roi.shape.Scale
-# TODO: Specify grid spacing
-102	scijava.roi.shape.Grid
+## Custom ROI
 
 ## Custom (user-definable) shapes
 
@@ -262,24 +217,132 @@
 # any other information used for editing which is not contained in
 # the MEASUREMENTS or VISUAL sets.
 
-200	scijava.roi.shape.Custom
+650	scijava.roi.shape.Custom
 
-201	scijava.roi.shape.Property
+## Transformations
+
+700	scijava.roi.types.AffineTransform1D
+701	scijava.roi.types.AffineTransform2D
+702	scijava.roi.types.AffineTransform3D
+703	scijava.roi.types.AffineTransformnD
+
+710	scijava.roi.types.TranslateTransform1D
+711	scijava.roi.types.TranslateTransform2D
+712	scijava.roi.types.TranslateTransform3D
+713	scijava.roi.types.ScaleTransform1D
+714	scijava.roi.types.ScaleTransform2D
+715	scijava.roi.types.ScaleTransform3D
+716	scijava.roi.types.RotateTransform2D
+717	scijava.roi.types.RotateTransform3D
+720	scijava.roi.types.AbstractTransform1D
+721	scijava.roi.types.AbstractTransform2D
+722	scijava.roi.types.AbstractTransform3D
+
+88	scijava.roi.types.ValuesnD
+89	scijava.roi.types.Range1nD
+# Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
+90	scijava.roi.types.Range2nD
+91	scijava.roi.types.Extrude
+93	scijava.roi.types.ShapeSet
+94	scijava.roi.types.Bitwise1D
+95	scijava.roi.types.Bitwise2D
+96	scijava.roi.types.Bitwise3D
+
+#150	scijava.roi.types.ROI
+#151	scijava.roi.types.ROISet
+
+
+
+
+## Annotations
+
+# Text in 3D will need to be based upon a rectangle in 3D (not yet
+# possible without a transform).  Should label alignment be specified
+# directly in the representation, or in higher-level metadata?
+1000	scijava.roi.annotation.Text
+1001	scijava.roi.annotation.Scale
+# TODO: Specify grid spacing
+1002	scijava.roi.annotation.Grid
+
+### Shapes
+
+## 3D geometric forms with no intrinsic volume
+
+2000	scijava.roi.shape.Point
+2001	scijava.roi.shape.Points
+2002	scijava.roi.shape.Line
+2003	scijava.roi.shape.Lines
+2004	scijava.roi.shape.Polyline
+2005	scijava.roi.shape.Polygon
+2006	scijava.roi.shape.PolylineSpline
+2007	scijava.roi.shape.PolygonSpline
+2008	scijava.roi.shape.Arc
+
+## 3D geometric forms with intrinsic volume
+
+2020	scijava.roi.shape.Cuboid
+2021	scijava.roi.shape.Ellipsoid
+2022	scijava.roi.shape.Cylinder
+2023	scijava.roi.shape.Mesh
+
+## 3D pixel data
+
+# A bitmask may be aligned with the axes (with an aligned bounding
+# box) or unaligned (with an unaligned bounding box).  In order to
+# iterate over the mask with a 1:1 correspondence between mask and
+# underlying image pixel data, it must be converted to an aligned
+# form.  Additionally, it must be converted to an aligned form with
+# the samples aligned with the pixel grid.
+
+2040	scijava.roi.shape.BitMask
+
+# A greymask may be aligned with the axes (with an aligned bounding
+# box) or unaligned (with an unaligned bounding box).  In order to
+# iterate over the mask with a 1:1 correspondence between mask and
+# underlying image pixel data, it must be converted to an aligned
+# form.  Additionally, it must be converted to an aligned form with
+# the samples aligned with the pixel grid.
+
+2041	scijava.roi.shape.GreyMask
+
+## 3D transformations and operations
+
+2050	scijava.roi.shape.AffineTransform
+2051	scijava.roi.shape.AbstractTransform
+2052	scijava.roi.shape.Bitwise
+
+## Grouping
+
+# All operations operate individually upon the contained shapes.  This
+# implies that transforms are performed upon each shape, with rotation
+# centres in the centre of each shape.
+2060	scijava.roi.shape.Set
+
+
+
 
 ### nD constraints
 
 # Constrain region to a single value within a specific dimension.
-1	scijava.roi.dimconstraint.Value
+3000	scijava.roi.dimconstraint.Value
 # Constrain region to multiple values within a specific dimension.
-2	scijava.roi.dimconstraint.Values
+3001	scijava.roi.dimconstraint.Values
 # Constrain region to a range of values within a specific dimension.
-3	scijava.roi.dimconstraint.Range
+3002	scijava.roi.dimconstraint.Range
 # There are no limits in the additional dimension; these must be set
 # by combining with a range instead.
 
 ## nD transformations and shape operations
 
-10	scijava.roi.dimconstraint.ExtrudeDim
+3010	scijava.roi.dimconstraint.Extrude
 # The result is a shape combining all subset dimensions.
 # It is illegal to have a common dimension between the two shapes.
-11	scijava.roi.dimconstraint.DimConstraintSet
+3011	scijava.roi.dimconstraint.Set
+
+#3020	scijava.roi.types.DimConstraint
+3021	scijava.roi.types.DimConstraintSet
+
+
+# We could use an RShape representation here so that we could set a shape as a property.
+
+4000	scijava.roi.types.Properties

@@ -2,10 +2,11 @@ Transforms
 ==========
 
 The model defines shapes for performing affine transforms and abstract
-transforms (:ref:`_shape_AffineTransform_3D` and
-:ref:`_shape_AbstractTransform_3D`).  The purpose of the abstract
-transform is to serve as a hook mechanism for implementation-specific
-transformations to be supported within the model.
+transforms (:ref:`type_scijava_roi_types_AffineTransform3D` and
+:ref:`type_scijava_roi_types_AbstractTransform3D`).  The purpose of
+the abstract transform is to serve as a hook mechanism for
+implementation-specific transformations to be supported within the
+model.
 
 All transforms are shapes.  The implication is that all
 transformations on shapes evalulate to the transformed shape, i.e. the

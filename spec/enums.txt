@@ -1,11 +1,11 @@
 # Primitive	Name	Number	Symbol	Description
-Operator	EQ	0	=	Equals
-Operator	NE	1	≠	Not equals
-Operator	LT	2	<	Less than
-Operator	LE	3	≤	Less than or equal to
-Operator	GT	4	>	Greater than
-Operator	GE	5	≥	Greater than or equal to
-BLogic	AND	0	AND	And
-BLogic	OR	1	OR	Or
-BLogic	NOT	2	NOT	Not
-BLogic	XOR	3	XOR	Exclusive or
+scijava.roi.types.Operator	EQ	0	=	Equals
+scijava.roi.types.Operator	NE	1	≠	Not equals
+scijava.roi.types.Operator	LT	2	<	Less than
+scijava.roi.types.Operator	LE	3	≤	Less than or equal to
+scijava.roi.types.Operator	GT	4	>	Greater than
+scijava.roi.types.Operator	GE	5	≥	Greater than or equal to
+scijava.roi.types.BLogic	AND	0	AND	And
+scijava.roi.types.BLogic	OR	1	OR	Or
+scijava.roi.types.BLogic	NOT	2	NOT	Not
+scijava.roi.types.BLogic	XOR	3	XOR	Exclusive or

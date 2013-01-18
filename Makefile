@@ -14,7 +14,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html fullhtml dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext gen
+.PHONY: help clean html fullhtml dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext gen java java-tar java-zip jar test
 
 default: html
 
@@ -45,10 +45,18 @@ gen: genstamp
 genstamp:
 	./genspec
 
-clean:
-	-rm -rf $(BUILDDIR)/* gen genstamp shapes.rst representations.rst java c++
+	@for file in spec/java-static/*.java; do \
+	  echo $$file; \
+	  dest=$$(basename "$$file" | sed -e 's;\.;/;g' -e 's;/java$$;.java;'); \
+	  echo $$dest ; \
+	  cp -v "$$file" "java/$$dest"; \
+	done
 
-fullhtml: gen latexpdf html
+
+clean:
+	-rm -rf $(BUILDDIR)/* gen genstamp types.rst shapes.rst representations.rst java c++ *.jar *.tar.xz
+
+fullhtml: gen latexpdf jar java-tar java-zip html
 html: gen
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
@@ -115,7 +123,7 @@ latexpdf: gen
 	@echo "Running LaTeX files through pdflatex..."
 
 	if [ ! -d _build/latex/gen ]; then mkdir _build/latex/gen; fi
-	cp gen/*.pdf _build/latex/gen
+#	cp gen/*.pdf _build/latex/gen
 	cd "$(BUILDDIR)/latex" && \
 	xelatex $(LATEXOPTS) 'roi.tex' && \
         xelatex $(LATEXOPTS) 'roi.tex' && \
@@ -171,3 +179,34 @@ doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
+
+JAVASOURCES = $(shell find java -name '*.java')
+JAVACLASSES = $(addsuffix .class,$(basename $(JAVASOURCES)))
+
+%.class: %.java
+	@echo JAVAC $<
+	@CLASSPATH= javac -classpath java -Xlint $<
+
+java: gen
+	@$(MAKE) $(JAVACLASSES)
+
+java-tar: scijava-roi-src.tar.xz
+
+java-zip: scijava-roi-src.zip
+
+jar: scijava-roi.jar
+
+scijava-roi-src.tar.xz: gen
+	@echo TAR $@
+	@tar cf - -C java $$(cd java && find . -name '*.java') | xz -9 > "$@"
+
+scijava-roi-src.zip: gen
+	@echo ZIP $@
+	cd java && zip -r ../$@ *
+
+scijava-roi.jar: java
+	@echo JAR $@
+	@jar cf $@ $$(cd java && find . -name '*.class' | sed -e 's;^;-C java ;')
+
+test:
+	$(MAKE) -C test test

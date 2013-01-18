@@ -1,21 +1,17 @@
-#Interface	Inherits	Description
+#Interface	Description
 
-Serialisable		Object can be serialised and deserialised
-MeasureLength		Get length of object
-MeasureArea		Get area and perimeter of object
-MeasureVolume		Get volume and surface area of object
+scijava.roi.Serialisable	Object can be serialised and deserialised
 
-Iterable	Shape
-RandomAccessible	Shape
-RealRandomAccessible	RandomAccessible	Shape
+scijava.roi.measurement.Length	Get length of object
+scijava.roi.measurement.Area	Get area and perimeter of object
+scijava.roi.measurement.Volume	Get volume and surface area of object
 
-scijava.roi.ROISet	Serialisable	Set of ROIs
-scijava.roi.ROI	Serialisable,Iterable,RealRandomAccessible	Region of interest
-scijava.roi.shape.PhysicalShape	Serialisable,RealRandomAccessible	Abstract shape
-scijava.roi.shape.Representation	Serialisable,RealRandomAccessible	Abstract shape representation
-scijava.roi.shape.DimConstraint	Serialisable,RandomAccessible Abstract shape dimensional constraints
+scijava.roi.Iterable	An iterable region
 
-BitMask	Shape	S
-GreyMask	Shape
-Mesh	Shape
-jHotDraw	Shape
+scijava.roi.RegionOfInterest	Region of interest
+
+scijava.roi.RegionOfInterestSet	Set of ROIs
+
+
+scijava.roi.shape.PhysicalShape	Abstract shape
+scijava.roi.types.DimConstraint	Abstract dimensional constraints

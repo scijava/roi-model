@@ -1,203 +1,236 @@
 #Name	Description
 
-## Primitives
+## Primitive numeric types
+
+scijava.roi.types.Null	Null type (used to indicate the absence of optional type)
 
 scijava.roi.types.TypeID	Numeric shape identifier
+
+scijava.roi.types.UInt8	Unsigned 8-bit integer
+scijava.roi.types.UInt16	Unsigned 16-bit integer
+scijava.roi.types.UInt32	Unsigned 32-bit integer
+scijava.roi.types.UInt64	Unsigned 64-bit integer
+#scijava.roi.types.UInt128	Unsigned 128-bit integer (placeholder)
+
+scijava.roi.types.Int8	Signed 8-bit integer
+scijava.roi.types.Int16	Signed 16-bit integer
+scijava.roi.types.Int32	Signed 32-bit integer
+scijava.roi.types.Int64	Signed 64-bit integer
+#scijava.roi.types.Int128	Signed 128-bit integer (placeholder)
+
+scijava.roi.types.Float32	Single precision floating point number
+scijava.roi.types.Float64	Double precision floating point number
+#scijava.roi.types.Float128	Quadruple precision floating point number (placeholder)
+
+## Primitive compound types
+
+scijava.roi.types.String	Text string
+
+# double[4] = 32 bytes; a more compact representation could be used
+scijava.roi.types.Color	Color in RGBA (0,1) range
+
+## Enumerated types
+
+scijava.roi.types.Operator	Mathematical operator
+scijava.roi.types.BLogic	Bitwise binary logical operator
+
 scijava.roi.types.Count	Number of objects
 scijava.roi.types.Index	Index into an array
 scijava.roi.types.Value	Numerical value
-scijava.roi.types.Operator	Mathematical operator
-scijava.roi.types.BLogic	Bitwise binary logical operator
-scijava.roi.types.Color	Color in RGBA (0,1) range
+
+## Generic containers
+
+scijava.roi.types.Pair	Pair of values (for map and graph containers)
+scijava.roi.types.Array	Fixed length ordered array
+scijava.roi.types.Set	Fixed length unordered set
+scijava.roi.types.Map	Fixed length unordered map
+scijava.roi.types.DirectedGraph	Fixed length directed graph
+
+
+## Representations
+
+#Add representations for unit vectors?  RUnitVector?
+
+scijava.roi.types.Points1D	A list of points in 1D
+scijava.roi.types.Points2D	A list of points in 2D
+scijava.roi.types.Points3D	A list of points in 3D
+scijava.roi.types.PointsnD	A list of points in nD
+
 scijava.roi.types.Vertex1D	Vertex in 1D
 scijava.roi.types.Vertex2D	Vertex in 2D
 scijava.roi.types.Vertex3D	Vertex in 3D
 scijava.roi.types.VertexnD	Vertex in nD
 scijava.roi.types.Vector1D	Vector in 1D
 scijava.roi.types.Vector2D	Vector in 2D
-scijava.roi.types.VectornD	Vector in nD
 scijava.roi.types.Vector3D	Vector in 3D
-scijava.roi.types.Affine1D	Affine transform in 1D
-scijava.roi.types.Affine2D	Affine transform in 2D
-scijava.roi.types.Affine3D	Affine transform in 3D
-scijava.roi.types.AffinenD	Affine transform in nD
-scijava.roi.types.String	Text string
+scijava.roi.types.VectornD	Vector in nD
+scijava.roi.types.VertexList1D	A list of vertices in 1D
+scijava.roi.types.VertexList2D	A list of vertices in 2D
+scijava.roi.types.VertexList3D	A list of vertices in 3D
+scijava.roi.types.VertexListnD	A list of vertices in nD
+scijava.roi.types.Vectors1D	A list of vectors in 1D
+scijava.roi.types.Vectors2D	A list of vectors in 2D
+scijava.roi.types.Vectors3D	A list of vectors in 3D
+scijava.roi.types.VectorsnD	A list of vectors in nD
+scijava.roi.types.LinePoints1D	A line described by two points in 1D
+scijava.roi.types.LinePoints2D	A line described by two points in 2D
+scijava.roi.types.LinePoints3D	A line described by two points in 3D
+scijava.roi.types.LineVector1D	A line described by a point and a vector
+scijava.roi.types.LineVector2D	A line described by a point and a vector
+scijava.roi.types.LineVector3D	A line described by a point and a vector
+scijava.roi.types.LinesPoints1D	A list of lines described by two points in 1D
+scijava.roi.types.LinesPoints2D	A list of lines described by two points in 2D
+scijava.roi.types.LinesPoints3D	A list of lines described by two points in 3D
+scijava.roi.types.LinesVectors1D	A list of lines described by a point and a vector in 1D; can be used to represent a vector field
+scijava.roi.types.LinesVectors2D	A list of lines described by a point and a vector in 2D; can be used to represent a vector field
+scijava.roi.types.LinesVectors3D	A list of lines described by a point and a vector in 3D; can be used to represent a vector field
+scijava.roi.types.PolylinePoints1D	A list of points in a polyline in 1D [could use RPoints1D directly]
+scijava.roi.types.PolylinePoints2D	A list of points in a polyline in 2D [could use RPoints2D directly]
+scijava.roi.types.PolylinePoints3D	A list of points in a polyline in 3D [could use RPoints3D directly]
+scijava.roi.types.PolylineVector1D	A list of points in a polyline represented by a starting point and list of vectors in 1D
+scijava.roi.types.PolylineVector2D	A list of points in a polyline represented by a starting point and list of vectors in 2D
+scijava.roi.types.PolylineVector3D	A list of points in a polyline represented by a starting point and list of vectors in 3D
+scijava.roi.types.AlignedSquare1	A square in 2D aligned with the axes described by a corner point and adjacent corner
+scijava.roi.types.AlignedSquare2	A square in 2D aligned with the axes described by a corner point and vector to an adjacent corner
+scijava.roi.types.AlignedCube1	A cube in 3D aligned with the axes described by a corner point and adjacent corner
+scijava.roi.types.AlignedCube2	A cube in 3D aligned with the axes described by a corner point and vector to an adjacent corner
 
-## Representations
+scijava.roi.types.AlignedRectangle1	An aligned rectangle described by two points in 2D
+scijava.roi.types.AlignedRectangle2	An aligned rectangle described by a point and a vector
+scijava.roi.types.AlignedCuboid1	An aligned cuboid described by two points in 3D
+scijava.roi.types.AlignedCuboid2	An aligned cuboid described by a point and a vector
+scijava.roi.types.Cube1	An aligned cuboid described by two points in 3D
+scijava.roi.types.Cube2	An aligned cuboid described by a point and a vector
+scijava.roi.types.Square1	An aligned cuboid described by two points in 3D
+scijava.roi.types.Square2	An aligned cuboid described by a point and a vector
 
-#Add representations for unit vectors?  RUnitVector?
-scijava.roi.types.RPoint	A single point in 1D
-scijava.roi.types.RPoint	A single point in 2D
-scijava.roi.types.RPoint	A single point in 3D
-scijava.roi.types.RPoints	A list of points in 1D
-scijava.roi.types.RPoints	A list of points in 2D
-scijava.roi.types.RPoints	A list of points in 3D
-scijava.roi.types.RVector	A vector in 1D
-scijava.roi.types.RVector	A vector in 2D
-scijava.roi.types.RVector	A vector in 3D
-scijava.roi.types.RVectors	A list of vectors in 1D
-scijava.roi.types.RVectors	A list of vectors in 2D
-scijava.roi.types.RVectors	A list of vectors in 3D
-scijava.roi.types.RLinePoints	A line described by two points in 1D
-scijava.roi.types.RLinePoints	A line described by two points in 2D
-scijava.roi.types.RLinePoints	A line described by two points in 3D
-scijava.roi.types.RLineVector	A line described by a point and a vector
-scijava.roi.types.RLineVector	A line described by a point and a vector
-scijava.roi.types.RLineVector	A line described by a point and a vector
-scijava.roi.types.RLinesPoints	A list of lines described by two points in 1D
-scijava.roi.types.RLinesPoints	A list of lines described by two points in 2D
-scijava.roi.types.RLinesPoints	A list of lines described by two points in 3D
-scijava.roi.types.RLinesVectors	A list of lines described by a point and a vector in 1D; can be used to represent a vector field
-scijava.roi.types.RLinesVectors	A list of lines described by a point and a vector in 2D; can be used to represent a vector field
-scijava.roi.types.RLinesVectors	A list of lines described by a point and a vector in 3D; can be used to represent a vector field
-scijava.roi.types.RPolylinePoints	A list of points in a polyline in 1D [could use RPoints1D directly]
-scijava.roi.types.RPolylinePoints	A list of points in a polyline in 2D [could use RPoints2D directly]
-scijava.roi.types.RPolylinePoints	A list of points in a polyline in 3D [could use RPoints3D directly]
-scijava.roi.types.RPolylineVector	A list of points in a polyline represented by a starting point and list of vectors in 1D
-scijava.roi.types.RPolylineVector	A list of points in a polyline represented by a starting point and list of vectors in 2D
-scijava.roi.types.RPolylineVector	A list of points in a polyline represented by a starting point and list of vectors in 3D
-scijava.roi.types.RAlignedSquare1	A square in 2D aligned with the axes described by a corner point and adjacent corner
-scijava.roi.types.RAlignedSquare2	A square in 2D aligned with the axes described by a corner point and vector to an adjacent corner
-scijava.roi.types.RAlignedCube1	A cube in 3D aligned with the axes described by a corner point and adjacent corner
-scijava.roi.types.RAlignedCube2	A cube in 3D aligned with the axes described by a corner point and vector to an adjacent corner
+scijava.roi.types.Rectangle1	A rectangle in 2D described by two corner points and a vector
+scijava.roi.types.Rectangle2	A rectangle in 2D described by a corner point and two vectors
+scijava.roi.types.Cuboid1	A cuboid in 3D described by two adjacent corners and two vectors
+scijava.roi.types.Cuboid2	A cuboid in 3D described by a corner and three vectors
+scijava.roi.types.Circle0	A circle in 2D described by a centre point and circumference point
+scijava.roi.types.Circle1	A circle in 2D described by a centre point and 1D radius
+scijava.roi.types.Circle2	A circle in 2D described by a centre point and 2D radius
+scijava.roi.types.Circle3	A circle in 2D described by a circumference point and vector to the centre point
+scijava.roi.types.Circle4	A circle in 2D described by two circumference points [diameter]
+scijava.roi.types.Circle5	A circle in 2D described by three circumference points
+scijava.roi.types.Sphere0	A sphere in 3D described by a centre point and surface point
+scijava.roi.types.Sphere1	A sphere in 3D described by a centre point and 1D radius
+scijava.roi.types.Sphere2	A sphere in 3D described by a centre point and 2D radius
+scijava.roi.types.Sphere3	A sphere in 3D described by a centre point and 3D radius
+scijava.roi.types.Sphere4	A sphere in 3D described by a surface point and vector to the centre point
+scijava.roi.types.Sphere5	A sphere in 3D described by a two surface points [diameter]
+scijava.roi.types.Sphere6	A sphere in 3D described by a four surface points
+scijava.roi.types.AlignedHalfAxes2D	An ellipse in 2D aligned with the axes described by two half axes
+scijava.roi.types.HalfAxes2D	An ellipse in 2D described by two half axes
+scijava.roi.types.AlignedHalfAxes3D	An ellipsoid in 3D aligned with the axes
+scijava.roi.types.HalfAxes3D	An ellipsoid in 3D described by three half axes
+# A basic circular cylinder with faces at right angles.
+scijava.roi.types.CircularCylinder1	A circular cylinder in 3D described by the centres of both faces and a radius
+# A basic circular cylinder with faces at right angles.
+scijava.roi.types.CircularCylinder2	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
+# Face angles other than right-angles let chains of cylinders be used
+# for tubular structures without gaps at the joins.
+scijava.roi.types.CircularCylinder3	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
+# Face angles other than right-angles let chains of cylinders be used
+# for tubular structures without gaps at the joins.
+scijava.roi.types.CircularCylinder4	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
+# A basic elliptic cylinder with faces at right angles.
+scijava.roi.types.EllipticCylinder1	An elliptic cylinder in 3D described by the centres both faces and half axes
+# A basic elliptic cylinder with faces at right angles.
+scijava.roi.types.EllipticCylinder2	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
+# Face angles other than right-angles let chains of cylinders be used
+# for tubular structures without gaps at the joins.
+scijava.roi.types.EllipticCylinder3	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
+# Face angles other than right-angles let chains of cylinders be used
+# for tubular structures without gaps at the joins.
+scijava.roi.types.EllipticCylinder4	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
+scijava.roi.types.Arc12D	An arc in 2D described by a line (points) and vector
+scijava.roi.types.Arc22D	An arc in 2D described by a line (vector) and a vector
+scijava.roi.types.Arc32D	An arc in 2D described by three points; vector inferred from third point
+scijava.roi.types.Arc13D	An arc in 3D described by a line (points) and vector
+scijava.roi.types.Arc23D	An arc in 3D described by a line (vector) and a vector
+scijava.roi.types.Arc33D	An arc in 3D described by three points; vector inferred from third point
 
-scijava.roi.types.RAlignedRectangle1	An aligned rectangle described by two points in 2D
-scijava.roi.types.RAlignedRectangle2	An aligned rectangle described by a point and a vector
-scijava.roi.types.RAlignedCuboid1	An aligned cuboid described by two points in 3D
-scijava.roi.types.RAlignedCuboid2	An aligned cuboid described by a point and a vector
-scijava.roi.types.RCube1	An aligned cuboid described by two points in 3D
-scijava.roi.types.RCube2	An aligned cuboid described by a point and a vector
-scijava.roi.types.RSquare1	An aligned cuboid described by two points in 3D
-scijava.roi.types.RSquare2	An aligned cuboid described by a point and a vector
-
-scijava.roi.types.RRectangle1	A rectangle in 2D described by two corner points and a vector
-scijava.roi.types.RRectangle2	A rectangle in 2D described by a corner point and two vectors
-scijava.roi.types.RCuboid1	A cuboid in 3D described by two adjacent corners and two vectors
-scijava.roi.types.RCuboid2	A cuboid in 3D described by a corner and three vectors
-scijava.roi.types.RCircle0	A circle in 2D described by a centre point and circumference point
-scijava.roi.types.RCircle1	A circle in 2D described by a centre point and 1D radius
-scijava.roi.types.RCircle2	A circle in 2D described by a centre point and 2D radius
-scijava.roi.types.RCircle3	A circle in 2D described by a circumference point and vector to the centre point
-scijava.roi.types.RCircle4	A circle in 2D described by two circumference points [diameter]
-scijava.roi.types.RCircle5	A circle in 2D described by three circumference points
-scijava.roi.types.RSphere0	A sphere in 3D described by a centre point and surface point
-scijava.roi.types.RSphere1	A sphere in 3D described by a centre point and 1D radius
-scijava.roi.types.RSphere2	A sphere in 3D described by a centre point and 2D radius
-scijava.roi.types.RSphere3	A sphere in 3D described by a centre point and 3D radius
-scijava.roi.types.RSphere4	A sphere in 3D described by a surface point and vector to the centre point
-scijava.roi.types.RSphere5	A sphere in 3D described by a two surface points [diameter]
-scijava.roi.types.RSphere6	A sphere in 3D described by a four surface points
-scijava.roi.types.RAlignedHalfAxes	An ellipse in 2D aligned with the axes described by two half axes
-scijava.roi.types.RHalfAxes	An ellipse in 2D described by two half axes
-scijava.roi.types.REllipseCovariance	An ellipse in 2D described by a centre point and covariance matrix (Mahalanbobis distance)
-scijava.roi.types.RAlignedHalfAxes	An ellipsoid in 3D aligned with the axes
-scijava.roi.types.RHalfAxes	An ellipsoid in 3D described by three half axes
-scijava.roi.types.REllipsoidCovariance	An ellipsoid in 3D described by a centre point and covariance matrix (Mahalanbobis distance)
-scijava.roi.types.# A basic circular cylinder with faces at right angles.
-scijava.roi.types.RCircularCylinder1	A circular cylinder in 3D described by the centres of both faces and a radius
-scijava.roi.types.# A basic circular cylinder with faces at right angles.
-scijava.roi.types.RCircularCylinder2	A circular cylinder in 3D described by the centre of one face, vector to second face and a radius
-scijava.roi.types.# Face angles other than right-angles let chains of cylinders be used
-scijava.roi.types.# for tubular structures without gaps at the joins.
-scijava.roi.types.RCircularCylinder3	A circular cylinder in 3D with faces at different angles described by the centres of both faces and vectors specifying the radius and angles of the faces
-scijava.roi.types.# Face angles other than right-angles let chains of cylinders be used
-scijava.roi.types.# for tubular structures without gaps at the joins.
-scijava.roi.types.RCircularCylinder4	A circular cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and vectors specifying the radius and angles of the faces
-scijava.roi.types.# A basic elliptic cylinder with faces at right angles.
-scijava.roi.types.REllipticCylinder1	An elliptic cylinder in 3D described by the centres both faces and half axes
-scijava.roi.types.# A basic elliptic cylinder with faces at right angles.
-scijava.roi.types.REllipticCylinder2	An elliptic cylinder in 3D described by the centre of one face, vector to second face and half axes
-scijava.roi.types.# Face angles other than right-angles let chains of cylinders be used
-scijava.roi.types.# for tubular structures without gaps at the joins.
-scijava.roi.types.REllipticCylinder3	An elliptic cylinder in 3D with faces at different angles described by the centres both faces and half axes and angles
-scijava.roi.types.# Face angles other than right-angles let chains of cylinders be used
-scijava.roi.types.# for tubular structures without gaps at the joins.
-scijava.roi.types.REllipticCylinder4	An elliptic cylinder in 3D with faces at different angles described by the centre of one face, vector to second face and half axes and angles
-scijava.roi.types.RArc1	An arc in 2D described by a line (points) and vector
-scijava.roi.types.RArc2	An arc in 2D described by a line (vector) and a vector
-scijava.roi.types.RArc3	An arc in 2D described by three points; vector inferred from third point
-scijava.roi.types.RArc1	An arc in 3D described by a line (points) and vector
-scijava.roi.types.RArc2	An arc in 3D described by a line (vector) and a vector
-scijava.roi.types.RArc3	An arc in 3D described by three points; vector inferred from third point
-
-scijava.roi.types.# The mask is applied to the bounding line.  Dimensions specify the
-scijava.roi.types.# x size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedBitMask	A bitmask in 1D described by aligned bounding line, dimensions and mask data
-scijava.roi.types.# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
-scijava.roi.types.# x and y size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedBitMask	A bitmask in 2D described by aligned bounding rectangle, dimensions and mask data
-scijava.roi.types.# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
-scijava.roi.types.# x, y and z size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedBitMask	A bitmask in 3D described by aligned bounding cuboid, dimensions and mask data
-scijava.roi.types.# The mask is applied to the aligned bounding line.  Dimensions specify the
-scijava.roi.types.# x size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedGreyMask	A greymask in 1D described by aligned bounding line, dimensions and mask data
-scijava.roi.types.# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
-scijava.roi.types.# x and y size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedGreyMask	A greymask in 2D described by aligned bounding rectangle, dimensions and mask data
-scijava.roi.types.# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
-scijava.roi.types.# x, y and z size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RAlignedGreyMask	A greymask in 3D described by aligned bounding cuboid, dimensions and mask data
+# The mask is applied to the bounding line.  Dimensions specify the
+# x size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedBitMask1D	A bitmask in 1D described by aligned bounding line, dimensions and mask data
+# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedBitMask2D	A bitmask in 2D described by aligned bounding rectangle, dimensions and mask data
+# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedBitMask3D	A bitmask in 3D described by aligned bounding cuboid, dimensions and mask data
+# The mask is applied to the aligned bounding line.  Dimensions specify the
+# x size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedGreyMask1D	A greymask in 1D described by aligned bounding line, dimensions and mask data
+# The mask is applied to the aligned bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedGreyMask2D	A greymask in 2D described by aligned bounding rectangle, dimensions and mask data
+# The mask is applied to the aligned bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.AlignedGreyMask3D	A greymask in 3D described by aligned bounding cuboid, dimensions and mask data
 
 
-scijava.roi.types.# The mask is applied to the bounding rectangle.  Dimensions specify the
-scijava.roi.types.# x and y size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RBitMask	A bitmask in 2D described by bounding rectangle, dimensions and mask data
-scijava.roi.types.# The mask is applied to the bounding cuboid.  Dimensions specify the
-scijava.roi.types.# x, y and z size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RBitMask	A bitmask in 3D described by bounding cuboid, dimensions and mask data
-scijava.roi.types.# The mask is applied to the bounding rectangle.  Dimensions specify the
-scijava.roi.types.# x and y size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RGreyMask	A greymask in 2D described by bounding rectangle, dimensions and mask data
-scijava.roi.types.# The mask is applied to the bounding cuboid.  Dimensions specify the
-scijava.roi.types.# x, y and z size of the mask.  DATA is the mask pixel data.
-scijava.roi.types.RGreyMask	A greymask in 3D described by bounding cuboid, dimensions and mask data
-scijava.roi.types.# Vertex references are indexes into the VERTS array.  Vertex-face
-scijava.roi.types.# mapping is implied, and will require the implementor to construct the
-scijava.roi.types.# mapping.
-scijava.roi.types.RMesh	A face-vertex mesh in 2D described by face and vertex lists
-scijava.roi.types.# Vertex references are indexes into the VERTS array.  Vertex-face
-scijava.roi.types.# mapping is implied, and will require the implementor to construct the
-scijava.roi.types.# mapping.
-scijava.roi.types.RMesh	A face-vertex mesh in 3D described by face and vertex lists
-scijava.roi.types.RAffineTransform	An affine transform in 1D described by a transformation matrix and 1D shape to transform
-scijava.roi.types.RAffineTransform	An affine transform in 2D described by a transformation matrix and 2D shape to transform
-scijava.roi.types.RAffineTransform	An affine transform in 3D described by a transformation matrix and 3D shape to transform
-scijava.roi.types.RTranslateTransform	A translation transformation in 1D
-scijava.roi.types.RTranslateTransform	A translation transformation in 2D
-scijava.roi.types.RTranslateTransform	A translation transformation in 3D
-scijava.roi.types.RScaleTransform	A scaling transformation in 1D
-scijava.roi.types.RScaleTransform	A scaling transformation in 2D
-scijava.roi.types.RScaleTransform	A scaling transformation in 3D
-scijava.roi.types.RRotateTransform	A rotation transformation in 2D
-scijava.roi.types.RRotateTransform	A rotation transformation in 3D
-scijava.roi.types.RAbstractTransform	An abstract (implementation-defined) transform in 1D
-scijava.roi.types.RAbstractTransform	An abstract (implementation-defined) transform in 2D
-scijava.roi.types.RAbstractTransform	An abstract (implementation-defined) transform in 3D
-scijava.roi.types.RText	Text
-scijava.roi.types.RValue	A single value
-scijava.roi.types.RValues	A set of values
-scijava.roi.types.RRange1	A range of values specified as the half-open range [V1, V2)
-scijava.roi.types.# Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
-scijava.roi.types.RRange2	A range of values specified as an inequality (or equality)
-scijava.roi.types.RExtrude	A shape extruded in an additional dimension
-scijava.roi.types.RShapeSet	A set of shapes
-scijava.roi.types.RBitwise	Binary bitwise operation
-scijava.roi.types.RBitwise	Binary bitwise operation
-scijava.roi.types.RBitwise	Binary bitwise operation
+# The mask is applied to the bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.BitMask2D	A bitmask in 2D described by bounding rectangle, dimensions and mask data
+# The mask is applied to the bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.BitMask3D	A bitmask in 3D described by bounding cuboid, dimensions and mask data
+# The mask is applied to the bounding rectangle.  Dimensions specify the
+# x and y size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.GreyMask2D	A greymask in 2D described by bounding rectangle, dimensions and mask data
+# The mask is applied to the bounding cuboid.  Dimensions specify the
+# x, y and z size of the mask.  DATA is the mask pixel data.
+scijava.roi.types.GreyMask3D	A greymask in 3D described by bounding cuboid, dimensions and mask data
+# Vertex references are indexes into the VERTS array.  Vertex-face
+# mapping is implied, and will require the implementor to construct the
+# mapping.
+scijava.roi.types.Mesh2D	A face-vertex mesh in 2D described by face and vertex lists
+# Vertex references are indexes into the VERTS array.  Vertex-face
+# mapping is implied, and will require the implementor to construct the
+# mapping.
+scijava.roi.types.Mesh3D	A face-vertex mesh in 3D described by face and vertex lists
+scijava.roi.types.AffineTransform1D	An affine transform in 1D described by a transformation matrix and 1D shape to transform
+scijava.roi.types.AffineTransform2D	An affine transform in 2D described by a transformation matrix and 2D shape to transform
+scijava.roi.types.AffineTransform3D	An affine transform in 3D described by a transformation matrix and 3D shape to transform
+scijava.roi.types.AffineTransformnD	An affine transform in nD described by a transformation matrix and nD shape to transform
+scijava.roi.types.TranslateTransform1D	A translation transformation in 1D
+scijava.roi.types.TranslateTransform2D	A translation transformation in 2D
+scijava.roi.types.TranslateTransform3D	A translation transformation in 3D
+scijava.roi.types.ScaleTransform1D	A scaling transformation in 1D
+scijava.roi.types.ScaleTransform2D	A scaling transformation in 2D
+scijava.roi.types.ScaleTransform3D	A scaling transformation in 3D
+scijava.roi.types.RotateTransform2D	A rotation transformation in 2D
+scijava.roi.types.RotateTransform3D	A rotation transformation in 3D
+scijava.roi.types.AbstractTransform1D	An abstract (implementation-defined) transform in 1D
+scijava.roi.types.AbstractTransform2D	An abstract (implementation-defined) transform in 2D
+scijava.roi.types.AbstractTransform3D	An abstract (implementation-defined) transform in 3D
+scijava.roi.types.ValuenD	A single value
+scijava.roi.types.ValuesnD	A set of values
+scijava.roi.types.Range1nD	A range of values specified as the half-open range [V1, V2)
+# Specified as all values for which the formula “n O1 V1” is true, e.g. “n ≤ 5”.
+scijava.roi.types.Range2nD	A range of values specified as an inequality (or equality)
+scijava.roi.types.Extrude	A shape extruded in an additional dimension
+scijava.roi.types.ShapeSet	A set of shapes
+scijava.roi.types.Bitwise1D	Binary bitwise operation
+scijava.roi.types.Bitwise2D	Binary bitwise operation
+scijava.roi.types.Bitwise3D	Binary bitwise operation
 
-scijava.roi.types.RROI	A region of interest (top-level container of physical shape and nD constraints)
-scijava.roi.types.RROISet	A set of ROIs
+scijava.roi.types.ROI	A region of interest (top-level container of physical shape and nD constraints)
+scijava.roi.types.ROISet	A set of ROIs
+scijava.roi.types.Labelling	A labelling (collection of bitmasks)
 
-scijava.roi.types.RDimConstraint	A dimensional constraint
-scijava.roi.types.RDimConstraintSet	A set of dimensional constraints
+scijava.roi.types.DimConstraintSet	A set of dimensional constraints
 
-scijava.roi.types.RCustom	Custom (user-definable) representation
+scijava.roi.types.Custom	Custom (user-definable) representation
 
-scijava.roi.types.# We could use an RShape representation here so that we could set a shape as a property.
+scijava.roi.types.Text	Text annotation
 
-scijava.roi.types.RProperty	Property
-scijava.roi.types.RProperties	Property list
+# We could use an RShape representation here so that we could set a shape as a property.
+
+scijava.roi.types.Properties	Property list
 
 ### Shapes
 
@@ -260,10 +293,10 @@ scijava.roi.shape.Set	A set of shapes
 # Text in 3D will need to be based upon a rectangle in 3D (not yet
 # possible without a transform).  Should label alignment be specified
 # directly in the representation, or in higher-level metadata?
-scijava.roi.shape.Text	Text (label)
-scijava.roi.shape.Scale	A scale bar between two points
+scijava.roi.annotation.Text	Text (label)
+scijava.roi.annotation.Scale	A scale bar between two points
 # TODO: Specify grid spacing
-scijava.roi.shape.Grid	A scale grid in a defined volume
+scijava.roi.annotation.Grid	A scale grid in a defined volume
 
 ## Custom (user-definable) shapes
 
@@ -289,7 +322,7 @@ scijava.roi.shape.Grid	A scale grid in a defined volume
 
 scijava.roi.shape.Custom	A custom (user-definable) 3D shape
 
-scijava.roi.object.Property	A custom (user-definable) object property
+scijava.roi.types.Property	A custom (user-definable) object property
 
 ### nD
 
@@ -305,7 +338,7 @@ scijava.roi.dimconstraint.Range	A range of values in an arbitrary dimension
 
 ## nD transformations and shape operations
 
-scijava.roi.dimconstraint.ExtrudeDim	Extrude a shape of arbitrary dimensionality into an additional dimension.
+scijava.roi.dimconstraint.Extrude	Extrude a shape of arbitrary dimensionality into an additional dimension.
 # The result is a shape combining all subset dimensions.
 # It is illegal to have a common dimension between the two shapes.
-scijava.roi.dimconstraint.DimConstraintSet	Combine shapes of differing dimensionality
+scijava.roi.dimconstraint.Set	Combine shapes of differing dimensionality
