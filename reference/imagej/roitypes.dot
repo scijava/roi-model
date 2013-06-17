@@ -1,0 +1,25 @@
+digraph inheritance {
+	nslimit=20;
+	margin=0;
+
+        "Serializable" [shape=rectangle]
+        "Roi" [shape=rectangle]
+        "EllipseRoi" [shape=rectangle]
+        "FreehandRoi" [shape=rectangle]
+        "ImagejRoi" [shape=rectangle]
+        "OvalRoi" [shape=rectangle]
+        "PointRoi" [shape=rectangle]
+        "PolygonRoi" [shape=rectangle]
+        "ShapeRoi" [shape=rectangle]
+        "TextRoi" [shape=rectangle]
+
+        "EllipseRoi" -> "PolygonRoi"
+        "FreehandRoi" -> "PolygonRoi"
+        "ImagejRoi" -> "Roi"
+        "OvalRoi" -> "Roi"
+        "PointRoi" -> "PolygonRoi"
+        "PolygonRoi" -> "Roi"
+        "Roi" -> "Serializable"
+        "ShapeRoi" -> "Roi"
+        "TextRoi" -> "Roi"
+}

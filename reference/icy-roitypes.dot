@@ -1,0 +1,38 @@
+digraph inheritance {
+	nslimit=20;
+	margin=0;
+
+        "XMLPersistent" [shape=rectangle]
+        "ROI" [shape=rectangle]
+        "ROI2D" [shape=rectangle]
+        "ROI3D" [shape=rectangle]
+        "ROI4D" [shape=rectangle]
+        "ROI5D" [shape=rectangle]
+        "ROI2DArea" [shape=rectangle]
+        "ROI2DRectShape" [shape=rectangle]
+        "ROI2DRectangle" [shape=rectangle]
+        "ROI2DEllipse" [shape=rectangle]
+        "ROI2DShape" [shape=rectangle]
+        "ROI2DPath" [shape=rectangle]
+        "ROI2DLine" [shape=rectangle]
+        "ROI2DPoint" [shape=rectangle]
+        "ROI2DPolyline" [shape=rectangle]
+        "ROI2DPolygon" [shape=rectangle]
+        "BooleanMask2D" [shape=rectangle]
+
+        "ROI" -> "XMLPersistent"
+        "ROI2D" -> "ROI"
+        "ROI3D" -> "ROI"
+        "ROI4D" -> "ROI"
+        "ROI5D" -> "ROI"
+        "ROI2DArea" -> "ROI2D"
+        "ROI2DRectShape" -> "ROI2D"
+        "ROI2DRectangle" -> "ROI2DRectShape"
+        "ROI2DEllipse" -> "ROI2DRectShape"
+        "ROI2DShape" -> "ROI2D"
+        "ROI2DPath" -> "ROI2DShape"
+        "ROI2DLine" -> "ROI2DShape"
+        "ROI2DPoint" -> "ROI2DShape"
+        "ROI2DPolyline" -> "ROI2DShape"
+        "ROI2DPolygon" -> "ROI2DShape"
+}

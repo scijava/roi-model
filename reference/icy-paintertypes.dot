@@ -1,0 +1,17 @@
+digraph inheritance {
+	nslimit=20;
+	margin=0;
+
+        "XMLPersistent" [shape=rectangle]
+        "ROIPainter" [shape=rectangle]
+        "ROI2DPainter" [shape=rectangle]
+        "ROI2DAreaPainter" [shape=rectangle]
+        "ROI2DShapePainter" [shape=rectangle]
+        "ROI2DPolyLinePainter" [shape=rectangle]
+
+        "ROIPainter" -> "XMLPersistent"
+        "ROI2DPainter" -> "ROIPainter"
+        "ROI2DAreaPainter" -> "ROI2DPainter"
+        "ROI2DShapePainter" -> "ROI2DPainter"
+        "ROI2DPolyLinePainter" -> "ROI2DPainter"
+}

@@ -11,6 +11,7 @@ ImageJ
 ------
 
 .. image:: reference/imagej/rois.png
+    :width: 60%
 
 ===== ===========================
 ROI   Description
@@ -32,6 +33,18 @@ ROI   Description
 26    Text
 ===== ===========================
 
+Current ROI class hierarchy:
+
+.. only:: html
+
+    .. image:: reference/imagej/roitypes.svg
+        :width: 60%
+        :alt: Icy ROI classes
+
+.. only:: latex
+
+    .. image:: reference/imagej/roitypes.pdf
+        :width: 60%
 
 Icy
 ---
@@ -49,6 +62,33 @@ ROI   Description
  6    Ellipse
  7    Bitmask
 ===== ===========================
+
+Current ROI class hierarchy:
+
+.. only:: html
+
+    .. image:: reference/icy-roitypes.svg
+        :width: 100%
+        :alt: Icy ROI classes
+
+.. only:: latex
+
+    .. image:: reference/icy-roitypes.pdf
+        :width: 100%
+
+Current ROI painter class hierarchy:
+
+
+.. only:: html
+
+    .. image:: reference/icy-paintertypes.svg
+        :width: 50%
+        :alt: Icy ROI painter classes
+
+.. only:: latex
+
+    .. image:: reference/icy-paintertypes.pdf
+        :width: 50%
 
 Insight
 -------

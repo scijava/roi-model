@@ -41,8 +41,16 @@ help:
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 
+GENFILES = \
+	reference/imagej/roitypes.pdf \
+	reference/imagej/roitypes.svg \
+	reference/icy-roitypes.pdf \
+	reference/icy-roitypes.svg \
+	reference/icy-paintertypes.pdf \
+	reference/icy-paintertypes.svg
+
 gen: genstamp
-genstamp:
+genstamp: $(GENFILES)
 	./genspec
 
 	@for file in spec/java-static/*.java; do \
@@ -123,7 +131,7 @@ latexpdf: gen
 	@echo "Running LaTeX files through pdflatex..."
 
 	if [ ! -d _build/latex/gen ]; then mkdir _build/latex/gen; fi
-#	cp gen/*.pdf _build/latex/gen
+#	cp gen/*.pdf reference/*.pdf _build/latex/gen
 	cd "$(BUILDDIR)/latex" && \
 	xelatex $(LATEXOPTS) 'roi.tex' && \
         xelatex $(LATEXOPTS) 'roi.tex' && \
@@ -207,6 +215,24 @@ scijava-roi-src.zip: gen
 scijava-roi.jar: java
 	@echo JAR $@
 	@jar cf $@ $$(cd java && find . -name '*.class' | sed -e 's;^;-C java ;')
+
+reference/imagej/roitypes.svg: reference/imagej/roitypes.dot
+	dot -Tsvg $< >$@
+
+reference/imagej/roitypes.pdf: reference/imagej/roitypes.dot
+	dot -Tpdf $< >$@
+
+reference/icy-roitypes.svg: reference/icy-roitypes.dot
+	dot -Tsvg $< >$@
+
+reference/icy-roitypes.pdf: reference/icy-roitypes.dot
+	dot -Tpdf $< >$@
+
+reference/icy-paintertypes.svg: reference/icy-paintertypes.dot
+	dot -Tsvg $< >$@
+
+reference/icy-paintertypes.pdf: reference/icy-paintertypes.dot
+	dot -Tpdf $< >$@
 
 test:
 	$(MAKE) -C test test
